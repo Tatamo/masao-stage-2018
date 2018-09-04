@@ -2,9 +2,6 @@
   "name": "masao-stage-2018",
   "version": "0.0.1",
   "description": "",
-  "directories": {
-    "lib": "lib"
-  },
   "scripts": {
     "build": "webpack"
   },
