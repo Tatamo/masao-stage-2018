@@ -10,6 +10,15 @@ module.exports = {
     },
     module: {
         rules: [
+	        {
+		        test: /\.ts$/,
+		        enforce: 'pre',
+		        loader: 'tslint-loader',
+		        options: {
+			        typeCheck: true,
+			        fix: true,
+		        }
+	        },
             {
                 test: /\.(ts|js)$/,
                 exclude: /node_modules/,
