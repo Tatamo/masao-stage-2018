@@ -1,4 +1,5 @@
 module.exports = {
+	mode: process.env.WEBPACK_SERVE ? "development" : "production",
 	entry: "./src/index.ts",
 	output: {
 		path: __dirname + "/dist",
