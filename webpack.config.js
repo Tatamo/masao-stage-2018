@@ -1,7 +1,21 @@
 module.exports = {
-    entry: "./src/index.js",
+    mode: "development",
+    entry: "./src/index.ts",
     output: {
-        path: "dist",
+        path: __dirname + "/dist",
         filename: "bundle.js"
+    },
+    resolve: {
+        extensions: [".ts", ".js"]
+    },
+    module: {
+        rules: [
+            {
+                test: /\.(ts|js)$/,
+                exclude: /node_modules/,
+                loader: "babel-loader"
+            },
+            {test: /\.ts$/, loader: "ts-loader"}
+        ]
     }
 };
