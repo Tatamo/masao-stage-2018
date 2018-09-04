@@ -1,12 +1,14 @@
+const path = require("path");
 module.exports = {
 	mode: process.env.WEBPACK_SERVE ? "development" : "production",
-	entry: "./src/index.ts",
+	context: path.resolve(__dirname, "src"),
+	entry: "./index.ts",
 	output: {
-		path: __dirname + "/dist",
+		path: path.resolve(__dirname, "dist"),
 		filename: "bundle.js"
 	},
 	resolve: {
-		extensions: [".ts", ".js"]
+		extensions: [".ts", ".js", ".json"]
 	},
 	module: {
 		rules: [
