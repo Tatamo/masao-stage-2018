@@ -7,6 +7,13 @@
     "tslint-config-prettier"
   ],
   "rules": {
+    "variable-name": [
+      true,
+      "ban-keywords",
+      "check-format",
+      "allow-leading-underscore",
+      "allow-snake-case"
+    ],
     "prettier": true
   }
 }
