@@ -1,3 +1,4 @@
+// JSMasaoオブジェクトの型宣言を行っておく
 interface JSMasaoOptions {
 	extensions?: Array<object>;
 	userJSCallback?: (offscreen_g: object, mode: number, view_x: number, view_y: number, ap: object) => void;
@@ -12,10 +13,13 @@ declare class JSMasao {
 import { format } from "masao";
 import json from "./game.json";
 
+// masao-json-formatからパラメータオブジェクトを取得
 const { params: p, "advanced-map": am } = format.load(json);
 
+// パラメータを上書き
 const params = {
 	...p,
+	now_loading: "ただいまファイルを読み込み中。しばらくお待ち下さい。", // バグのため初期値が反映されない
 	filename_ending: "assets/images/ending.gif",
 	filename_gameover: "assets/images/gameover.gif",
 	filename_haikei: "assets/images/haikei.gif",
@@ -55,6 +59,8 @@ const params = {
 	filename_se_dokan: "assets/sounds/get.mp3",
 	filename_se_chizugamen: "assets/sounds/get.mp3"
 };
-console.log(params.filename_se_bomb);
 
+console.log(p);
+
+// ゲームオブジェクトを作成
 new JSMasao(params, undefined, { "advance-map": am });
