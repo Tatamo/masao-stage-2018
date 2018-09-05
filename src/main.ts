@@ -1,3 +1,5 @@
+import { Graphics } from "./definitions/graphics";
+
 export class Main {
 	private flg_initialized: boolean;
 	private max_hp: number;
@@ -7,13 +9,13 @@ export class Main {
 		this.max_hp = 10;
 	}
 
-	public userJS(graphics: any, mode: number, view_x: number, view_y: number, ap: any): void {
+	public userJS(graphics: Graphics, mode: number, view_x: number, view_y: number, ap: any): void {
 		if (!this.flg_initialized) {
 			this.flg_initialized = true;
 			this.userInitJS(graphics, ap);
 		}
 
-		if (mode == 1) {
+		if (mode === 1) {
 			// タイトル画面
 			this.userTitleJS(graphics, ap);
 		} else if (mode >= 100 && mode < 200) {
@@ -25,26 +27,26 @@ export class Main {
 				// ゲーム中
 				this.userGameJS(graphics, view_x, view_y, ap);
 			}
-		} else if (mode == 200) {
+		} else if (mode === 200) {
 			// ゲームオーバー
 			this.userGameoverJS(graphics, ap);
-		} else if (mode == 300) {
+		} else if (mode === 300) {
 			// エンディング
 			this.userEndingJS(graphics, ap);
 		}
 	}
 
-	public userInitJS(graphics: any, ap: any): void {}
+	public userInitJS(graphics: Graphics, ap: any): void {}
 
-	public userTitleJS(graphics: any, ap: any): void {}
+	public userTitleJS(graphics: Graphics, ap: any): void {}
 
-	public userGameStartJS(graphics: any, ap: any): void {
+	public userGameStartJS(graphics: Graphics, ap: any): void {
 		ap.setMyMaxHP(this.max_hp);
 	}
 
-	public userGameJS(graphics: any, view_x: number, view_y: number, ap: any): void {}
+	public userGameJS(graphics: Graphics, view_x: number, view_y: number, ap: any): void {}
 
-	public userGameoverJS(graphics: any, ap: any): void {}
+	public userGameoverJS(graphics: Graphics, ap: any): void {}
 
-	public userEndingJS(graphics: any, ap: any): void {}
+	public userEndingJS(graphics: Graphics, ap: any): void {}
 }

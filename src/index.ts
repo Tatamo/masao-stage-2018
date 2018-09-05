@@ -1,11 +1,12 @@
 import { format } from "masao";
 import json from "./game.json";
+import { Graphics } from "./definitions/graphics";
 import { Main } from "./main";
 
 // JSMasaoオブジェクトの型宣言を行っておく
 interface JSMasaoOptions {
 	extensions?: Array<object>;
-	userJSCallback?: (offscreen_g: any, mode: number, view_x: number, view_y: number, ap: any) => void;
+	userJSCallback?: (offscreen_g: Graphics, mode: number, view_x: number, view_y: number, ap: any) => void;
 	userHighscoreCallback?: (score: number) => void;
 	"advance-map"?: object;
 }
