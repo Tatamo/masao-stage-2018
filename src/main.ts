@@ -1,0 +1,50 @@
+export class Main {
+	private flg_initialized: boolean;
+	private max_hp: number;
+
+	constructor() {
+		this.flg_initialized = false;
+		this.max_hp = 10;
+	}
+
+	public userJS(graphics: any, mode: number, view_x: number, view_y: number, ap: any): void {
+		if (!this.flg_initialized) {
+			this.flg_initialized = true;
+			this.userInitJS(graphics, ap);
+		}
+
+		if (mode == 1) {
+			// タイトル画面
+			this.userTitleJS(graphics, ap);
+		} else if (mode >= 100 && mode < 200) {
+			if (ap.getJSMes() >= 1) {
+				// ゲーム開始
+				ap.setJSMes(0);
+				this.userGameStartJS(graphics, ap);
+			} else {
+				// ゲーム中
+				this.userGameJS(graphics, view_x, view_y, ap);
+			}
+		} else if (mode == 200) {
+			// ゲームオーバー
+			this.userGameoverJS(graphics, ap);
+		} else if (mode == 300) {
+			// エンディング
+			this.userEndingJS(graphics, ap);
+		}
+	}
+
+	public userInitJS(graphics: any, ap: any): void {}
+
+	public userTitleJS(graphics: any, ap: any): void {}
+
+	public userGameStartJS(graphics: any, ap: any): void {
+		ap.setMyMaxHP(this.max_hp);
+	}
+
+	public userGameJS(graphics: any, view_x: number, view_y: number, ap: any): void {}
+
+	public userGameoverJS(graphics: any, ap: any): void {}
+
+	public userEndingJS(graphics: any, ap: any): void {}
+}

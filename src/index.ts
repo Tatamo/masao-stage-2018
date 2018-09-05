@@ -1,7 +1,11 @@
+import { format } from "masao";
+import json from "./game.json";
+import { Main } from "./main";
+
 // JSMasaoオブジェクトの型宣言を行っておく
 interface JSMasaoOptions {
 	extensions?: Array<object>;
-	userJSCallback?: (offscreen_g: object, mode: number, view_x: number, view_y: number, ap: object) => void;
+	userJSCallback?: (offscreen_g: any, mode: number, view_x: number, view_y: number, ap: any) => void;
 	userHighscoreCallback?: (score: number) => void;
 	"advance-map"?: object;
 }
@@ -9,9 +13,6 @@ interface JSMasaoOptions {
 declare class JSMasao {
 	constructor(params: object, id?: string, options?: JSMasaoOptions);
 }
-
-import { format } from "masao";
-import json from "./game.json";
 
 // masao-json-formatからパラメータオブジェクトを取得
 const { params: p, "advanced-map": am } = format.load(json);
@@ -60,7 +61,7 @@ const params = {
 	filename_se_chizugamen: "assets/sounds/get.mp3"
 };
 
-console.log(p);
+const main = new Main();
 
 // ゲームオブジェクトを作成
-new JSMasao(params, undefined, { "advance-map": am });
+new JSMasao(params, undefined, { userJSCallback: main.userJS.bind(main), "advance-map": am });
