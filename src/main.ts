@@ -1,12 +1,15 @@
 import { Graphics } from "./definitions/graphics";
+import { HealthBar } from "./healthbar";
 
 export class Main {
 	private flg_initialized: boolean;
 	private max_hp: number;
+	private healthbar: HealthBar;
 
 	constructor() {
 		this.flg_initialized = false;
 		this.max_hp = 10;
+		this.healthbar = new HealthBar(this.max_hp);
 	}
 
 	public userJS(graphics: Graphics, mode: number, view_x: number, view_y: number, ap: any): void {
@@ -44,7 +47,10 @@ export class Main {
 		ap.setMyMaxHP(this.max_hp);
 	}
 
-	public userGameJS(graphics: Graphics, view_x: number, view_y: number, ap: any): void {}
+	public userGameJS(graphics: Graphics, view_x: number, view_y: number, ap: any): void {
+		this.healthbar.update(ap);
+		this.healthbar.draw(graphics, ap);
+	}
 
 	public userGameoverJS(graphics: Graphics, ap: any): void {}
 
