@@ -1,15 +1,20 @@
+import * as PIXI from "pixi.js";
 import { Graphics } from "./definitions/graphics";
 import { HealthBar } from "./healthbar";
 
 export class Main {
 	private flg_initialized: boolean;
 	private max_hp: number;
-	private healthbar: HealthBar;
+	private health_bar: HealthBar;
+	private renderer: PIXI.WebGLRenderer | PIXI.CanvasRenderer | null;
+	private stage: PIXI.Container;
 
 	constructor() {
 		this.flg_initialized = false;
 		this.max_hp = 10;
-		this.healthbar = new HealthBar(this.max_hp);
+		this.health_bar = new HealthBar(this.max_hp);
+		this.renderer = null;
+		this.stage = new PIXI.Container();
 	}
 
 	public userJS(graphics: Graphics, mode: number, view_x: number, view_y: number, ap: any): void {
@@ -39,7 +44,15 @@ export class Main {
 		}
 	}
 
-	public userInitJS(graphics: Graphics, ap: any): void {}
+	public userInitJS(graphics: Graphics, ap: any): void {
+		this.renderer = PIXI.autoDetectRenderer({
+			width: 512,
+			height: 320,
+			view: graphics._ctx.canvas,
+			transparent: true, // いらない気がする
+			clearBeforeRender: false
+		});
+	}
 
 	public userTitleJS(graphics: Graphics, ap: any): void {}
 
@@ -48,8 +61,9 @@ export class Main {
 	}
 
 	public userGameJS(graphics: Graphics, view_x: number, view_y: number, ap: any): void {
-		this.healthbar.update(ap);
-		this.healthbar.draw(graphics, ap);
+		this.health_bar.update(ap);
+		this.health_bar.draw(graphics, ap);
+		if (this.renderer !== null) this.renderer.render(this.stage);
 	}
 
 	public userGameoverJS(graphics: Graphics, ap: any): void {}

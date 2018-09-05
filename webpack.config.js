@@ -29,5 +29,6 @@ module.exports = {
 			},
 			{ test: /\.ts$/, loader: "ts-loader" }
 		]
-	}
+	},
+	externals: [{ "pixi.js": "PIXI" }]
 };
