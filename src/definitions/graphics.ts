@@ -28,6 +28,6 @@ export interface Graphics {
 	fillPolygon(xa: number, ya: number, num: number): boolean;
 	drawString(str: string, x: number, y: number): boolean;
 	setFont(font: number): boolean;
-	setGlobalAlpha(alpha:number):boolean;
-	setColor(color:any):boolean;
+	setGlobalAlpha(alpha: number): boolean;
+	setColor(color: any): boolean;
 }

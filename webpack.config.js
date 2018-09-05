@@ -1,6 +1,7 @@
 const path = require("path");
+const mode = process.env.WEBPACK_SERVE ? "development" : "production";
 module.exports = {
-	mode: process.env.WEBPACK_SERVE ? "development" : "production",
+	mode,
 	context: path.resolve(__dirname, "src"),
 	entry: "./index.ts",
 	output: {
@@ -18,7 +19,7 @@ module.exports = {
 				loader: "tslint-loader",
 				options: {
 					typeCheck: true,
-					fix: true
+					fix: mode === "production"
 				}
 			},
 			{
