@@ -1,17 +1,23 @@
 import { Graphics } from "./definitions/graphics";
+import { AbstractState, AbstractStateMachine } from "./statemachine";
 
-export class HealthBar {
-	private current_hp: number;
-	constructor(private max_hp: number) {
+export class HealthBar extends AbstractStateMachine {
+	public current_hp: number;
+	constructor(public max_hp: number) {
+		super();
 		this.current_hp = max_hp;
+		this.setState(new HBState(this));
 	}
+}
+
+class HBState<P extends HealthBar> extends AbstractState<P> {
 	init(ap: any): void {
-		this.current_hp = this.max_hp;
+		this.parent.current_hp = this.parent.max_hp;
 	}
-	update(ap: any): void {
-		this.current_hp = ap.getMyHP();
+	*update(ap: any): IterableIterator<void> {
+		this.parent.current_hp = ap.getMyHP();
 	}
 	draw(graphics: Graphics, ap: any): void {
-		graphics.fillRect(32, 32, 128 * (this.current_hp / this.max_hp), 32);
+		graphics.fillRect(32, 32, 128 * (this.parent.current_hp / this.parent.max_hp), 32);
 	}
 }
