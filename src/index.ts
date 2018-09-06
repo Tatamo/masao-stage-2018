@@ -65,4 +65,5 @@ const params = {
 const main = new Main();
 
 // ゲームオブジェクトを作成
+// tslint:disable-next-line
 new JSMasao(params, undefined, { userJSCallback: main.userJS.bind(main), "advance-map": am });
