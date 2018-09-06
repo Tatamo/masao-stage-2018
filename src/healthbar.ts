@@ -1,7 +1,7 @@
 import { Graphics } from "./definitions/graphics";
-import { AbstractState, AbstractStateMachine } from "./statemachine";
+import { AbstractState, StateMachine } from "./statemachine";
 
-export class HealthBar extends AbstractStateMachine {
+export class HealthBar extends StateMachine {
 	public current_hp: number;
 	constructor(public max_hp: number) {
 		super();

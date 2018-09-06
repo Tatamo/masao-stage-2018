@@ -11,23 +11,17 @@ export interface StateConstructor<P extends StateMachine> {
 	new (p: P): State<P>;
 }
 
-export interface StateMachine {
-	setState(state: State<StateMachine>, loop?: boolean): void;
-	update(ap: any): void;
-	draw(graphics: Graphics, ap: any): void;
-}
-
-export class AbstractState<P extends StateMachine> implements State<P> {
+export abstract class AbstractState<P extends StateMachine> implements State<P> {
 	constructor(private _parent: P) {}
 	get parent(): P {
 		return this._parent;
 	}
-	init(ap: any): void {}
-	*update(ap: any): IterableIterator<void> {}
-	draw(graphics: Graphics, ap: any): void {}
+	abstract init(ap: any): void;
+	abstract update(ap: any): IterableIterator<void>;
+	abstract draw(graphics: Graphics, ap: any): void;
 }
 
-export class AbstractStateMachine implements StateMachine {
+export class StateMachine {
 	private state: State<this> | null;
 	private flg_initialized: boolean;
 	private flg_loop: boolean;
