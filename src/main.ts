@@ -9,19 +9,21 @@ export class Main {
 	private readonly renderer: PIXI.WebGLRenderer | PIXI.CanvasRenderer;
 	private readonly base_sprite: PIXI.Sprite;
 	private readonly base_ctx: CanvasRenderingContext2D;
-	private readonly stage: PIXI.Container;
+	private readonly root: PIXI.Container;
+	private stage: PIXI.Container | null;
 	constructor(private readonly jss: any, graphics: Graphics) {
 		this.flg_initialized = false;
 		this.max_hp = 10;
-		this.health_bar = null;
 		this.renderer = PIXI.autoDetectRenderer({
 			width: 512,
 			height: 320
 		});
+		this.root = new PIXI.Container();
 		this.base_sprite = PIXI.Sprite.from(graphics._ctx.canvas);
 		this.base_ctx = graphics._ctx;
-		this.stage = new PIXI.Container();
-		this.stage.addChild(this.base_sprite);
+		this.root.addChild(this.base_sprite);
+		this.stage = null;
+		this.health_bar = null;
 	}
 
 	public userJS(mode: number, view_x: number, view_y: number): void {
@@ -56,8 +58,15 @@ export class Main {
 	public userTitleJS(): void {}
 
 	public userGameStartJS(): void {
-		this.jss.setMyMaxHP(this.max_hp);
+		// 前のステージ用のコンテナが存在する場合はrootから取り除く
+		if (this.stage !== null) {
+			this.root.removeChild(this.stage);
+			this.stage.destroy();
+		}
+		this.stage = new PIXI.Container();
+		this.root.addChild(this.stage);
 		this.health_bar = new HealthBar(this.stage, this.jss, this.max_hp);
+		this.jss.setMyMaxHP(this.max_hp);
 	}
 
 	public userGameJS(view_x: number, view_y: number): void {
@@ -72,7 +81,7 @@ export class Main {
 	public render(): void {
 		this.health_bar!.draw();
 		this.base_sprite.texture.update();
-		this.renderer.render(this.stage);
+		this.renderer.render(this.root);
 		this.base_ctx.drawImage(this.renderer.view, 0, 0);
 	}
 }
