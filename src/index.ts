@@ -62,8 +62,19 @@ const params = {
 	filename_se_chizugamen: "assets/sounds/get.mp3"
 };
 
-const main = new Main();
-
 // ゲームオブジェクトを作成
 // tslint:disable-next-line
-new JSMasao(params, undefined, { userJSCallback: main.userJS.bind(main), "advance-map": am });
+new JSMasao(params, undefined, {
+	userJSCallback: (() => {
+		let flg_initialized = false;
+		let main: Main | null = null;
+		return (graphics: Graphics, mode: number, view_x: number, view_y: number, ap: any) => {
+			if (!flg_initialized) {
+				flg_initialized = true;
+				main = new Main(ap);
+			}
+			main!.userJS(graphics, mode, view_x, view_y);
+		};
+	})(),
+	"advance-map": am
+});

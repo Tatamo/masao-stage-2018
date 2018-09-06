@@ -10,7 +10,7 @@ export class HealthBar extends StateMachine {
 	public health_rate: number;
 	public current_hp: number;
 	public readonly graphics: PIXI.Graphics;
-	constructor(stage: PIXI.Container, public max_hp: number) {
+	constructor(stage: PIXI.Container, public readonly jss: any, public max_hp: number) {
 		super();
 		this.current_hp = max_hp;
 		this.health_rate = 1;
@@ -22,8 +22,8 @@ export class HealthBar extends StateMachine {
 
 namespace HealthBarStates {
 	abstract class Base<P extends HealthBar> extends AbstractState<P> {
-		init(ap: any): void {}
-		draw(graphics: Graphics, ap: any): void {
+		init(): void {}
+		draw(graphics: Graphics): void {
 			this.parent.graphics
 				.clear()
 				.beginFill(0x0000ff)
@@ -32,14 +32,14 @@ namespace HealthBarStates {
 		}
 	}
 	export class Default<P extends HealthBar> extends Base<P> {
-		*update(ap: any): IterableIterator<void> {
-			if (ap.getMyHP() < this.parent.current_hp) {
+		*update(): IterableIterator<void> {
+			if (this.parent.jss.getMyHP() < this.parent.current_hp) {
 				// HPが前フレームより減っていた場合はアニメーション状態に切り替える
 				const from = this.parent.current_hp;
-				this.parent.current_hp = ap.getMyHP();
+				this.parent.current_hp = this.parent.jss.getMyHP();
 				this.parent.setState(new DamageAnimation(this.parent, from, this.parent.current_hp));
-			} else if (ap.getMyHP() !== this.parent.current_hp) {
-				this.parent.current_hp = ap.getMyHP();
+			} else if (this.parent.jss.getMyHP() !== this.parent.current_hp) {
+				this.parent.current_hp = this.parent.jss.getMyHP();
 			}
 		}
 	}
@@ -55,7 +55,7 @@ namespace HealthBarStates {
 			// easeOutExpo curve
 			this.easing = BezierEasing(0.19, 1, 0.22, 1);
 		}
-		*update(ap: any): IterableIterator<void> {
+		*update(): IterableIterator<void> {
 			const diff = this.hp_from - this.hp_to;
 			for (let i = 0; i < this.max_frame; i++) {
 				this.parent.health_rate = (this.hp_from - diff * this.easing(i / this.max_frame)) / this.parent.max_hp;
