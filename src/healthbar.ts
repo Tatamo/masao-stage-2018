@@ -9,10 +9,13 @@ import * as PIXI from "pixi.js";
 export class HealthBar extends StateMachine {
 	public health_rate: number;
 	public current_hp: number;
-	constructor(public max_hp: number) {
+	public readonly graphics: PIXI.Graphics;
+	constructor(stage: PIXI.Container, public max_hp: number) {
 		super();
 		this.current_hp = max_hp;
 		this.health_rate = 1;
+		this.graphics = new PIXI.Graphics();
+		stage.addChild(this.graphics);
 		this.setState(new HealthBarStates.Default(this));
 	}
 }
@@ -21,7 +24,11 @@ namespace HealthBarStates {
 	abstract class Base<P extends HealthBar> extends AbstractState<P> {
 		init(ap: any): void {}
 		draw(graphics: Graphics, ap: any): void {
-			graphics.fillRect(32, 32, 128 * this.parent.health_rate, 32);
+			this.parent.graphics
+				.clear()
+				.beginFill(0x0000ff)
+				.drawRect(32, 32, 128 * this.parent.health_rate, 32)
+				.endFill();
 		}
 	}
 	export class Default<P extends HealthBar> extends Base<P> {

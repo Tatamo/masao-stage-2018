@@ -45,7 +45,8 @@ export class Main {
 	}
 
 	public userInitJS(graphics: Graphics, ap: any): void {
-		this.renderer = PIXI.autoDetectRenderer({
+		// this.renderer = PIXI.autoDetectRenderer({
+		this.renderer = new PIXI.CanvasRenderer({
 			width: 512,
 			height: 320,
 			view: graphics._ctx.canvas,
@@ -58,7 +59,7 @@ export class Main {
 
 	public userGameStartJS(graphics: Graphics, ap: any): void {
 		ap.setMyMaxHP(this.max_hp);
-		this.health_bar = new HealthBar(this.max_hp);
+		this.health_bar = new HealthBar(this.stage, this.max_hp);
 	}
 
 	public userGameJS(graphics: Graphics, view_x: number, view_y: number, ap: any): void {
