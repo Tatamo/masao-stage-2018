@@ -1,10 +1,8 @@
-import { Graphics } from "./definitions/graphics";
-
 export interface State<P extends StateMachine> {
 	readonly parent: P;
-	init(ap: any): void;
-	update(ap: any): IterableIterator<void>;
-	draw(graphics: Graphics, ap: any): void;
+	init(): void;
+	update(): IterableIterator<void>;
+	draw(): void;
 }
 
 export interface StateConstructor<P extends StateMachine> {
@@ -16,9 +14,9 @@ export abstract class AbstractState<P extends StateMachine> implements State<P> 
 	get parent(): P {
 		return this._parent;
 	}
-	abstract init(ap: any): void;
-	abstract update(ap: any): IterableIterator<void>;
-	abstract draw(graphics: Graphics, ap: any): void;
+	abstract init(): void;
+	abstract update(): IterableIterator<void>;
+	abstract draw(): void;
 }
 
 export class StateMachine {
@@ -36,25 +34,25 @@ export class StateMachine {
 		this.state = state;
 		this.flg_loop = loop;
 	}
-	update(ap: any): void {
+	update(): void {
 		// 状態が設定されていない場合は何もしない
 		if (this.state === null) return;
 		// 初期化
 		if (!this.flg_initialized) {
 			this.flg_initialized = true;
-			this.state.init(ap);
-			this.generator = this.state.update(ap);
+			this.state.init();
+			this.generator = this.state.update();
 		}
 		// ジェネレータを回して処理
 		if (this.generator !== null) {
 			const { done } = this.generator.next();
 			// 終了後、loopフラグがONなら再度同じ処理を行う
 			if (done && this.flg_loop) {
-				this.generator = this.state.update(ap);
+				this.generator = this.state.update();
 			}
 		}
 	}
-	draw(graphics: Graphics, ap: any): void {
-		if (this.state !== null) this.state.draw(graphics, ap);
+	draw(): void {
+		if (this.state !== null) this.state.draw();
 	}
 }

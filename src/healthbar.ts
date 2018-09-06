@@ -1,4 +1,3 @@
-import { Graphics } from "./definitions/graphics";
 import { AbstractState, StateMachine } from "./statemachine";
 import BezierEasing, { EasingFunction } from "bezier-easing";
 import * as PIXI from "pixi.js";
@@ -23,7 +22,7 @@ export class HealthBar extends StateMachine {
 namespace HealthBarStates {
 	abstract class Base<P extends HealthBar> extends AbstractState<P> {
 		init(): void {}
-		draw(graphics: Graphics): void {
+		draw(): void {
 			this.parent.graphics
 				.clear()
 				.beginFill(0x0000ff)

@@ -71,9 +71,9 @@ new JSMasao(params, undefined, {
 		return (graphics: Graphics, mode: number, view_x: number, view_y: number, ap: any) => {
 			if (!flg_initialized) {
 				flg_initialized = true;
-				main = new Main(ap);
+				main = new Main(ap, graphics);
 			}
-			main!.userJS(graphics, mode, view_x, view_y);
+			main!.userJS(mode, view_x, view_y);
 		};
 	})(),
 	"advance-map": am
