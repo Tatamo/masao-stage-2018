@@ -5,14 +5,14 @@ import { HealthBar } from "./healthbar";
 export class Main {
 	private flg_initialized: boolean;
 	private max_hp: number;
-	private health_bar: HealthBar;
+	private health_bar: HealthBar | null;
 	private renderer: PIXI.WebGLRenderer | PIXI.CanvasRenderer | null;
 	private stage: PIXI.Container;
 
 	constructor() {
 		this.flg_initialized = false;
 		this.max_hp = 10;
-		this.health_bar = new HealthBar(this.max_hp);
+		this.health_bar = null;
 		this.renderer = null;
 		this.stage = new PIXI.Container();
 	}
@@ -58,11 +58,12 @@ export class Main {
 
 	public userGameStartJS(graphics: Graphics, ap: any): void {
 		ap.setMyMaxHP(this.max_hp);
+		this.health_bar = new HealthBar(this.max_hp);
 	}
 
 	public userGameJS(graphics: Graphics, view_x: number, view_y: number, ap: any): void {
-		this.health_bar.update(ap);
-		this.health_bar.draw(graphics, ap);
+		this.health_bar!.update(ap);
+		this.health_bar!.draw(graphics, ap);
 		if (this.renderer !== null) this.renderer.render(this.stage);
 	}
 
