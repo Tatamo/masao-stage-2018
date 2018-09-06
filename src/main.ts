@@ -7,13 +7,15 @@ export class Main {
 	private max_hp: number;
 	private health_bar: HealthBar | null;
 	private renderer: PIXI.WebGLRenderer | PIXI.CanvasRenderer | null;
-	private stage: PIXI.Container;
+	private base_sprite: PIXI.Sprite | null;
+	private readonly stage: PIXI.Container;
 
 	constructor() {
 		this.flg_initialized = false;
 		this.max_hp = 10;
 		this.health_bar = null;
 		this.renderer = null;
+		this.base_sprite = null;
 		this.stage = new PIXI.Container();
 	}
 
@@ -45,14 +47,12 @@ export class Main {
 	}
 
 	public userInitJS(graphics: Graphics, ap: any): void {
-		// this.renderer = PIXI.autoDetectRenderer({
-		this.renderer = new PIXI.CanvasRenderer({
+		this.renderer = PIXI.autoDetectRenderer({
 			width: 512,
-			height: 320,
-			view: graphics._ctx.canvas,
-			transparent: true, // いらない気がする
-			clearBeforeRender: false
+			height: 320
 		});
+		this.base_sprite = PIXI.Sprite.from(graphics._ctx.canvas);
+		this.stage.addChild(this.base_sprite);
 	}
 
 	public userTitleJS(graphics: Graphics, ap: any): void {}
@@ -64,11 +64,17 @@ export class Main {
 
 	public userGameJS(graphics: Graphics, view_x: number, view_y: number, ap: any): void {
 		this.health_bar!.update(ap);
-		this.health_bar!.draw(graphics, ap);
-		if (this.renderer !== null) this.renderer.render(this.stage);
+		this.render(graphics, ap);
 	}
 
 	public userGameoverJS(graphics: Graphics, ap: any): void {}
 
 	public userEndingJS(graphics: Graphics, ap: any): void {}
+
+	public render(graphics: Graphics, ap: any): void {
+		this.health_bar!.draw(graphics, ap);
+		this.base_sprite!.texture.update();
+		this.renderer!.render(this.stage);
+		graphics._ctx.drawImage(this.renderer!.view, 0, 0);
+	}
 }
