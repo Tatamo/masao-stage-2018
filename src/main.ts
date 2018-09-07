@@ -25,6 +25,10 @@ export class Main {
 		this.stage = null;
 		this.health_bar = null;
 	}
+	public onLoad() {
+		// this.base_sprite.texture.update();
+		this.renderer.render(this.root);
+	}
 
 	public userJS(mode: number, view_x: number, view_y: number): void {
 		if (!this.flg_initialized) {
@@ -53,9 +57,13 @@ export class Main {
 		}
 	}
 
-	public userInitJS(): void {}
+	public userInitJS(): void {
+		// this.base_sprite.texture.update();
+	}
 
-	public userTitleJS(): void {}
+	public userTitleJS(): void {
+		this.base_ctx.drawImage(this.renderer.view, 0, 0);
+	}
 
 	public userGameStartJS(): void {
 		// 前のステージ用のコンテナが存在する場合はrootから取り除く
@@ -67,6 +75,7 @@ export class Main {
 		this.root.addChild(this.stage);
 		this.health_bar = new HealthBar(this.stage, this.jss, this.max_hp);
 		this.jss.setMyMaxHP(this.max_hp);
+		this.base_ctx.drawImage(this.renderer.view, 0, 0);
 	}
 
 	public userGameJS(view_x: number, view_y: number): void {

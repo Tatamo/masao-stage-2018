@@ -2,6 +2,9 @@ import { format } from "masao";
 import json from "./game.json";
 import { Graphics } from "./definitions/graphics";
 import { Main } from "./main";
+import { OnImageLoadedCallbackExtension } from "./extensions/imageloadcallback";
+import { InitCallbackExtension } from "./extensions/initcallback";
+import { LoadingScreenSuppressorExtension } from "./extensions/loading_screen_suppressor";
 
 // JSMasaoオブジェクトの型宣言を行っておく
 interface JSMasaoOptions {
@@ -31,7 +34,7 @@ const params = {
 	filename_mapchip: "assets/images/mapchip.gif",
 	filename_pattern: "assets/images/pattern.gif",
 	filename_title: "assets/images/title.gif",
-	se_switch: "1",
+	se_switch: "2",
 	se_filename: "2", // バグのため本来のパラメータと反対になっている
 	filename_se_start: "assets/sounds/item.mp3",
 	filename_se_gameover: "assets/sounds/gameover.mp3",
@@ -61,20 +64,26 @@ const params = {
 	filename_se_dokan: "assets/sounds/get.mp3",
 	filename_se_chizugamen: "assets/sounds/get.mp3"
 };
-
-// ゲームオブジェクトを作成
-// tslint:disable-next-line
-new JSMasao(params, undefined, {
-	userJSCallback: (() => {
-		let flg_initialized = false;
-		let main: Main | null = null;
-		return (graphics: Graphics, mode: number, view_x: number, view_y: number, ap: any) => {
-			if (!flg_initialized) {
-				flg_initialized = true;
-				main = new Main(ap, graphics);
-			}
+const { init, onload, userjs } = (() => {
+	let main: Main | null = null;
+	return {
+		init: (mc: any, graphics: Graphics, jss: any) => {
+			main = new Main(jss, graphics);
+		},
+		onload: (mc: any, graphics: Graphics, jss: any) => {
+			main!.onLoad();
+		},
+		userjs: (graphics: Graphics, mode: number, view_x: number, view_y: number, ap: any) => {
 			main!.userJS(mode, view_x, view_y);
-		};
-	})(),
+		}
+	};
+})();
+InitCallbackExtension.on(init);
+OnImageLoadedCallbackExtension.on(onload);
+// ゲームオブジェクトを作成
+// tslint:disable-next-line:no-unused-expression
+new JSMasao(params, undefined, {
+	userJSCallback: userjs,
+	extensions: [InitCallbackExtension, OnImageLoadedCallbackExtension, LoadingScreenSuppressorExtension],
 	"advance-map": am
 });
