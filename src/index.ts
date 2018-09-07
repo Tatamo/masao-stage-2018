@@ -5,7 +5,6 @@ import { Main } from "./main";
 import { OnImageLoadedCallbackExtension } from "./extensions/imageloadcallback";
 import { InitCallbackExtension } from "./extensions/initcallback";
 import { LoadingScreenSuppressorExtension } from "./extensions/loading_screen_suppressor";
-import { Loader } from "./loader";
 import { LoadCompleteWaiterExtension } from "./extensions/loadcompletewaiter";
 import * as PIXI from "pixi.js";
 
@@ -70,7 +69,6 @@ const params = {
 
 const load_complete_waiter = new LoadCompleteWaiterExtension();
 const { init, onload, userjs } = (() => {
-	const loader = new Loader();
 	let main: Main | null = null;
 	return {
 		init: (mc: any, graphics: Graphics, jss: any) => {
