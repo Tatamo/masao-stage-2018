@@ -84,7 +84,7 @@ export class Main {
 	public userEndingJS(): void {}
 
 	public render(): void {
-		this.health_bar!.draw();
+		this.health_bar!.render();
 		this.base_sprite.texture.update();
 		this.renderer.render(this.root);
 		this.base_ctx.drawImage(this.renderer.view, 0, 0);

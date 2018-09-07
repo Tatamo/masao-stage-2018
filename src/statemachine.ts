@@ -2,7 +2,7 @@ export interface State<P extends StateMachine> {
 	readonly parent: P;
 	init(): void;
 	update(): IterableIterator<void>;
-	draw(): void;
+	render(): void;
 }
 
 export interface StateConstructor<P extends StateMachine> {
@@ -16,7 +16,7 @@ export abstract class AbstractState<P extends StateMachine> implements State<P> 
 	}
 	abstract init(): void;
 	abstract update(): IterableIterator<void>;
-	abstract draw(): void;
+	abstract render(): void;
 }
 
 export class StateMachine {
@@ -52,7 +52,7 @@ export class StateMachine {
 			}
 		}
 	}
-	draw(): void {
-		if (this.state !== null) this.state.draw();
+	render(): void {
+		if (this.state !== null) this.state.render();
 	}
 }

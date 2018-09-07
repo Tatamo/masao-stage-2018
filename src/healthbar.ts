@@ -33,7 +33,7 @@ export class HealthBar extends StateMachine {
 namespace HealthBarStates {
 	abstract class Base<P extends HealthBar> extends AbstractState<P> {
 		init(): void {}
-		draw(): void {
+		render(): void {
 			this.parent.graphics
 				.clear()
 				.beginFill(0x0000ff)
