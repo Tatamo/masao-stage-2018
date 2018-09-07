@@ -11,7 +11,11 @@ export class Main {
 	private readonly base_ctx: CanvasRenderingContext2D;
 	private readonly root: PIXI.Container;
 	private stage: PIXI.Container | null;
-	constructor(private readonly jss: any, graphics: Graphics) {
+	constructor(
+		private readonly jss: any,
+		graphics: Graphics,
+		private readonly resources: PIXI.loaders.ResourceDictionary
+	) {
 		this.flg_initialized = false;
 		this.max_hp = 10;
 		this.renderer = PIXI.autoDetectRenderer({
@@ -24,10 +28,6 @@ export class Main {
 		this.root.addChild(this.base_sprite);
 		this.stage = null;
 		this.health_bar = null;
-	}
-	public onLoad() {
-		// this.base_sprite.texture.update();
-		this.renderer.render(this.root);
 	}
 
 	public userJS(mode: number, view_x: number, view_y: number): void {

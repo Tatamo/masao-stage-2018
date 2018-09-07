@@ -5,6 +5,9 @@ import { Main } from "./main";
 import { OnImageLoadedCallbackExtension } from "./extensions/imageloadcallback";
 import { InitCallbackExtension } from "./extensions/initcallback";
 import { LoadingScreenSuppressorExtension } from "./extensions/loading_screen_suppressor";
+import { Loader } from "./loader";
+import { LoadCompleteWaiterExtension } from "./extensions/loadcompletewaiter";
+import * as PIXI from "pixi.js";
 
 // JSMasaoオブジェクトの型宣言を行っておく
 interface JSMasaoOptions {
@@ -34,7 +37,7 @@ const params = {
 	filename_mapchip: "assets/images/mapchip.gif",
 	filename_pattern: "assets/images/pattern.gif",
 	filename_title: "assets/images/title.gif",
-	se_switch: "2",
+	se_switch: "1",
 	se_filename: "2", // バグのため本来のパラメータと反対になっている
 	filename_se_start: "assets/sounds/item.mp3",
 	filename_se_gameover: "assets/sounds/gameover.mp3",
@@ -64,15 +67,19 @@ const params = {
 	filename_se_dokan: "assets/sounds/get.mp3",
 	filename_se_chizugamen: "assets/sounds/get.mp3"
 };
+
 const { init, onload, userjs } = (() => {
+	const loader = new Loader();
 	let main: Main | null = null;
 	return {
 		init: (mc: any, graphics: Graphics, jss: any) => {
-			main = new Main(jss, graphics);
+			PIXI.loader.add("pattern", "assets/images/pattern.gif");
+			PIXI.loader.load((loader: PIXI.loaders.Loader, resources: PIXI.loaders.ResourceDictionary) => {
+				LoadCompleteWaiterExtension.go();
+				main = new Main(jss, graphics, resources);
+			});
 		},
-		onload: (mc: any, graphics: Graphics, jss: any) => {
-			main!.onLoad();
-		},
+		onload: (mc: any, graphics: Graphics, jss: any) => {},
 		userjs: (graphics: Graphics, mode: number, view_x: number, view_y: number, ap: any) => {
 			main!.userJS(mode, view_x, view_y);
 		}
@@ -84,6 +91,11 @@ OnImageLoadedCallbackExtension.on(onload);
 // tslint:disable-next-line:no-unused-expression
 new JSMasao(params, undefined, {
 	userJSCallback: userjs,
-	extensions: [InitCallbackExtension, OnImageLoadedCallbackExtension, LoadingScreenSuppressorExtension],
+	extensions: [
+		InitCallbackExtension,
+		OnImageLoadedCallbackExtension,
+		LoadingScreenSuppressorExtension,
+		LoadCompleteWaiterExtension
+	],
 	"advance-map": am
 });

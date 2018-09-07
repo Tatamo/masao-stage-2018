@@ -7,8 +7,10 @@ import { Graphics } from "../definitions/graphics";
 // tslint:disable-next-line:variable-name
 export const OnImageLoadedCallbackExtension = new class implements Extension {
 	private callbacks: Array<(mc: any, graphics: Graphics, jss: any) => void>;
+	private emitted: boolean;
 	constructor() {
 		this.callbacks = [];
+		this.emitted = false;
 	}
 	inject(mc: any, options: any): void {
 		const self = this;
@@ -18,13 +20,14 @@ export const OnImageLoadedCallbackExtension = new class implements Extension {
 			const _run = mc.run;
 			mc.run = function() {
 				_run.apply(mc);
-				if (mc.th_jm === 1) {
+				if (mc.th_jm === 1 && !self.emitted) {
 					self.emit(mc);
 				}
 			};
 		};
 	}
 	private emit(mc: any) {
+		this.emitted = true;
 		for (const callback of this.callbacks) {
 			callback(mc, mc.gg.os_g_bk, mc.masaoJSSAppletEmulator);
 		}
