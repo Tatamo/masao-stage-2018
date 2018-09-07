@@ -71,7 +71,7 @@ export class Main {
 		this.root.addChild(this.stage);
 		this.health_bar = new HealthBar(this.stage, this.jss, this.max_hp);
 		this.jss.setMyMaxHP(this.max_hp);
-		this.base_ctx.drawImage(this.renderer.view, 0, 0);
+		this.render();
 	}
 
 	public userGameJS(view_x: number, view_y: number): void {
