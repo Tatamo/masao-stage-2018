@@ -49,4 +49,9 @@ const params = {
 	filename_se_chizugamen: "assets/sounds/get.mp3"
 };
 
-launch(params, am!);
+const pixi_resources = [
+	{ name: "pattern", path: "assets/images/pattern.gif" },
+	{ name: "health_bar", path: "assets/images/health_bar.png" }
+];
+
+launch(params, am!, pixi_resources);

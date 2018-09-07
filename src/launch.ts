@@ -23,12 +23,14 @@ declare class JSMasao {
  * @param params
  * @param advancemap
  */
-export function launch(params: object, advancemap: object) {
+export function launch(params: object, advancemap: object, resources: Array<{ name: string; path: string }>) {
 	// ローディング周りの非同期処理が非常に煩雑なので汚いコードはここにまとめる
 	const load_complete_waiter = new LoadCompleteWaiterExtension();
 	let main: Main | null = null;
 	const init = (mc: any, graphics: Graphics, jss: any) => {
-		PIXI.loader.add("pattern", "assets/images/pattern.gif");
+		for (const { name, path } of resources) {
+			PIXI.loader.add(name, path);
+		}
 		PIXI.loader.load((loader: PIXI.loaders.Loader, resources: PIXI.loaders.ResourceDictionary) => {
 			load_complete_waiter.go();
 			main = new Main(jss, graphics, resources);

@@ -69,7 +69,7 @@ export class Main {
 		}
 		this.stage = new PIXI.Container();
 		this.root.addChild(this.stage);
-		this.health_bar = new HealthBar(this.stage, this.jss, this.max_hp);
+		this.health_bar = new HealthBar(this.stage, this.resources, this.jss, this.max_hp);
 		this.jss.setMyMaxHP(this.max_hp);
 		this.render();
 	}
