@@ -79,6 +79,13 @@ const { init, onload, userjs } = (() => {
 				load_complete_waiter.go();
 				main = new Main(jss, graphics, resources);
 			});
+
+			graphics._ctx.fillStyle = "#000000";
+			graphics._ctx.fillRect(0, 0, 512, 320);
+			graphics._ctx.fillStyle = "#ffffff";
+			graphics._ctx.font = "16px sans-serif";
+
+			graphics._ctx.fillText("ただいまファイルを読み込み中。しばらくお待ち下さい。", 32, 160);
 		},
 		onload: (mc: any, graphics: Graphics, jss: any) => {},
 		userjs: (graphics: Graphics, mode: number, view_x: number, view_y: number, ap: any) => {

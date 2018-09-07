@@ -57,13 +57,9 @@ export class Main {
 		}
 	}
 
-	public userInitJS(): void {
-		// this.base_sprite.texture.update();
-	}
+	public userInitJS(): void {}
 
-	public userTitleJS(): void {
-		this.base_ctx.drawImage(this.renderer.view, 0, 0);
-	}
+	public userTitleJS(): void {}
 
 	public userGameStartJS(): void {
 		// 前のステージ用のコンテナが存在する場合はrootから取り除く
