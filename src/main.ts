@@ -1,17 +1,17 @@
 import * as PIXI from "pixi.js";
 import { Graphics } from "./definitions/graphics";
-import { HealthBar } from "./healthbar";
+import { Level } from "./levels/level";
+import { Level1 } from "./levels/1/level1";
 
 export const MAX_HP = 10;
 
 export class Main {
 	private flg_initialized: boolean;
-	private health_bar: HealthBar | null;
 	private readonly renderer: PIXI.WebGLRenderer | PIXI.CanvasRenderer;
 	private readonly base_sprite: PIXI.Sprite;
 	private readonly base_ctx: CanvasRenderingContext2D;
 	private readonly root: PIXI.Container;
-	private stage: PIXI.Container | null;
+	private level: Level | null;
 	constructor(
 		private readonly jss: any,
 		graphics: Graphics,
@@ -26,8 +26,7 @@ export class Main {
 		this.base_sprite = PIXI.Sprite.from(graphics._ctx.canvas);
 		this.base_ctx = graphics._ctx;
 		this.root.addChild(this.base_sprite);
-		this.stage = null;
-		this.health_bar = null;
+		this.level = null;
 	}
 
 	public userJS(mode: number, view_x: number, view_y: number): void {
@@ -55,38 +54,44 @@ export class Main {
 			// エンディング
 			this.userEndingJS();
 		}
+		this.render();
 	}
 
 	public userInitJS(): void {}
 
-	public userTitleJS(): void {}
+	public userTitleJS(): void {
+		this.removeLevel();
+	}
 
 	public userGameStartJS(): void {
-		// 前のステージ用のコンテナが存在する場合はrootから取り除く
-		if (this.stage !== null) {
-			this.root.removeChild(this.stage);
-			this.stage.destroy();
-		}
-		this.stage = new PIXI.Container();
-		this.root.addChild(this.stage);
-		this.health_bar = new HealthBar(this.stage, this.resources, this.jss, MAX_HP);
-		this.jss.setMyMaxHP(MAX_HP);
-		this.render();
+		this.level = new Level1(this.root, this.resources, this.jss);
 	}
 
 	public userGameJS(view_x: number, view_y: number): void {
-		this.health_bar!.update();
-		this.render();
+		this.level!.update();
 	}
 
-	public userGameoverJS(): void {}
+	public userGameoverJS(): void {
+		this.removeLevel();
+	}
 
-	public userEndingJS(): void {}
+	public userEndingJS(): void {
+		this.removeLevel();}
 
+	private removeLevel(): void {
+		// 以前使用したLevelが存在する場合は消去
+		if (this.level !== null) {
+			this.level.kill();
+			this.level = null;
+		}
+	}
 	public render(): void {
-		this.health_bar!.render();
+		if (this.level !== null) this.level.render();
+		// CanvasMasao側で書き込まれたCanvasの内容を反映
 		this.base_sprite.texture.update();
+		// PIXI.jsによる描画
 		this.renderer.render(this.root);
+		// 描画結果を再度CanvasMasao側のcanvasに転写
 		this.base_ctx.drawImage(this.renderer.view, 0, 0);
 	}
 }
