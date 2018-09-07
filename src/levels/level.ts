@@ -1,7 +1,6 @@
 import * as PIXI from "pixi.js";
 
 export interface Level {
-	init(): void;
 	update(): void;
 	render(): void;
 }
@@ -16,7 +15,6 @@ export abstract class AbstractLevel {
 		this.stage = new PIXI.Container();
 		root.addChild(this.stage);
 	}
-	abstract init(): void;
 	abstract update(): void;
 	abstract render(): void;
 }
