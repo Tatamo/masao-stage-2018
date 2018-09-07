@@ -68,6 +68,7 @@ const params = {
 	filename_se_chizugamen: "assets/sounds/get.mp3"
 };
 
+const load_complete_waiter = new LoadCompleteWaiterExtension();
 const { init, onload, userjs } = (() => {
 	const loader = new Loader();
 	let main: Main | null = null;
@@ -75,7 +76,7 @@ const { init, onload, userjs } = (() => {
 		init: (mc: any, graphics: Graphics, jss: any) => {
 			PIXI.loader.add("pattern", "assets/images/pattern.gif");
 			PIXI.loader.load((loader: PIXI.loaders.Loader, resources: PIXI.loaders.ResourceDictionary) => {
-				LoadCompleteWaiterExtension.go();
+				load_complete_waiter.go();
 				main = new Main(jss, graphics, resources);
 			});
 		},
@@ -85,17 +86,15 @@ const { init, onload, userjs } = (() => {
 		}
 	};
 })();
-InitCallbackExtension.on(init);
-OnImageLoadedCallbackExtension.on(onload);
 // ゲームオブジェクトを作成
 // tslint:disable-next-line:no-unused-expression
 new JSMasao(params, undefined, {
 	userJSCallback: userjs,
 	extensions: [
-		InitCallbackExtension,
-		OnImageLoadedCallbackExtension,
-		LoadingScreenSuppressorExtension,
-		LoadCompleteWaiterExtension
+		new InitCallbackExtension(init),
+		new OnImageLoadedCallbackExtension(onload),
+		new LoadingScreenSuppressorExtension(),
+		load_complete_waiter
 	],
 	"advance-map": am
 });

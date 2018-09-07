@@ -5,11 +5,9 @@ import { Graphics } from "../definitions/graphics";
  * ローディング終了タイミングでコールバックを実行する
  */
 // tslint:disable-next-line:variable-name
-export const OnImageLoadedCallbackExtension = new class implements Extension {
-	private callbacks: Array<(mc: any, graphics: Graphics, jss: any) => void>;
+export class OnImageLoadedCallbackExtension implements Extension {
 	private emitted: boolean;
-	constructor() {
-		this.callbacks = [];
+	constructor(private readonly callback: (mc: any, graphics: Graphics, jss: any) => void) {
 		this.emitted = false;
 	}
 	inject(mc: any, options: any): void {
@@ -28,11 +26,6 @@ export const OnImageLoadedCallbackExtension = new class implements Extension {
 	}
 	private emit(mc: any) {
 		this.emitted = true;
-		for (const callback of this.callbacks) {
-			callback(mc, mc.gg.os_g_bk, mc.masaoJSSAppletEmulator);
-		}
+		this.callback(mc, mc.gg.os_g_bk, mc.masaoJSSAppletEmulator);
 	}
-	on(callback: (mc: any, graphics: Graphics, jss: any) => void) {
-		this.callbacks.push(callback);
-	}
-}();
+}

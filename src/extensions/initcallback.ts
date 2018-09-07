@@ -1,12 +1,12 @@
 import { Extension } from "../definitions/extension";
 import { Graphics } from "../definitions/graphics";
 
+/**
+ * MasaoConstructionオブジェクト作成直後にコールバックを実行する
+ */
 // tslint:disable-next-line:variable-name
-export const InitCallbackExtension = new class implements Extension {
-	private callbacks: Array<(mc: any, graphics: Graphics, jss: any) => void>;
-	constructor() {
-		this.callbacks = [];
-	}
+export class InitCallbackExtension implements Extension {
+	constructor(private readonly callback: (mc: any, graphics: Graphics, jss: any) => void) {}
 	inject(mc: any, options: any): void {
 		const self = this;
 		// userInitではなくinit_jに差し込む (他のエクステンションの初期化完了を待つため)
@@ -17,11 +17,6 @@ export const InitCallbackExtension = new class implements Extension {
 		};
 	}
 	private emit(mc: any) {
-		for (const callback of this.callbacks) {
-			callback(mc, mc.gg.os_g_bk, mc.masaoJSSAppletEmulator);
-		}
+		this.callback(mc, mc.gg.os_g_bk, mc.masaoJSSAppletEmulator);
 	}
-	on(callback: (mc: any, graphics: Graphics, jss: any) => void) {
-		this.callbacks.push(callback);
-	}
-}();
+}
