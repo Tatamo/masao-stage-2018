@@ -8,6 +8,7 @@ const { params: p, "advanced-map": am } = format.load(json);
 // パラメータを上書き
 const params = {
 	...p,
+	score_v: 2, // スコア非表示
 	now_loading: "ただいまファイルを読み込み中。しばらくお待ち下さい。", // バグのため初期値が反映されない
 	filename_ending: "assets/images/ending.gif",
 	filename_gameover: "assets/images/gameover.gif",

@@ -19,6 +19,7 @@ export class Main {
 	) {
 		this.flg_initialized = false;
 		this.renderer = PIXI.autoDetectRenderer({
+			// forceCanvas: true,
 			width: 512,
 			height: 320
 		});

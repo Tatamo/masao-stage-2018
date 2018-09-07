@@ -1,7 +1,19 @@
 export interface State<P extends StateMachine> {
 	readonly parent: P;
+
+	/**
+	 * 現在のStateに移った際、最初のupdateの直前に呼び出される
+	 */
 	init(): void;
+
+	/**
+	 * 毎フレーム呼び出される処理をジェネレータを用いて定義する
+	 */
 	update(): IterableIterator<void>;
+
+	/**
+	 * 描画処理
+	 */
 	render(): void;
 }
 

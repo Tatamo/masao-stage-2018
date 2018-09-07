@@ -1,8 +1,20 @@
 import * as PIXI from "pixi.js";
 
 export interface Level {
+	/**
+	 * 毎フレームの更新処理
+	 */
 	update(): void;
+
+	/**
+	 * 描画処理
+	 */
 	render(): void;
+
+	/**
+	 * 現在のレベルを破棄し、以後描画されなくなる
+	 * このメソッドの呼び出し後はオブジェクトを操作しないこと
+	 */
 	kill(): void;
 }
 
