@@ -3,6 +3,7 @@ import * as PIXI from "pixi.js";
 export interface Level {
 	update(): void;
 	render(): void;
+	kill(): void;
 }
 
 export abstract class AbstractLevel {
@@ -17,4 +18,8 @@ export abstract class AbstractLevel {
 	}
 	abstract update(): void;
 	abstract render(): void;
+	kill() {
+		this.root.removeChild(this.stage);
+		this.stage.destroy();
+	}
 }
