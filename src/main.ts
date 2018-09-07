@@ -2,9 +2,10 @@ import * as PIXI from "pixi.js";
 import { Graphics } from "./definitions/graphics";
 import { HealthBar } from "./healthbar";
 
+export const MAX_HP = 10;
+
 export class Main {
 	private flg_initialized: boolean;
-	private max_hp: number;
 	private health_bar: HealthBar | null;
 	private readonly renderer: PIXI.WebGLRenderer | PIXI.CanvasRenderer;
 	private readonly base_sprite: PIXI.Sprite;
@@ -17,7 +18,6 @@ export class Main {
 		private readonly resources: PIXI.loaders.ResourceDictionary
 	) {
 		this.flg_initialized = false;
-		this.max_hp = 10;
 		this.renderer = PIXI.autoDetectRenderer({
 			width: 512,
 			height: 320
@@ -69,8 +69,8 @@ export class Main {
 		}
 		this.stage = new PIXI.Container();
 		this.root.addChild(this.stage);
-		this.health_bar = new HealthBar(this.stage, this.resources, this.jss, this.max_hp);
-		this.jss.setMyMaxHP(this.max_hp);
+		this.health_bar = new HealthBar(this.stage, this.resources, this.jss, MAX_HP);
+		this.jss.setMyMaxHP(MAX_HP);
 		this.render();
 	}
 
