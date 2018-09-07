@@ -44,8 +44,8 @@ export function launch(params: object, advancemap: object, resources: Array<{ na
 		graphics._ctx.fillText("ただいまファイルを読み込み中。しばらくお待ち下さい。", 32, 160);
 	};
 	const onload = (mc: any, graphics: Graphics, jss: any) => {};
-	const userjs = (graphics: Graphics, mode: number, view_x: number, view_y: number, ap: any) => {
-		main!.userJS(mode, view_x, view_y);
+	const userjs = (graphics: Graphics, mode: number) => {
+		main!.userJS(mode);
 	};
 	// ゲームオブジェクトを作成
 	// tslint:disable-next-line:no-unused-expression

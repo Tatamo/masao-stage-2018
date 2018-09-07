@@ -29,7 +29,7 @@ export class Main {
 		this.level = null;
 	}
 
-	public userJS(mode: number, view_x: number, view_y: number): void {
+	public userJS(mode: number): void {
 		if (!this.flg_initialized) {
 			this.flg_initialized = true;
 			this.userInitJS();
@@ -45,7 +45,7 @@ export class Main {
 				this.userGameStartJS();
 			} else {
 				// ゲーム中
-				this.userGameJS(view_x, view_y);
+				this.userGameJS();
 			}
 		} else if (mode === 200) {
 			// ゲームオーバー
@@ -67,7 +67,7 @@ export class Main {
 		this.level = new Level1(this.root, this.resources, this.jss);
 	}
 
-	public userGameJS(view_x: number, view_y: number): void {
+	public userGameJS(): void {
 		this.level!.update();
 	}
 
@@ -76,7 +76,8 @@ export class Main {
 	}
 
 	public userEndingJS(): void {
-		this.removeLevel();}
+		this.removeLevel();
+	}
 
 	private removeLevel(): void {
 		// 以前使用したLevelが存在する場合は消去
