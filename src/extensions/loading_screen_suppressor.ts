@@ -6,7 +6,6 @@ import { Graphics } from "../definitions/graphics";
  */
 export class LoadingScreenSuppressorExtension implements Extension {
 	inject(mc: any, options: any): void {
-		const self = this;
 		// userInit()のタイミングでメソッドを書き換えないのはmc.paint()の初回呼び出しに間に合わないため
 		// ローディング画面を表示せず、常にGraphicsの描画内容を転写する
 		mc.paint = function(graphics: Graphics) {

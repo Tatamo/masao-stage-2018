@@ -3,7 +3,6 @@ import { Main } from "./main";
 import { Graphics } from "./definitions/graphics";
 import * as PIXI from "pixi.js";
 import { InitCallbackExtension } from "./extensions/initcallback";
-import { OnImageLoadedCallbackExtension } from "./extensions/imageloadcallback";
 import { LoadingScreenSuppressorExtension } from "./extensions/loading_screen_suppressor";
 import { PlayerEventWatcherExtension } from "./extensions/playereventwatcher";
 import { Resource } from "./components/resource";
@@ -46,7 +45,6 @@ export function launch(params: object, advancemap: object, resources: Array<{ na
 
 		graphics._ctx.fillText("ただいまファイルを読み込み中。しばらくお待ち下さい。", 32, 160);
 	};
-	const onload = (mc: any, graphics: Graphics, jss: any) => {};
 	const userjs = (graphics: Graphics, mode: number) => {
 		main!.userJS(mode);
 	};
@@ -56,7 +54,6 @@ export function launch(params: object, advancemap: object, resources: Array<{ na
 		userJSCallback: userjs,
 		extensions: [
 			new InitCallbackExtension(init),
-			new OnImageLoadedCallbackExtension(onload),
 			new LoadingScreenSuppressorExtension(),
 			load_complete_waiter,
 			new PlayerEventWatcherExtension()
