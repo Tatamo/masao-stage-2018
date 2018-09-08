@@ -12,6 +12,12 @@ export class HealthBar extends StateMachine {
 	public readonly frame: PIXI.Sprite;
 	public readonly colormatrix: PIXI.filters.ColorMatrixFilter;
 	public readonly bar: PIXI.Sprite;
+	public readonly face: PIXI.Sprite;
+	private readonly textures: {
+		normal: PIXI.Texture;
+		damage: PIXI.Texture;
+		miss: PIXI.Texture;
+	};
 	constructor(public readonly api: GameAPI, stage: PIXI.Container, public max_hp: number) {
 		super();
 		// HPを最大値として初期化
@@ -20,12 +26,12 @@ export class HealthBar extends StateMachine {
 		// HPバーの枠を作成
 		this.frame = new PIXI.Sprite(this.api.resources["health_bar"].texture);
 		this.frame.position.x = this.frame.position.y = 32;
-		// 色合いを変更するためのフィルタ
-		this.frame.filters = [new PIXI.filters.ColorMatrixFilter()];
 		stage.addChild(this.frame);
 
+		// 伸び縮みするHBバーを作成
 		this.bar = PIXI.Sprite.from(
 			(() => {
+				// 幅1高さ12でグラデーション付きの緑色の画像を生成する
 				const c = document.createElement("canvas")!;
 				c.width = 1;
 				c.height = 12;
@@ -43,9 +49,50 @@ export class HealthBar extends StateMachine {
 		this.bar.position.x = this.bar.position.y = 3;
 		this.frame.addChild(this.bar);
 
+		// 色合いを変更するためのフィルタ
 		this.colormatrix = new PIXI.filters.ColorMatrixFilter();
 		this.bar.filters = [this.colormatrix];
+
+		// 上半分を切り取ったテクスチャを作成
+		const createTexture = (code: number) => {
+			const texture: PIXI.Texture = this.api.resources["pattern"].textures![code].clone();
+			const rect = texture.frame.clone();
+			rect.height /= 2;
+			texture.frame = rect;
+			return texture;
+		};
+		this.textures = {
+			normal: createTexture(100),
+			damage: createTexture(107),
+			miss: createTexture(110)
+		};
+		// 主人公の顔を表示するスプライトを作成
+		this.face = new PIXI.Sprite();
+		this.face.x = 3;
+		this.face.y = 20;
+		this.face.anchor.x = 1;
+		this.face.scale.x = -1;
+		this.setFaceTexture("normal");
+		this.frame.addChild(this.face);
+
+		// 主人公の行動を監視して表示する画像を切り替える
+		const ee: PIXI.utils.EventEmitter = this.api.jss.createPlayerEventEmitter();
+		ee.on("damage", () => {
+			this.setFaceTexture("damage");
+		});
+		ee.on("muteki_end", () => {
+			this.setFaceTexture("normal");
+		});
+		ee.on("miss", () => {
+			this.setFaceTexture("miss");
+			// もう使わないのでEventEmitterの登録を解除する
+			this.api.jss.removePlayerEventEmitter();
+		});
+
 		this.setState(new HealthBarStates.Default(this));
+	}
+	public setFaceTexture(mode: "normal" | "damage" | "miss") {
+		this.face.texture = this.textures[mode];
 	}
 }
 
