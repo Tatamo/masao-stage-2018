@@ -1,8 +1,8 @@
 import * as PIXI from "pixi.js";
 import { Graphics } from "./definitions/graphics";
-import { Level } from "./levels/level";
-import { Level1 } from "./levels/1/level1";
-import { GameAPI } from "./api";
+import { Level } from "./components/levels/level";
+import { Stage1 } from "./components/levels/stage1";
+import { GameAPI } from "./components/api";
 
 export const MAX_HP = 10;
 
@@ -63,7 +63,7 @@ export class Main {
 	}
 
 	public userGameStartJS(): void {
-		this.level = new Level1(this.api);
+		this.level = new Stage1(this.api);
 	}
 
 	public userGameJS(): void {

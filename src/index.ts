@@ -1,5 +1,5 @@
 import { format } from "masao";
-import json from "./game.json";
+import json from "../public/assets/game.json";
 import { launch } from "./launch";
 
 // masao-json-formatからパラメータオブジェクトを取得
