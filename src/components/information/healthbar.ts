@@ -56,7 +56,7 @@ export class HealthBar extends StateMachine {
 
 		// 上半分を切り取ったテクスチャを作成
 		const createTexture = (code: number) => {
-			const texture: PIXI.Texture = this.api.resources["pattern"].textures![code].clone();
+			const texture: PIXI.Texture = this.api.resources["pattern"].textures![`pattern_${code}`].clone();
 			const rect = texture.frame.clone();
 			rect.height /= 2;
 			texture.frame = rect;
