@@ -81,15 +81,17 @@ export class HealthBar extends StateMachine {
 			dropShadowAlpha: 0.2,
 			dropShadowDistance: 2,
 			fill: ["#cc8336", "#45454f"],
+			fontFamily: "monospace",
 			fontSize: 14,
 			fontWeight: "bold",
 			miterLimit: 3,
+			padding: 3,
 			stroke: "white",
 			strokeThickness: 2
 		});
 		this.text = new PIXI.Text(`HP: ${Math.round(this.health_rate * 100)} / 100`, style);
 		this.text.x = 41;
-		this.text.y = 19;
+		this.text.y = 23;
 		this.frame.addChild(this.text);
 
 		// 主人公の行動を監視して表示する画像を切り替える
@@ -118,7 +120,9 @@ namespace HealthBarStates {
 		init(): void {}
 		render(): void {
 			this.parent.bar.scale.x = 128 * this.parent.health_rate;
-			this.parent.text.text = `HP: ${Math.round(this.parent.health_rate * 100)} / 100`;
+			this.parent.text.text = `HP: ${Math.round(this.parent.health_rate * 100)
+				.toString()
+				.padStart(3)} / 100`;
 		}
 	}
 	export class Default<P extends HealthBar> extends Base<P> {
