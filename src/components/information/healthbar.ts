@@ -21,11 +21,12 @@ export class HealthBar extends StateMachine {
 	};
 	constructor(public readonly api: GameAPI, stage: PIXI.Container, public max_hp: number) {
 		super();
+		const { jss, resource } = this.api;
 		// HPを最大値として初期化
 		this.current_hp = max_hp;
 		this.health_rate = 1;
 		// HPバーの枠を作成
-		this.frame = new PIXI.Sprite(this.api.resource.images["health_bar"]);
+		this.frame = new PIXI.Sprite(resource.images["health_bar"]);
 		this.frame.position.x = this.frame.position.y = 24;
 		stage.addChild(this.frame);
 
@@ -56,16 +57,28 @@ export class HealthBar extends StateMachine {
 
 		// 上半分を切り取ったテクスチャを作成
 		const createTexture = (code: number) => {
-			const texture: PIXI.Texture = this.api.resource.pattern[code].clone();
+			const texture: PIXI.Texture = resource.pattern[code].clone();
 			const rect = texture.frame.clone();
 			rect.height /= 2;
 			texture.frame = rect;
 			return texture;
 		};
+		const map = resource.textures;
+		const getLabel = (name: string) => `health_bar_face_${name}`;
+
+		// work-around for tslint-loader
+		// tslint:disable-next-line:no-unnecessary-type-assertion
+		for (const [name, code] of [["normal", 100], ["damage", 107], ["miss", 110]] as Array<[string, number]>) {
+			if (!map.has(getLabel(name))) {
+				// まだテクスチャが作成されていない場合は作成して登録
+				map.set(getLabel(name), createTexture(code));
+			}
+		}
+		// 既存テクスチャを使いまわす
 		this.textures = {
-			normal: createTexture(100),
-			damage: createTexture(107),
-			miss: createTexture(110)
+			normal: map.get(getLabel("normal"))!,
+			damage: map.get(getLabel("damage"))!,
+			miss: map.get(getLabel("miss"))!
 		};
 		// 主人公の顔を表示するスプライトを作成
 		this.face = new PIXI.Sprite();
@@ -95,7 +108,7 @@ export class HealthBar extends StateMachine {
 		this.frame.addChild(this.text);
 
 		// 主人公の行動を監視して表示する画像を切り替える
-		const ee: PIXI.utils.EventEmitter = this.api.jss.createPlayerEventEmitter();
+		const ee: PIXI.utils.EventEmitter = jss.createPlayerEventEmitter();
 		ee.on("damage", () => {
 			this.setFaceTexture("damage");
 		});
@@ -105,7 +118,7 @@ export class HealthBar extends StateMachine {
 		ee.on("miss", () => {
 			this.setFaceTexture("miss");
 			// もう使わないのでEventEmitterの登録を解除する
-			this.api.jss.removePlayerEventEmitter();
+			jss.removePlayerEventEmitter();
 		});
 
 		this.setState(new HealthBarStates.Default(this));
