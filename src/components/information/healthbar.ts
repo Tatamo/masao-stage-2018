@@ -25,7 +25,7 @@ export class HealthBar extends StateMachine {
 		this.current_hp = max_hp;
 		this.health_rate = 1;
 		// HPバーの枠を作成
-		this.frame = new PIXI.Sprite(this.api.resource.textures["health_bar"]);
+		this.frame = new PIXI.Sprite(this.api.resource.images["health_bar"]);
 		this.frame.position.x = this.frame.position.y = 24;
 		stage.addChild(this.frame);
 
@@ -56,7 +56,7 @@ export class HealthBar extends StateMachine {
 
 		// 上半分を切り取ったテクスチャを作成
 		const createTexture = (code: number) => {
-			const texture: PIXI.Texture = this.api.resource.pattern[code];
+			const texture: PIXI.Texture = this.api.resource.pattern[code].clone();
 			const rect = texture.frame.clone();
 			rect.height /= 2;
 			texture.frame = rect;

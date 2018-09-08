@@ -3,14 +3,14 @@ export class Resource {
 	get pattern(): Array<PIXI.Texture> {
 		return this._pattern;
 	}
-	get textures(): { [name: string]: PIXI.Texture } {
-		return this._textures;
+	get images(): { [name: string]: PIXI.Texture } {
+		return this._images;
 	}
 	get sounds(): { [p: string]: HTMLAudioElement } {
 		return this._sounds;
 	}
 	private readonly _pattern: Array<PIXI.Texture>;
-	private readonly _textures: { [name: string]: PIXI.Texture };
+	private readonly _images: { [name: string]: PIXI.Texture };
 	private readonly _sounds: { [name: string]: HTMLAudioElement };
 	constructor(resources: PIXI.loaders.ResourceDictionary) {
 		this._pattern = [];
@@ -18,7 +18,7 @@ export class Resource {
 		for (let i = 0; i < 250; i++) {
 			this._pattern[i] = resources["pattern"].textures![`pattern_${i}`];
 		}
-		this._textures = {
+		this._images = {
 			pattern: resources["pattern_image"].texture,
 			title: resources["title"].texture,
 			gameover: resources["gameover"].texture,
