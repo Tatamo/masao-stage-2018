@@ -3,6 +3,7 @@ import { Graphics } from "./definitions/graphics";
 import { Level } from "./components/levels/level";
 import { Stage1 } from "./components/levels/stage1";
 import { GameAPI } from "./components/api";
+import { Resource } from "./components/resource";
 
 export const MAX_HP = 10;
 
@@ -13,7 +14,7 @@ export class Main {
 	private readonly base_ctx: CanvasRenderingContext2D;
 	private readonly api: GameAPI;
 	private level: Level | null;
-	constructor(jss: any, graphics: Graphics, resources: PIXI.loaders.ResourceDictionary) {
+	constructor(jss: any, graphics: Graphics, resource: Resource) {
 		this.flg_initialized = false;
 		this.renderer = PIXI.autoDetectRenderer({
 			// forceCanvas: true,
@@ -24,7 +25,7 @@ export class Main {
 		this.base_sprite = PIXI.Sprite.from(graphics._ctx.canvas);
 		this.base_ctx = graphics._ctx;
 		root.addChild(this.base_sprite);
-		this.api = { jss, graphics, root, resources };
+		this.api = { jss, graphics, root, resource };
 		this.level = null;
 	}
 

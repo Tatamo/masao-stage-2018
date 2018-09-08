@@ -6,6 +6,7 @@ import { InitCallbackExtension } from "./extensions/initcallback";
 import { OnImageLoadedCallbackExtension } from "./extensions/imageloadcallback";
 import { LoadingScreenSuppressorExtension } from "./extensions/loading_screen_suppressor";
 import { PlayerEventWatcherExtension } from "./extensions/playereventwatcher";
+import { Resource } from "./components/resource";
 
 // JSMasaoオブジェクトの型情報を宣言しておく
 interface JSMasaoOptions {
@@ -23,6 +24,7 @@ declare class JSMasao {
  * ゲームを起動する
  * @param params
  * @param advancemap
+ * @param resources
  */
 export function launch(params: object, advancemap: object, resources: Array<{ name: string; path: string }>) {
 	// ローディング周りの非同期処理が非常に煩雑なので汚いコードはここにまとめる
@@ -34,7 +36,7 @@ export function launch(params: object, advancemap: object, resources: Array<{ na
 		}
 		PIXI.loader.load((loader: PIXI.loaders.Loader, resources: PIXI.loaders.ResourceDictionary) => {
 			load_complete_waiter.go();
-			main = new Main(jss, graphics, resources);
+			main = new Main(jss, graphics, new Resource(resources));
 		});
 
 		graphics._ctx.fillStyle = "#000000";

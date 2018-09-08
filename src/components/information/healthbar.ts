@@ -25,7 +25,7 @@ export class HealthBar extends StateMachine {
 		this.current_hp = max_hp;
 		this.health_rate = 1;
 		// HPバーの枠を作成
-		this.frame = new PIXI.Sprite(this.api.resources["health_bar"].texture);
+		this.frame = new PIXI.Sprite(this.api.resource.textures["health_bar"]);
 		this.frame.position.x = this.frame.position.y = 24;
 		stage.addChild(this.frame);
 
@@ -33,7 +33,7 @@ export class HealthBar extends StateMachine {
 		this.bar = PIXI.Sprite.from(
 			(() => {
 				// 幅1高さ12でグラデーション付きの緑色の画像を生成する
-				const c = document.createElement("canvas")!;
+				const c = document.createElement("canvas");
 				c.width = 1;
 				c.height = 12;
 				const ctx = c.getContext("2d")!;
@@ -56,7 +56,7 @@ export class HealthBar extends StateMachine {
 
 		// 上半分を切り取ったテクスチャを作成
 		const createTexture = (code: number) => {
-			const texture: PIXI.Texture = this.api.resources["pattern"].textures![`pattern_${code}`].clone();
+			const texture: PIXI.Texture = this.api.resource.pattern[code];
 			const rect = texture.frame.clone();
 			rect.height /= 2;
 			texture.frame = rect;
