@@ -1,6 +1,7 @@
 import { AbstractState, StateMachine } from "./statemachine";
 import BezierEasing, { EasingFunction } from "bezier-easing";
 import * as PIXI from "pixi.js";
+import { GameAPI } from "./api";
 
 /**
  * 主人公のHPを表示するバー
@@ -11,18 +12,13 @@ export class HealthBar extends StateMachine {
 	public readonly frame: PIXI.Sprite;
 	public readonly colormatrix: PIXI.filters.ColorMatrixFilter;
 	public readonly bar: PIXI.Sprite;
-	constructor(
-		stage: PIXI.Container,
-		private readonly resources: PIXI.loaders.ResourceDictionary,
-		public readonly jss: any,
-		public max_hp: number
-	) {
+	constructor(public readonly api: GameAPI, stage: PIXI.Container, public max_hp: number) {
 		super();
 		// HPを最大値として初期化
 		this.current_hp = max_hp;
 		this.health_rate = 1;
 		// HPバーの枠を作成
-		this.frame = new PIXI.Sprite(resources["health_bar"].texture);
+		this.frame = new PIXI.Sprite(this.api.resources["health_bar"].texture);
 		this.frame.position.x = this.frame.position.y = 32;
 		// 色合いを変更するためのフィルタ
 		this.frame.filters = [new PIXI.filters.ColorMatrixFilter()];
@@ -62,10 +58,10 @@ namespace HealthBarStates {
 	}
 	export class Default<P extends HealthBar> extends Base<P> {
 		*update(): IterableIterator<void> {
-			if (this.parent.jss.getMyHP() < this.parent.current_hp) {
+			if (this.parent.api.jss.getMyHP() < this.parent.current_hp) {
 				// HPが前フレームより減っていた場合はアニメーション状態に切り替える
 				const from = this.parent.current_hp;
-				this.parent.current_hp = this.parent.jss.getMyHP();
+				this.parent.current_hp = this.parent.api.jss.getMyHP();
 				this.parent.setState(
 					new DamageAnimation(
 						this.parent,
@@ -74,8 +70,8 @@ namespace HealthBarStates {
 						((from - this.parent.current_hp) / this.parent.max_hp) * 10 + 10
 					)
 				);
-			} else if (this.parent.jss.getMyHP() !== this.parent.current_hp) {
-				this.parent.current_hp = this.parent.jss.getMyHP();
+			} else if (this.parent.api.jss.getMyHP() !== this.parent.current_hp) {
+				this.parent.current_hp = this.parent.api.jss.getMyHP();
 			}
 			this.parent.colormatrix.hue(-120 * (1 - this.parent.health_rate));
 		}

@@ -2,6 +2,7 @@ import * as PIXI from "pixi.js";
 import { Graphics } from "./definitions/graphics";
 import { Level } from "./levels/level";
 import { Level1 } from "./levels/1/level1";
+import { GameAPI } from "./api";
 
 export const MAX_HP = 10;
 
@@ -10,23 +11,20 @@ export class Main {
 	private readonly renderer: PIXI.WebGLRenderer | PIXI.CanvasRenderer;
 	private readonly base_sprite: PIXI.Sprite;
 	private readonly base_ctx: CanvasRenderingContext2D;
-	private readonly root: PIXI.Container;
+	private readonly api: GameAPI;
 	private level: Level | null;
-	constructor(
-		private readonly jss: any,
-		graphics: Graphics,
-		private readonly resources: PIXI.loaders.ResourceDictionary
-	) {
+	constructor(jss: any, graphics: Graphics, resources: PIXI.loaders.ResourceDictionary) {
 		this.flg_initialized = false;
 		this.renderer = PIXI.autoDetectRenderer({
 			// forceCanvas: true,
 			width: 512,
 			height: 320
 		});
-		this.root = new PIXI.Container();
+		const root = new PIXI.Container();
 		this.base_sprite = PIXI.Sprite.from(graphics._ctx.canvas);
 		this.base_ctx = graphics._ctx;
-		this.root.addChild(this.base_sprite);
+		root.addChild(this.base_sprite);
+		this.api = { jss, graphics, root, resources };
 		this.level = null;
 	}
 
@@ -40,9 +38,9 @@ export class Main {
 			// タイトル画面
 			this.userTitleJS();
 		} else if (mode >= 100 && mode < 200) {
-			if (this.jss.getJSMes() >= 1) {
+			if (this.api.jss.getJSMes() >= 1) {
 				// ゲーム開始
-				this.jss.setJSMes(0);
+				this.api.jss.setJSMes(0);
 				this.userGameStartJS();
 			} else {
 				// ゲーム中
@@ -65,7 +63,7 @@ export class Main {
 	}
 
 	public userGameStartJS(): void {
-		this.level = new Level1(this.root, this.resources, this.jss);
+		this.level = new Level1(this.api);
 	}
 
 	public userGameJS(): void {
@@ -92,7 +90,7 @@ export class Main {
 		// CanvasMasao側で書き込まれたCanvasの内容を反映
 		this.base_sprite.texture.update();
 		// PIXI.jsによる描画
-		this.renderer.render(this.root);
+		this.renderer.render(this.api.root);
 		// 描画結果を再度CanvasMasao側のcanvasに転写
 		this.base_ctx.drawImage(this.renderer.view, 0, 0);
 	}

@@ -1,4 +1,5 @@
 import * as PIXI from "pixi.js";
+import { GameAPI } from "../api";
 
 export interface Level {
 	/**
@@ -20,18 +21,14 @@ export interface Level {
 
 export abstract class AbstractLevel {
 	protected readonly stage: PIXI.Container;
-	protected constructor(
-		protected readonly root: PIXI.Container,
-		protected readonly resources: PIXI.loaders.ResourceDictionary,
-		protected readonly jss: any
-	) {
+	protected constructor(protected readonly api: GameAPI) {
 		this.stage = new PIXI.Container();
-		root.addChild(this.stage);
+		this.api.root.addChild(this.stage);
 	}
 	abstract update(): void;
 	abstract render(): void;
 	kill() {
-		this.root.removeChild(this.stage);
+		this.api.root.removeChild(this.stage);
 		this.stage.destroy();
 	}
 }
