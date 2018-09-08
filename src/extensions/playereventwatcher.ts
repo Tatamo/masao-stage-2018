@@ -49,6 +49,12 @@ export class PlayerEventWatcherExtension implements Extension {
 		if (prv.j_muteki_c === 0 && crr.j_muteki_c > 0) {
 			this.emit("damage", prv.j_hp - crr.j_hp);
 		}
+		if (prv.j_muteki_c > 0 && crr.j_muteki_c === 0) {
+			// 自分が死亡していない場合のみ発火
+			if (crr.co_j.c < 200 || crr.co_j.c > 240) {
+				this.emit("muteki_end");
+			}
+		}
 		if (crr.j_jump_type !== prv.j_jump_type && crr.j_jump_type === 0 && crr.j_jump_level !== 0) {
 			this.emit("jump", crr.j_jump_level);
 		}
