@@ -3,7 +3,6 @@ import { Extension } from "../definitions/extension";
 /**
  * ローディング終了タイミングで処理を止めて他の処理完了を待つ
  */
-// tslint:disable-next-line:variable-name
 export class LoadCompleteWaiterExtension implements Extension {
 	private wait: boolean;
 	constructor() {

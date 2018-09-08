@@ -4,7 +4,6 @@ import { Graphics } from "../definitions/graphics";
 /**
  * MasaoConstructionオブジェクト作成直後にコールバックを実行する
  */
-// tslint:disable-next-line:variable-name
 export class InitCallbackExtension implements Extension {
 	constructor(private readonly callback: (mc: any, graphics: Graphics, jss: any) => void) {}
 	inject(mc: any, options: any): void {

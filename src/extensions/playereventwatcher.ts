@@ -1,5 +1,4 @@
 import { Extension } from "../definitions/extension";
-import { Graphics } from "../definitions/graphics";
 import EventEmitter = PIXI.utils.EventEmitter;
 
 type PlayerParams = {
@@ -13,7 +12,6 @@ type PlayerParams = {
 /**
  * 主人公の動きを監視し、イベントの発生を通知する
  */
-// tslint:disable-next-line:variable-name
 export class PlayerEventWatcherExtension implements Extension {
 	private player!: PlayerParams;
 	private player_prev!: PlayerParams;
@@ -37,7 +35,7 @@ export class PlayerEventWatcherExtension implements Extension {
 			}
 		};
 		const _usersub = mc.userSub;
-		mc.userSub = function(g: Graphics, img: any) {
+		mc.userSub = function(g: any, img: any) {
 			_usersub(g, img);
 			self.watch(mc);
 		};

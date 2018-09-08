@@ -4,7 +4,6 @@ import { Graphics } from "../definitions/graphics";
 /**
  * ローディング画面表示中はGraphicsを用いた画面描写ができないため、ローディング画面を消してGraphicsによる描画を有効化する
  */
-// tslint:disable-next-line:variable-name
 export class LoadingScreenSuppressorExtension implements Extension {
 	inject(mc: any, options: any): void {
 		const self = this;

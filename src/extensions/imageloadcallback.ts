@@ -4,7 +4,6 @@ import { Graphics } from "../definitions/graphics";
 /**
  * ローディング終了タイミングでコールバックを実行する
  */
-// tslint:disable-next-line:variable-name
 export class OnImageLoadedCallbackExtension implements Extension {
 	private emitted: boolean;
 	constructor(private readonly callback: (mc: any, graphics: Graphics, jss: any) => void) {
