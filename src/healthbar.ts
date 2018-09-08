@@ -13,6 +13,7 @@ export class HealthBar extends StateMachine {
 	public readonly colormatrix: PIXI.filters.ColorMatrixFilter;
 	public readonly bar: PIXI.Sprite;
 	public readonly face: PIXI.Sprite;
+	public readonly text: PIXI.Text;
 	private readonly textures: {
 		normal: PIXI.Texture;
 		damage: PIXI.Texture;
@@ -75,6 +76,22 @@ export class HealthBar extends StateMachine {
 		this.setFaceTexture("normal");
 		this.frame.addChild(this.face);
 
+		const style = new PIXI.TextStyle({
+			dropShadow: true,
+			dropShadowAlpha: 0.2,
+			dropShadowDistance: 2,
+			fill: ["#cc8336", "#45454f"],
+			fontSize: 14,
+			fontWeight: "bold",
+			miterLimit: 3,
+			stroke: "white",
+			strokeThickness: 2
+		});
+		this.text = new PIXI.Text(`HP: ${Math.round(this.health_rate * 100)} / 100`, style);
+		this.text.x = 41;
+		this.text.y = 19;
+		this.frame.addChild(this.text);
+
 		// 主人公の行動を監視して表示する画像を切り替える
 		const ee: PIXI.utils.EventEmitter = this.api.jss.createPlayerEventEmitter();
 		ee.on("damage", () => {
@@ -101,6 +118,7 @@ namespace HealthBarStates {
 		init(): void {}
 		render(): void {
 			this.parent.bar.scale.x = 128 * this.parent.health_rate;
+			this.parent.text.text = `HP: ${Math.round(this.parent.health_rate * 100)} / 100`;
 		}
 	}
 	export class Default<P extends HealthBar> extends Base<P> {
