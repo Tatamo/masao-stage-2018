@@ -1,5 +1,6 @@
 import { format } from "masao";
 import json from "../public/assets/game.json";
+import assets from "../public/assets/assets.json";
 import { launch } from "./launch";
 
 // masao-json-formatからパラメータオブジェクトを取得
@@ -50,9 +51,4 @@ const params = {
 	filename_se_chizugamen: "assets/sounds/get.mp3"
 };
 
-const pixi_resources = [
-	{ name: "pattern", path: "assets/images/pattern.json" },
-	{ name: "health_bar", path: "assets/images/health_bar.png" }
-];
-
-launch(params, am!, pixi_resources);
+launch(params, am!, assets);
