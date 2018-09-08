@@ -51,7 +51,7 @@ const params = {
 };
 
 const pixi_resources = [
-	{ name: "pattern", path: "assets/images/pattern.gif" },
+	{ name: "pattern", path: "assets/images/pattern.json" },
 	{ name: "health_bar", path: "assets/images/health_bar.png" }
 ];
 
