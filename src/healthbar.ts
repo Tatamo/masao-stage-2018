@@ -26,7 +26,7 @@ export class HealthBar extends StateMachine {
 		this.health_rate = 1;
 		// HPバーの枠を作成
 		this.frame = new PIXI.Sprite(this.api.resources["health_bar"].texture);
-		this.frame.position.x = this.frame.position.y = 32;
+		this.frame.position.x = this.frame.position.y = 24;
 		stage.addChild(this.frame);
 
 		// 伸び縮みするHBバーを作成
