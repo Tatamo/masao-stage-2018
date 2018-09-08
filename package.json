@@ -7,7 +7,7 @@
     "build:js": "webpack",
     "build:static": "cpx \"public/**/*\" dist/",
     "build": "npm-run-all -s clean -p build:*",
-    "prettier": "tslint -c tslint.json \"src/**/*.ts\" --fix",
+    "prettier": "tslint -c tslint.json -p tsconfig.json \"src/**/*.ts\" --fix",
     "dev": "webpack-serve --content ./public --open"
   },
   "author": "Tatamo",
