@@ -5,6 +5,7 @@ import * as PIXI from "pixi.js";
 import { InitCallbackExtension } from "./extensions/initcallback";
 import { OnImageLoadedCallbackExtension } from "./extensions/imageloadcallback";
 import { LoadingScreenSuppressorExtension } from "./extensions/loading_screen_suppressor";
+import { PlayerEventWatcherExtension } from "./extensions/playereventwatcher";
 
 // JSMasaoオブジェクトの型情報を宣言しておく
 interface JSMasaoOptions {
@@ -55,7 +56,8 @@ export function launch(params: object, advancemap: object, resources: Array<{ na
 			new InitCallbackExtension(init),
 			new OnImageLoadedCallbackExtension(onload),
 			new LoadingScreenSuppressorExtension(),
-			load_complete_waiter
+			load_complete_waiter,
+			new PlayerEventWatcherExtension()
 		],
 		"advance-map": advancemap
 	});
