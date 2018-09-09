@@ -1,5 +1,5 @@
 import { AbstractLevel } from "./level";
-import { HealthBar } from "../information/healthbar";
+import { HealthBar } from "../component/information/healthbar";
 import { MAX_HP } from "../../main";
 import { GameAPI } from "../api";
 

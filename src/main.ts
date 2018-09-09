@@ -1,9 +1,9 @@
 import * as PIXI from "pixi.js";
 import { Graphics } from "./definitions/graphics";
-import { Level } from "./components/levels/level";
-import { Stage1 } from "./components/levels/stage1";
-import { GameAPI } from "./components/api";
-import { Resource } from "./components/resource";
+import { Level } from "./game/levels/level";
+import { Stage1 } from "./game/levels/stage1";
+import { GameAPI } from "./game/api";
+import { Resource } from "./game/resource";
 
 export const MAX_HP = 10;
 

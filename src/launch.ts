@@ -5,7 +5,7 @@ import * as PIXI from "pixi.js";
 import { InitCallbackExtension } from "./extensions/initcallback";
 import { LoadingScreenSuppressorExtension } from "./extensions/loading_screen_suppressor";
 import { PlayerEventWatcherExtension } from "./extensions/playereventwatcher";
-import { Resource } from "./components/resource";
+import { Resource } from "./game/resource";
 
 // JSMasaoオブジェクトの型情報を宣言しておく
 interface JSMasaoOptions {
