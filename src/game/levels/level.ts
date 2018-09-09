@@ -19,7 +19,7 @@ export interface Level {
 	kill(): void;
 }
 
-export abstract class AbstractLevel {
+export abstract class AbstractLevel implements Level {
 	protected readonly stage: PIXI.Container;
 	protected constructor(protected readonly api: GameAPI) {
 		this.stage = new PIXI.Container();
@@ -28,6 +28,7 @@ export abstract class AbstractLevel {
 	abstract update(): void;
 	abstract render(): void;
 	kill() {
+		this.stage.visible = false;
 		this.api.root.removeChild(this.stage);
 		this.stage.destroy();
 	}
