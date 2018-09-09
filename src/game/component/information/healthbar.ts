@@ -3,6 +3,7 @@ import BezierEasing, { EasingFunction } from "bezier-easing";
 import * as PIXI from "pixi.js";
 import { Entity } from "../entities/entity";
 import { Level } from "../../levels/level";
+import { Resource } from "../../resource";
 
 /**
  * 主人公のHPを表示するバー
@@ -58,24 +59,16 @@ export class HealthBar extends Entity {
 		this.colormatrix = new PIXI.filters.ColorMatrixFilter();
 		this.bar.filters = [this.colormatrix];
 
-		// 上半分を切り取ったテクスチャを作成
-		const createTexture = (code: number) => {
-			const texture: PIXI.Texture = resource.pattern[code].clone();
-			const rect = texture.frame.clone();
-			rect.height /= 2;
-			texture.frame = rect;
-			return texture;
-		};
 		const map = resource.textures;
 		const getLabel = (name: string) => `health_bar_face_${name}`;
 
 		// work-around for tslint-loader
 		// tslint:disable-next-line:no-unnecessary-type-assertion
 		for (const [name, code] of [["normal", 100], ["damage", 107], ["miss", 110]] as Array<[string, number]>) {
-			if (!map.has(getLabel(name))) {
-				// まだテクスチャが作成されていない場合は作成して登録
-				map.set(getLabel(name), createTexture(code));
-			}
+			// まだテクスチャが作成されていない場合は作成して登録
+			resource.registerIfNecessary(getLabel(name), () =>
+				Resource.createResizeTexture(resource.pattern[code], 32, 16)
+			);
 		}
 		// 既存テクスチャを使いまわす
 		this.textures = {
