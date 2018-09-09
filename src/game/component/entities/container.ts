@@ -1,11 +1,12 @@
 import * as PIXI from "pixi.js";
 import { Entity } from "./entity";
+import { GameAPI } from "../../api";
 
 export class EntityContainer {
 	protected readonly container: PIXI.Container;
 	private readonly children: Array<Entity | null>;
 	private readonly unused_stack: Array<number>;
-	constructor(stage: PIXI.Container) {
+	constructor(protected readonly api: GameAPI, stage: PIXI.Container) {
 		this.container = new PIXI.Container();
 		stage.addChild(this.container);
 		this.children = [];
@@ -38,6 +39,9 @@ export class EntityContainer {
 		}
 	}
 	render() {
+		// 表示位置をマップ上の座標に合わせる
+		this.container.x = -(this.api.jss.getViewXReal() - 32);
+		this.container.y = -(this.api.jss.getViewYReal() - 320);
 		for (const child of this.children) {
 			if (child !== null) {
 				child.render();

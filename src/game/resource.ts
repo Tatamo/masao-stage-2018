@@ -74,4 +74,12 @@ export class Resource {
 			this._sounds[name] = resources[`sound_${name}`].data;
 		}
 	}
+	static createResizeTexture(texture: PIXI.Texture, width: number, height: number): PIXI.Texture {
+		const _t = texture.clone();
+		const rect = _t.frame.clone();
+		rect.width = width;
+		rect.height = height;
+		_t.frame = rect;
+		return _t;
+	}
 }

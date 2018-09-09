@@ -11,7 +11,10 @@ export class Entity extends StateMachine {
 		return this._alive;
 	}
 	private _alive: boolean;
-	constructor(protected readonly api: GameAPI) {
+	get api(): GameAPI {
+		return this._api;
+	}
+	constructor(protected readonly _api: GameAPI) {
 		super();
 		this._alive = true;
 		this._container = new PIXI.Container();
