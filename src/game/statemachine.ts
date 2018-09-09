@@ -32,19 +32,27 @@ export abstract class AbstractState<P extends StateMachine> implements State<P> 
 }
 
 export class StateMachine {
+	get done(): boolean {
+		return this._done;
+	}
 	private state: State<this> | null;
 	private flg_initialized: boolean;
 	private flg_loop: boolean;
+	private _done: boolean;
 	private generator: IterableIterator<void> | null;
 	constructor() {
 		this.state = null;
 		this.flg_initialized = false;
 		this.flg_loop = true;
+		this._done = false;
 		this.generator = null;
 	}
 	setState(state: State<this>, loop: boolean = true): void {
 		this.state = state;
 		this.flg_loop = loop;
+		this.flg_initialized = false;
+		this._done = false;
+		this.generator = state.update();
 	}
 	update(): void {
 		// 状態が設定されていない場合は何もしない
@@ -53,14 +61,18 @@ export class StateMachine {
 		if (!this.flg_initialized) {
 			this.flg_initialized = true;
 			this.state.init();
-			this.generator = this.state.update();
 		}
 		// ジェネレータを回して処理
 		if (this.generator !== null) {
 			const { done } = this.generator.next();
-			// 終了後、loopフラグがONなら再度同じ処理を行う
-			if (done && this.flg_loop) {
-				this.generator = this.state.update();
+			if (done) {
+				if (this.flg_loop) {
+					// 終了後、loopフラグがONなら再度同じ処理を行う
+					this.generator = this.state.update();
+				} else {
+					this.generator = null;
+					this._done = true;
+				}
 			}
 		}
 	}
