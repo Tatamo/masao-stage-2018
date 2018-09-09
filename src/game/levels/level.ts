@@ -43,8 +43,15 @@ export abstract class AbstractLevel implements Level {
 	add(entity: Entity) {
 		this.entities.add(entity);
 	}
-	abstract update(): void;
-	abstract render(): void;
+	update() {
+		this.entities.update();
+	}
+	render() {
+		// 表示位置をマップ上の座標に合わせる
+		this.entities.container.x = -this.api.jss.getViewXReal();
+		this.entities.container.y = -this.api.jss.getViewYReal();
+		this.entities.render();
+	}
 	kill() {
 		this.stage.visible = false;
 		this.api.root.removeChild(this.stage);
