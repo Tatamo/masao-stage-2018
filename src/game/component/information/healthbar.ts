@@ -1,12 +1,13 @@
-import { AbstractState, StateMachine } from "../../statemachine";
+import { AbstractState } from "../../statemachine";
 import BezierEasing, { EasingFunction } from "bezier-easing";
 import * as PIXI from "pixi.js";
-import { GameAPI } from "../../api";
+import { Entity } from "../entities/entity";
+import { Level } from "../../levels/level";
 
 /**
  * 主人公のHPを表示するバー
  */
-export class HealthBar extends StateMachine {
+export class HealthBar extends Entity {
 	public health_rate: number;
 	public current_hp: number;
 	public readonly frame: PIXI.Sprite;
@@ -19,8 +20,8 @@ export class HealthBar extends StateMachine {
 		damage: PIXI.Texture;
 		miss: PIXI.Texture;
 	};
-	constructor(public readonly api: GameAPI, stage: PIXI.Container, public max_hp: number) {
-		super();
+	constructor(level: Level, public max_hp: number) {
+		super(level);
 		const { jss, resource } = this.api;
 		// HPを最大値として初期化
 		this.current_hp = max_hp;
@@ -28,7 +29,9 @@ export class HealthBar extends StateMachine {
 		// HPバーの枠を作成
 		this.frame = new PIXI.Sprite(resource.images["health_bar"]);
 		this.frame.position.x = this.frame.position.y = 24;
-		stage.addChild(this.frame);
+		this.container.addChild(this.frame);
+		this.x = jss.getViewXReal();
+		this.y = jss.getViewYReal();
 
 		// 伸び縮みするHBバーを作成
 		this.bar = PIXI.Sprite.from(
@@ -132,6 +135,8 @@ namespace HealthBarStates {
 	abstract class Base<P extends HealthBar> extends AbstractState<P> {
 		init(): void {}
 		render(): void {
+			this.parent.x = this.parent.api.jss.getViewXReal();
+			this.parent.y = this.parent.api.jss.getViewYReal();
 			this.parent.bar.scale.x = 128 * this.parent.health_rate;
 			this.parent.text.text = `HP: ${Math.round(this.parent.health_rate * 100)
 				.toString()
