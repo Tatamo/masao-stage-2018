@@ -14,6 +14,18 @@ export class Entity extends StateMachine {
 	get api(): GameAPI {
 		return this._api;
 	}
+	get x(): number {
+		return this.container.x;
+	}
+	set x(value: number) {
+		this.container.x = value;
+	}
+	get y(): number {
+		return this.container.y;
+	}
+	set y(value: number) {
+		this.container.y = value;
+	}
 	constructor(protected readonly _api: GameAPI) {
 		super();
 		this._alive = true;

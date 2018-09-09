@@ -74,6 +74,18 @@ export class Resource {
 			this._sounds[name] = resources[`sound_${name}`].data;
 		}
 	}
+
+	/**
+	 * 指定した名前のテクスチャが存在しなければ作成して登録し、存在すればそれをそのまま返します
+	 * @param name テクスチャ名
+	 * @param texture_callback テクスチャを返す関数 指定した名前のテクスチャが存在しない場合のみ呼び出される
+	 */
+	registerIfNecessary(name: string, texture_callback: () => PIXI.Texture): PIXI.Texture {
+		if (!this.textures.has(name)) {
+			this.textures.set(name, texture_callback());
+		}
+		return this.textures.get(name)!;
+	}
 	static createResizeTexture(texture: PIXI.Texture, width: number, height: number): PIXI.Texture {
 		const _t = texture.clone();
 		const rect = _t.frame.clone();

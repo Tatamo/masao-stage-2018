@@ -40,8 +40,8 @@ export class EntityContainer {
 	}
 	render() {
 		// 表示位置をマップ上の座標に合わせる
-		this.container.x = -(this.api.jss.getViewXReal() - 32);
-		this.container.y = -(this.api.jss.getViewYReal() - 320);
+		this.container.x = -this.api.jss.getViewXReal();
+		this.container.y = -this.api.jss.getViewYReal();
 		for (const child of this.children) {
 			if (child !== null) {
 				child.render();
