@@ -1,9 +1,9 @@
-import { AbstractState } from "../../statemachine";
+import { AbstractState } from "../../../statemachine";
 import BezierEasing, { EasingFunction } from "bezier-easing";
 import * as PIXI from "pixi.js";
-import { Entity } from "../entities/entity";
-import { Level } from "../../levels/level";
-import { Resource } from "../../resource";
+import { Entity } from "../entity";
+import { Level } from "../../../levels/level";
+import { Resource } from "../../../resource";
 
 /**
  * 主人公のHPを表示するバー
