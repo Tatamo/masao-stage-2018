@@ -15,6 +15,9 @@ export class Stage1 extends AbstractLevel {
 		this.entities.update();
 	}
 	render() {
+		// 表示位置をマップ上の座標に合わせる
+		this.entities.container.x = -this.api.jss.getViewXReal();
+		this.entities.container.y = -this.api.jss.getViewYReal();
 		this.entities.render();
 	}
 }

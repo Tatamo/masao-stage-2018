@@ -37,7 +37,7 @@ export abstract class AbstractLevel implements Level {
 	protected constructor(api: GameAPI) {
 		this._api = api;
 		this._stage = new PIXI.Container();
-		this.entities = new EntityContainer(this);
+		this.entities = new EntityContainer(this.stage);
 		api.root.addChild(this.stage);
 	}
 	add(entity: Entity) {
