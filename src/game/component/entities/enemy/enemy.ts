@@ -7,9 +7,7 @@ import { Level } from "../../../levels/level";
 export abstract class Enemy extends Entity {
 	public hp: number;
 	constructor(level: Level, x: number, y: number, hp: number) {
-		super(level);
-		this.container.x = x;
-		this.container.y = y;
+		super(level, x, y);
 		this.hp = hp;
 	}
 	/**

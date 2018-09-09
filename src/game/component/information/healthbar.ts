@@ -22,7 +22,7 @@ export class HealthBar extends Entity {
 		miss: PIXI.Texture;
 	};
 	constructor(level: Level, public max_hp: number) {
-		super(level);
+		super(level, level.api.jss.getMyYReal(), level.api.jss.getMyYReal());
 		const { jss, resource } = this.api;
 		// HPを最大値として初期化
 		this.current_hp = max_hp;

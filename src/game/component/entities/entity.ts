@@ -31,11 +31,13 @@ export class Entity extends StateMachine {
 		return this._level;
 	}
 	private readonly _level: Level;
-	constructor(level: Level) {
+	constructor(level: Level, x: number, y: number) {
 		super();
 		this._level = level;
 		this._alive = true;
 		this._container = new PIXI.Container();
+		this._container.x = x;
+		this._container.y = y;
 	}
 	kill() {
 		this._alive = false;
