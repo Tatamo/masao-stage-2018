@@ -1,36 +1,31 @@
 import * as PIXI from "pixi.js";
 import { AbstractState } from "../../../statemachine";
 import { GameAPI } from "../../../api";
-import { Entity } from "../entity";
 import { Resource } from "../../../resource";
+import { Enemy } from "./enemy";
 
 /**
  * ボス1
  */
-export class Boss1 extends Entity {
-	public hp: number;
-	public readonly normal: PIXI.Sprite;
-	public readonly damage: PIXI.Sprite;
+export class Boss1 extends Enemy {
+	public readonly sprite_normal: PIXI.Sprite;
+	public readonly sprite_damage: PIXI.Sprite;
 	constructor(api: GameAPI, x: number, y: number) {
-		super(api);
+		super(api, x, y, 100);
 		const { resource } = api;
-		const map = resource.textures;
-		this.hp = 100;
-		this.container.x = x;
-		this.container.y = y;
-		this.normal = new PIXI.Sprite(
+		this.sprite_normal = new PIXI.Sprite(
 			resource.registerIfNecessary("boss1_normal", () =>
 				Resource.createResizeTexture(resource.pattern[188], 64, 64)
 			)
 		);
-		this.damage = new PIXI.Sprite(
+		this.sprite_damage = new PIXI.Sprite(
 			resource.registerIfNecessary("boss1_damage", () =>
 				Resource.createResizeTexture(resource.pattern[178], 64, 32)
 			)
 		);
-		this.damage.y = 32;
-		this.damage.visible = false;
-		this.container.addChild(this.normal, this.damage);
+		this.sprite_damage.y = 32;
+		this.sprite_damage.visible = false;
+		this.container.addChild(this.sprite_normal, this.sprite_damage);
 		this.setState(new Boss1States.Default(this));
 	}
 }
@@ -42,8 +37,8 @@ namespace Boss1States {
 	}
 	export class Default<P extends Boss1> extends Base<P> {
 		init(): void {
-			this.parent.normal.visible = true;
-			this.parent.damage.visible = false;
+			this.parent.sprite_normal.visible = true;
+			this.parent.sprite_damage.visible = false;
 		}
 		*update(): IterableIterator<void> {
 			const { jss } = this.parent.api;
@@ -67,7 +62,7 @@ namespace Boss1States {
 					jss.addScore(10);
 
 					//  ボスのHPを減らす
-					this.parent.hp -= 20;
+					this.parent.damage(20);
 					this.parent.setState(new Damage(this.parent));
 				} else {
 					//  主人公にダメージ
@@ -83,14 +78,26 @@ namespace Boss1States {
 	}
 	export class Damage<P extends Boss1> extends Base<P> {
 		init(): void {
-			this.parent.normal.visible = false;
-			this.parent.damage.visible = true;
+			this.parent.sprite_normal.visible = false;
+			this.parent.sprite_damage.visible = true;
 		}
 		*update(): IterableIterator<void> {
 			for (let i = 0; i < 24; i++) {
 				yield;
 			}
-			this.parent.setState(new Default(this.parent));
+			if (this.parent.hp > 0) {
+				this.parent.setState(new Default(this.parent));
+			} else {
+				this.parent.setState(new Die(this.parent));
+			}
 		}
+	}
+	export class Die<P extends Boss1> extends Base<P> {
+		init(): void {
+			this.parent.sprite_normal.visible = false;
+			this.parent.sprite_damage.visible = false;
+			this.parent.kill();
+		}
+		*update(): IterableIterator<void> {}
 	}
 }
