@@ -10,7 +10,7 @@ export class Stage1 extends AbstractLevel {
 		super(api);
 		this.health_bar = new HealthBar(api, this.stage, MAX_HP);
 		api.jss.setMyMaxHP(MAX_HP);
-		this.entities.add(new Boss1(api, 384, 800 + 320));
+		this.entities.add(new Boss1(this, 384, 800 + 320));
 	}
 	update() {
 		this.health_bar.update();

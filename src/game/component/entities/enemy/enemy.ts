@@ -1,13 +1,13 @@
 import { Entity } from "../entity";
-import { GameAPI } from "../../../api";
+import { Level } from "../../../levels/level";
 
 /**
  * ボス1
  */
 export abstract class Enemy extends Entity {
 	public hp: number;
-	constructor(api: GameAPI, x: number, y: number, hp: number) {
-		super(api);
+	constructor(level: Level, x: number, y: number, hp: number) {
+		super(level);
 		this.container.x = x;
 		this.container.y = y;
 		this.hp = hp;

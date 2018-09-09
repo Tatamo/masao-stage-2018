@@ -1,8 +1,8 @@
 import * as PIXI from "pixi.js";
 import { AbstractState } from "../../../statemachine";
-import { GameAPI } from "../../../api";
 import { Resource } from "../../../resource";
 import { Enemy } from "./enemy";
+import { Level } from "../../../levels/level";
 
 /**
  * ボス1
@@ -10,9 +10,9 @@ import { Enemy } from "./enemy";
 export class Boss1 extends Enemy {
 	public readonly sprite_normal: PIXI.Sprite;
 	public readonly sprite_damage: PIXI.Sprite;
-	constructor(api: GameAPI, x: number, y: number) {
-		super(api, x, y, 100);
-		const { resource } = api;
+	constructor(level: Level, x: number, y: number) {
+		super(level, x, y, 100);
+		const { resource } = this.api;
 		this.sprite_normal = new PIXI.Sprite(
 			resource.registerIfNecessary("boss1_normal", () =>
 				Resource.createResizeTexture(resource.pattern[188], 64, 64)

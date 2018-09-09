@@ -1,6 +1,7 @@
 import * as PIXI from "pixi.js";
 import { StateMachine } from "../../statemachine";
 import { GameAPI } from "../../api";
+import { Level } from "../../levels/level";
 
 export class Entity extends StateMachine {
 	get container(): PIXI.Container {
@@ -12,7 +13,7 @@ export class Entity extends StateMachine {
 	}
 	private _alive: boolean;
 	get api(): GameAPI {
-		return this._api;
+		return this.level.api;
 	}
 	get x(): number {
 		return this.container.x;
@@ -26,8 +27,13 @@ export class Entity extends StateMachine {
 	set y(value: number) {
 		this.container.y = value;
 	}
-	constructor(protected readonly _api: GameAPI) {
+	get level(): Level {
+		return this._level;
+	}
+	private readonly _level: Level;
+	constructor(level: Level) {
 		super();
+		this._level = level;
 		this._alive = true;
 		this._container = new PIXI.Container();
 	}

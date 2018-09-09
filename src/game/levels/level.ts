@@ -5,6 +5,7 @@ import { EntityContainer } from "../component/entities/container";
 
 export interface Level {
 	readonly stage: PIXI.Container;
+	readonly api: GameAPI;
 	add(entitiy: Entity): void;
 	/**
 	 * 毎フレームの更新処理
@@ -29,10 +30,15 @@ export abstract class AbstractLevel implements Level {
 	}
 	protected readonly entities: EntityContainer;
 	protected _stage: PIXI.Container;
-	protected constructor(protected readonly api: GameAPI) {
+	get api(): GameAPI {
+		return this._api;
+	}
+	private readonly _api: GameAPI;
+	protected constructor(api: GameAPI) {
+		this._api = api;
 		this._stage = new PIXI.Container();
-		this.entities = new EntityContainer(api, this.stage);
-		this.api.root.addChild(this.stage);
+		this.entities = new EntityContainer(this);
+		api.root.addChild(this.stage);
 	}
 	add(entity: Entity) {
 		this.entities.add(entity);

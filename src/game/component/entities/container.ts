@@ -1,14 +1,17 @@
 import * as PIXI from "pixi.js";
 import { Entity } from "./entity";
 import { GameAPI } from "../../api";
+import { Level } from "../../levels/level";
 
 export class EntityContainer {
 	protected readonly container: PIXI.Container;
 	private readonly children: Array<Entity | null>;
 	private readonly unused_stack: Array<number>;
-	constructor(protected readonly api: GameAPI, stage: PIXI.Container) {
+	private readonly api: GameAPI;
+	constructor(level: Level) {
+		this.api = level.api;
 		this.container = new PIXI.Container();
-		stage.addChild(this.container);
+		level.stage.addChild(this.container);
 		this.children = [];
 		this.unused_stack = [];
 	}
