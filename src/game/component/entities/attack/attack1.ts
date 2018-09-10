@@ -2,6 +2,7 @@ import * as PIXI from "pixi.js";
 import { Entity } from "../entity";
 import { Level } from "../../../levels/level";
 import { AbstractState } from "../../../statemachine";
+import { VIEW_HEIGHT, VIEW_WIDTH } from "../../../../main";
 
 export class Attack1 extends Entity {
 	public vx: number;
@@ -37,6 +38,33 @@ namespace States {
 		*update(): IterableIterator<void> {
 			this.parent.x += this.parent.vx;
 			this.parent.y += this.parent.vy;
+
+			const { jss } = this.parent.api;
+			const x = this.parent.x;
+			const y = this.parent.y;
+			const mx: number = jss.getMyXReal();
+			const my: number = jss.getMyYReal();
+
+			const dx = x + 16 - (mx + 16);
+			const dy = y + 16 - (my + 16);
+
+			// 円形の当たり判定
+			if (dx * dx + dy * dy < 20 * 20) {
+				//  主人公にダメージ
+				jss.setMyHPDamage(3);
+
+				//  主人公が死亡
+				if (jss.getMyHP() <= 0) {
+					jss.setMyMiss(1);
+				}
+			}
+
+			// 画面外に出た場合は消滅する
+			const view_x: number = jss.getViewXReal();
+			const view_y: number = jss.getViewYReal();
+			if (x + 32 < view_x || x > view_x + VIEW_WIDTH || y + 32 < view_y || y > view_y + VIEW_HEIGHT) {
+				this.parent.kill();
+			}
 		}
 		render(): void {}
 	}

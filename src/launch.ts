@@ -1,5 +1,5 @@
 import { LoadCompleteWaiterExtension } from "./extensions/loadcompletewaiter";
-import { Main } from "./main";
+import { Main, VIEW_HEIGHT, VIEW_WIDTH } from "./main";
 import { Graphics } from "./definitions/graphics";
 import * as PIXI from "pixi.js";
 import { InitCallbackExtension } from "./extensions/initcallback";
@@ -39,7 +39,7 @@ export function launch(params: object, advancemap: object, resources: Array<{ na
 		});
 
 		graphics._ctx.fillStyle = "#000000";
-		graphics._ctx.fillRect(0, 0, 512, 320);
+		graphics._ctx.fillRect(0, 0, VIEW_WIDTH, VIEW_HEIGHT);
 		graphics._ctx.fillStyle = "#ffffff";
 		graphics._ctx.font = "16px sans-serif";
 

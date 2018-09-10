@@ -6,6 +6,8 @@ import { GameAPI } from "./game/api";
 import { Resource } from "./game/resource";
 
 export const MAX_HP = 10;
+export const VIEW_WIDTH = 512;
+export const VIEW_HEIGHT = 320;
 
 export class Main {
 	private flg_initialized: boolean;
@@ -18,8 +20,8 @@ export class Main {
 		this.flg_initialized = false;
 		this.renderer = PIXI.autoDetectRenderer({
 			// forceCanvas: true,
-			width: 512,
-			height: 320
+			width: VIEW_WIDTH,
+			height: VIEW_HEIGHT
 		});
 		const root = new PIXI.Container();
 		this.base_sprite = PIXI.Sprite.from(graphics._ctx.canvas);
