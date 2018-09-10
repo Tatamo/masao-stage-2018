@@ -39,12 +39,13 @@ namespace States {
 		private skip!: number;
 		init(): void {
 			this.skip = Math.floor(Math.random() * 360);
+			this.parent.filter.hue(this.skip);
 		}
 		*update(): IterableIterator<void> {
 			for (let i = 0; i < 360; i += 2) {
 				if (this.skip > 0) {
 					// 一番最初に一定の位相だけずらす
-					this.skip--;
+					this.skip -= 2;
 					continue;
 				}
 				this.parent.x += this.parent.vx;

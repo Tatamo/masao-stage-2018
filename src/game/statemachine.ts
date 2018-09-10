@@ -2,7 +2,7 @@ export interface State<P extends StateMachine> {
 	readonly parent: P;
 
 	/**
-	 * 現在のStateに移った際、最初のupdateの直前に呼び出される
+	 * 現在のStateに移った際に呼び出される
 	 */
 	init(): void;
 
@@ -29,6 +29,7 @@ export abstract class AbstractState<P extends StateMachine> implements State<P> 
 	abstract init(): void;
 	abstract update(): IterableIterator<void>;
 	abstract render(): void;
+	// noinspection JSMethodCanBeStatic
 	*sleep(time: number, cb?: () => void): IterableIterator<void> {
 		for (let i = 0; i < time; i++) {
 			if (cb !== undefined) cb();
@@ -42,13 +43,11 @@ export class StateMachine {
 		return this._done;
 	}
 	private state: State<this> | null;
-	private flg_initialized: boolean;
 	private flg_loop: boolean;
 	private _done: boolean;
 	private generator: IterableIterator<void> | null;
 	constructor() {
 		this.state = null;
-		this.flg_initialized = false;
 		this.flg_loop = true;
 		this._done = false;
 		this.generator = null;
@@ -56,22 +55,17 @@ export class StateMachine {
 	setState(state: State<this>, loop: boolean = true): void {
 		this.state = state;
 		this.flg_loop = loop;
-		this.flg_initialized = false;
 		this._done = false;
 		this.generator = state.update();
+		// 初期化
+		this.state.init();
 	}
 	update(): void {
 		// 状態が設定されていない場合は何もしない
 		if (this.state === null) return;
-		// 初期化
-		if (!this.flg_initialized) {
-			this.flg_initialized = true;
-			this.state.init();
-		}
 		// ジェネレータを回して処理
 		if (this.generator !== null) {
-			const { done } = this.generator.next();
-			if (done) {
+			if (this.generator.next().done) {
 				if (this.flg_loop) {
 					// 終了後、loopフラグがONなら再度同じ処理を行う
 					this.generator = this.state.update();
