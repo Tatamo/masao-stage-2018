@@ -1,6 +1,8 @@
 {
 	"masao-json-format-version": "draft-4",
 	"params": {
+		"backcolor_blue": "96",
+		"backcolor_green": "48",
 		"audio_bgm_switch_ogg": "2",
 		"audio_se_switch_ogg": "2",
 		"audio_se_switch_wave": "2",
