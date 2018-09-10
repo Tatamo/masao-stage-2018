@@ -30,7 +30,7 @@ export abstract class AbstractState<P extends StateMachine> implements State<P> 
 	abstract update(): IterableIterator<void>;
 	abstract render(): void;
 	// noinspection JSMethodCanBeStatic
-	*sleep(time: number, cb?: () => void): IterableIterator<void> {
+	protected *sleep(time: number, cb?: () => void): IterableIterator<void> {
 		for (let i = 0; i < time; i++) {
 			if (cb !== undefined) cb();
 			yield;

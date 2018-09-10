@@ -38,6 +38,7 @@ namespace States {
 	export class Default<P extends Attack1> extends AbstractState<P> {
 		private skip!: number;
 		init(): void {
+			// ランダムな位相差を設定
 			this.skip = Math.floor(Math.random() * 360);
 			this.parent.filter.hue(this.skip);
 		}
