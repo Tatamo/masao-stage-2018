@@ -3,6 +3,7 @@ import { HealthBar } from "../component/entities/information/healthbar";
 import { MAX_HP } from "../../main";
 import { GameAPI } from "../api";
 import { Boss1 } from "../component/entities/enemy/boss1";
+import { Laser1 } from "../component/entities/attack/laser1";
 
 export class Stage1 extends AbstractLevel {
 	constructor(api: GameAPI) {
@@ -10,5 +11,6 @@ export class Stage1 extends AbstractLevel {
 		api.jss.setMyMaxHP(MAX_HP);
 		this.entities.add(new HealthBar(this, MAX_HP));
 		this.entities.add(new Boss1(this, 384, 192 + 320));
+		this.entities.add(new Laser1(this, 420, 192 + 320));
 	}
 }

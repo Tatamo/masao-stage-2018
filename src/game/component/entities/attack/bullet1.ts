@@ -4,7 +4,7 @@ import { Level } from "../../../levels/level";
 import { AbstractState } from "../../../statemachine";
 import { VIEW_HEIGHT, VIEW_WIDTH } from "../../../../main";
 
-export class Attack1 extends Entity {
+export class Bullet1 extends Entity {
 	public vx: number;
 	public vy: number;
 	public filter: PIXI.filters.ColorMatrixFilter;
@@ -26,7 +26,7 @@ export class Attack1 extends Entity {
 			ctx.fill();
 			return PIXI.Texture.fromCanvas(c);
 		};
-		const sprite_body = new PIXI.Sprite(resource.registerIfNecessary("attack1_body", createTexture));
+		const sprite_body = new PIXI.Sprite(resource.registerIfNecessary("bullet1_body", createTexture));
 		sprite_body.filters = [(this.filter = new PIXI.filters.ColorMatrixFilter()), new PIXI.filters.AlphaFilter()];
 		sprite_body.filters[1].blendMode = PIXI.BLEND_MODES.ADD;
 		this.container.addChild(sprite_body);
@@ -35,7 +35,7 @@ export class Attack1 extends Entity {
 }
 
 namespace States {
-	export class Default<P extends Attack1> extends AbstractState<P> {
+	export class Default<P extends Bullet1> extends AbstractState<P> {
 		private skip!: number;
 		init(): void {
 			// ランダムな位相差を設定

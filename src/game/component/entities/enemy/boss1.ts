@@ -3,7 +3,7 @@ import { AbstractState } from "../../../statemachine";
 import { Resource } from "../../../resource";
 import { Enemy } from "./enemy";
 import { Level } from "../../../levels/level";
-import { Attack1 } from "../attack/attack1";
+import { Bullet1 } from "../attack/bullet1";
 
 /**
  * ボス1
@@ -56,7 +56,7 @@ namespace Boss1States {
 			yield* this.sleep(14);
 		}
 		attack() {
-			this.parent.level.add(new Attack1(this.parent.level, this.parent.x, this.parent.y + 16));
+			this.parent.level.add(new Bullet1(this.parent.level, this.parent.x, this.parent.y + 16));
 		}
 		checkCollision(): void {
 			const { jss } = this.parent.api;
