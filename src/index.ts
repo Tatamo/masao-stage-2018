@@ -52,26 +52,3 @@ const params = {
 };
 
 launch(params, am!, assets);
-
-/*
-// canvasを試しに作ってみる
-const make = () => {
-	const c = document.createElement("canvas");
-	c.width = c.height = 32;
-	const ctx = c.getContext("2d")!;
-	const grad = ctx.createLinearGradient(0, 0, 0, 32);
-	grad.addColorStop(0, "#ff000000");
-	grad.addColorStop(0.2, "#ff0000ff");
-	grad.addColorStop(0.4, "#ffffffff");
-	grad.addColorStop(0.6, "#ffffffff");
-	grad.addColorStop(0.8, "#ff0000ff");
-	grad.addColorStop(1, "#ff000000");
-	ctx.fillStyle = grad;
-	ctx.fillRect(0, 0, 32, 32);
-	// ctx.arc(16, 16, 16, 0, 2 * Math.PI);
-	// ctx.fill();
-	return c;
-};
-
-document.body.appendChild(make());
-*/

@@ -20,6 +20,10 @@
     "path": "assets/images/health_bar.png"
   },
   {
+    "name": "long_bullet_image",
+    "path": "assets/images/long_bullet.png"
+  },
+  {
     "name": "bakuhatu_sound",
     "path": "assets/sounds/bakuhatu.mp3"
   },

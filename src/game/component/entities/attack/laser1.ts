@@ -13,6 +13,7 @@ export class Laser1 extends Entity {
 		this.vx = -4;
 		this.vy = 0;
 		const { resource } = this.api;
+		/*
 		const createTexture = (): PIXI.Texture => {
 			const c = document.createElement("canvas");
 			c.width = c.height = 32;
@@ -29,9 +30,11 @@ export class Laser1 extends Entity {
 			return PIXI.Texture.fromCanvas(c);
 		};
 		this.sprite = new PIXI.Sprite(resource.registerIfNecessary("laser1_body", createTexture));
+		*/
+		this.sprite = new PIXI.Sprite(resource.images["long_bullet"]);
 		this.sprite.filters = [(this.filter = new PIXI.filters.ColorMatrixFilter()), new PIXI.filters.AlphaFilter()];
 		this.sprite.filters[1].blendMode = PIXI.BLEND_MODES.ADD;
-		this.sprite.anchor.x = 1;
+		this.sprite.anchor.x = 0.5;
 		this.sprite.anchor.y = 0.5;
 		this.container.addChild(this.sprite);
 		this.setState(new States.Default(this));
@@ -42,7 +45,7 @@ namespace States {
 	export class Default<P extends Laser1> extends AbstractState<P> {
 		init(): void {}
 		*update(): IterableIterator<void> {
-			this.parent.sprite.width += 32;
+			this.parent.sprite.width *= 1.5;
 		}
 		render(): void {}
 	}
