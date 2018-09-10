@@ -3,6 +3,7 @@ import { AbstractState } from "../../../statemachine";
 import { Resource } from "../../../resource";
 import { Enemy } from "./enemy";
 import { Level } from "../../../levels/level";
+import { Attack1 } from "../attack/attack1";
 
 /**
  * ボス1
@@ -41,6 +42,23 @@ namespace Boss1States {
 			this.parent.sprite_damage.visible = false;
 		}
 		*update(): IterableIterator<void> {
+			// フレームごとにmove()の動きを行うとともに当たり判定を処理する
+			for (const _ of this.move()) {
+				this.checkCollision();
+				yield;
+			}
+		}
+		*move(): IterableIterator<void> {
+			for (let i = 0; i < 3; i++) {
+				this.attack();
+				yield* this.sleep(14);
+			}
+			yield* this.sleep(14);
+		}
+		attack() {
+			this.parent.level.add(new Attack1(this.parent.level, this.parent.x, this.parent.y + 16));
+		}
+		checkCollision(): void {
 			const { jss } = this.parent.api;
 			const m_x = jss.getMyXReal();
 			const m_y = jss.getMyYReal();

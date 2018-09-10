@@ -29,6 +29,12 @@ export abstract class AbstractState<P extends StateMachine> implements State<P> 
 	abstract init(): void;
 	abstract update(): IterableIterator<void>;
 	abstract render(): void;
+	*sleep(time: number, cb?: () => void): IterableIterator<void> {
+		for (let i = 0; i < time; i++) {
+			if (cb !== undefined) cb();
+			yield;
+		}
+	}
 }
 
 export class StateMachine {
