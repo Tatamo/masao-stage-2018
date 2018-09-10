@@ -45,7 +45,7 @@ namespace States {
 	export class Default<P extends Laser1> extends AbstractState<P> {
 		init(): void {}
 		*update(): IterableIterator<void> {
-			this.parent.sprite.width *= 1.5;
+			this.parent.sprite.width += 16;
 		}
 		render(): void {}
 	}

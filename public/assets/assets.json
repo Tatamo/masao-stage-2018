@@ -24,6 +24,10 @@
     "path": "assets/images/long_bullet.png"
   },
   {
+    "name": "slit_image",
+    "path": "assets/images/slit.png"
+  },
+  {
     "name": "bakuhatu_sound",
     "path": "assets/sounds/bakuhatu.mp3"
   },

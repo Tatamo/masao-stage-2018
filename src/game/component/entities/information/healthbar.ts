@@ -114,7 +114,7 @@ export class HealthBar extends Entity {
 		ee.on("miss", () => {
 			this.setFaceTexture("miss");
 			// もう使わないのでEventEmitterの登録を解除する
-			jss.removePlayerEventEmitter();
+			jss.removePlayerEventEmitter(ee);
 		});
 
 		this.setState(new HealthBarStates.Default(this));

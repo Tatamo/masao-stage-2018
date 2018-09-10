@@ -43,7 +43,7 @@ export class Entity extends StateMachine {
 		this._alive = false;
 	}
 	update() {
-		super.update();
 		if (this.done && this.alive) this.kill();
+		else super.update();
 	}
 }

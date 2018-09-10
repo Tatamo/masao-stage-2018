@@ -6,6 +6,9 @@ export class EntityContainer {
 		return this._container;
 	}
 	private readonly _container: PIXI.Container;
+	get size(): number {
+		return this.children.length - this.unused_stack.length;
+	}
 	private readonly children: Array<Entity | null>;
 	private readonly unused_stack: Array<number>;
 	constructor(parent: PIXI.Container) {
