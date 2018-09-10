@@ -4,91 +4,91 @@
     "path": "assets/images/pattern.json"
   },
   {
-    "name": "title",
+    "name": "title_image",
     "path": "assets/images/title.gif"
   },
   {
-    "name": "gameover",
+    "name": "gameover_image",
     "path": "assets/images/gameover.gif"
   },
   {
-    "name": "ending",
+    "name": "ending_image",
     "path": "assets/images/ending.gif"
   },
   {
-    "name": "health_bar",
+    "name": "health_bar_image",
     "path": "assets/images/health_bar.png"
   },
   {
-    "name": "sound_bakuhatu",
+    "name": "bakuhatu_sound",
     "path": "assets/sounds/bakuhatu.mp3"
   },
   {
-    "name": "sound_clear",
+    "name": "clear_sound",
     "path": "assets/sounds/clear.mp3"
   },
   {
-    "name": "sound_coin",
+    "name": "coin_sound",
     "path": "assets/sounds/coin.mp3"
   },
   {
-    "name": "sound_dosun",
+    "name": "dosun_sound",
     "path": "assets/sounds/dosun.mp3"
   },
   {
-    "name": "sound_fumu",
+    "name": "fumu_sound",
     "path": "assets/sounds/fumu.mp3"
   },
   {
-    "name": "sound_gameover",
+    "name": "gameover_sound",
     "path": "assets/sounds/gameover.mp3"
   },
   {
-    "name": "sound_get",
+    "name": "get_sound",
     "path": "assets/sounds/get.mp3"
   },
   {
-    "name": "sound_happa",
+    "name": "happa_sound",
     "path": "assets/sounds/happa.mp3"
   },
   {
-    "name": "sound_item",
+    "name": "item_sound",
     "path": "assets/sounds/item.mp3"
   },
   {
-    "name": "sound_jump",
+    "name": "jump_sound",
     "path": "assets/sounds/jump.mp3"
   },
   {
-    "name": "sound_kiki",
+    "name": "kiki_sound",
     "path": "assets/sounds/kiki.mp3"
   },
   {
-    "name": "sound_mgan",
+    "name": "mgan_sound",
     "path": "assets/sounds/mgan.mp3"
   },
   {
-    "name": "sound_mizu",
+    "name": "mizu_sound",
     "path": "assets/sounds/mizu.mp3"
   },
   {
-    "name": "sound_shot",
+    "name": "shot_sound",
     "path": "assets/sounds/shot.mp3"
   },
   {
-    "name": "sound_sjump",
+    "name": "sjump_sound",
     "path": "assets/sounds/sjump.mp3"
   },
   {
-    "name": "sound_stage1",
+    "name": "stage1_sound",
     "path": "assets/sounds/stage1.mp3"
   },
   {
-    "name": "sound_title",
+    "name": "title_sound",
     "path": "assets/sounds/title.mp3"
   },
   {
-    "name": "sound_tobasu",
+    "name": "tobasu_sound",
     "path": "assets/sounds/tobasu.mp3"
   }
 ]

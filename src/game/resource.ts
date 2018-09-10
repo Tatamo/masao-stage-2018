@@ -38,41 +38,21 @@ export class Resource {
 		for (let i = 0; i < 250; i++) {
 			this._pattern[i] = resources["pattern"].textures![`pattern_${i}`];
 		}
-		this._images = {
-			pattern: resources["pattern_image"].texture,
-			title: resources["title"].texture,
-			gameover: resources["gameover"].texture,
-			ending: resources["ending"].texture,
-			health_bar: resources["health_bar"].texture
-		};
 
-		this._textures = new Map();
-
-		const sounds = [
-			"bakuhatu",
-			"clear",
-			"coin",
-			"dosun",
-			"fumu",
-			"gameover",
-			"get",
-			"happa",
-			"item",
-			"jump",
-			"kiki",
-			"mgan",
-			"mizu",
-			"shot",
-			"sjump",
-			"stage1",
-			"title",
-			"tobasu"
-		];
-
+		this._images = {};
 		this._sounds = {};
-		for (const name of sounds) {
-			this._sounds[name] = resources[`sound_${name}`].data;
+		for (const [label, resource] of Object.entries(resources)) {
+			const image = /^(.*)_image$/.exec(label);
+			if (image !== null) {
+				this._images[image[1]] = resource.texture;
+				continue;
+			}
+			const sound = /^(.*)_sound$/.exec(label);
+			if (sound !== null) {
+				this._sounds[sound[1]] = resource.data;
+			}
 		}
+		this._textures = new Map();
 	}
 
 	/**
