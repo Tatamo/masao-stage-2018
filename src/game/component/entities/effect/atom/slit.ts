@@ -17,10 +17,10 @@ export class SlitEffect extends Entity {
 		this.sprite.scale.y = 0.1 + scale * 0.4;
 		this.sprite.blendMode = PIXI.BLEND_MODES.ADD;
 		this.container.addChild(this.sprite);
-		this.setState(new SEStates.Default(this), false);
+		this.setState(new States.Default(this), false);
 	}
 }
-namespace SEStates {
+namespace States {
 	export class Default<P extends SlitEffect> extends AbstractState<P> {
 		init(): void {}
 		*update(): IterableIterator<void> {

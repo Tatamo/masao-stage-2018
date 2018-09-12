@@ -28,6 +28,10 @@
     "path": "assets/images/slit.png"
   },
   {
+    "name": "shockwave_image",
+    "path": "assets/images/shockwave.png"
+  },
+  {
     "name": "bakuhatu_sound",
     "path": "assets/sounds/bakuhatu.mp3"
   },
