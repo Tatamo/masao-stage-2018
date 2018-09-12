@@ -11,9 +11,18 @@ export class EntityContainer {
 	}
 	private readonly children: Array<Entity | null>;
 	private readonly unused_stack: Array<number>;
-	constructor(parent: PIXI.Container) {
-		this._container = new PIXI.Container();
-		parent.addChild(this._container);
+
+	/**
+	 * @param container
+	 * @param as_a_child boolean default:true falseにすると第一引数で与えられたコンテナをそのまま使用するが、trueの場合は自身で新しくコンテナを作成して子として追加する
+	 */
+	constructor(container: PIXI.Container, as_a_child: boolean = true) {
+		if (as_a_child) {
+			this._container = new PIXI.Container();
+			container.addChild(this._container);
+		} else {
+			this._container = container;
+		}
 		this.children = [];
 		this.unused_stack = [];
 	}
