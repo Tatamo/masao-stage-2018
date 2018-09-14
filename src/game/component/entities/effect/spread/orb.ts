@@ -13,21 +13,7 @@ export class Orb extends Entity {
 		this.vx = this.speed * Math.cos(rad);
 		this.vy = this.speed * Math.sin(rad);
 		const { resource } = this.api;
-		// Bullet1で使ったものと同じ描き方で色が青
-		const createTexture = (): PIXI.Texture => {
-			const c = document.createElement("canvas");
-			c.width = c.height = 32;
-			const ctx = c.getContext("2d")!;
-			const grad = ctx.createRadialGradient(16, 16, 6, 16, 16, 16);
-			grad.addColorStop(0, "#ffffffff");
-			grad.addColorStop(0.4, "#0000ffff");
-			grad.addColorStop(1, "#0000ff00");
-			ctx.fillStyle = grad;
-			ctx.arc(16, 16, 16, 0, 2 * Math.PI);
-			ctx.fill();
-			return PIXI.Texture.fromCanvas(c);
-		};
-		this.sprite = new PIXI.Sprite(resource.registerIfNecessary("charge_effect_orb", createTexture));
+		this.sprite = new PIXI.Sprite(resource.images["bullet_blue"]);
 		this.sprite.filters = [(this.filter = new PIXI.filters.ColorMatrixFilter()), new PIXI.filters.AlphaFilter()];
 		// this.sprite.filters[1].blendMode = PIXI.BLEND_MODES.ADD;
 		const s = 0.25 * Math.random();
