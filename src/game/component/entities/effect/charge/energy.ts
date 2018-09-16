@@ -20,11 +20,14 @@ export class Energy extends Entity {
 		this.y = to_y - distance * Math.sin(rad);
 		const { resource } = this.api;
 		this.sprite = new PIXI.Sprite(resource.images["bullet_blue"]);
+		this.sprite.anchor.x = 0.5;
+		this.sprite.anchor.y = 0.5;
 		this.sprite.filters = [(this.filter = new PIXI.filters.ColorMatrixFilter()), new PIXI.filters.AlphaFilter()];
 		// this.sprite.filters[1].blendMode = PIXI.BLEND_MODES.ADD;
 		const s = 0.25 * Math.random();
 		this.sprite.scale.x = 0.25 + s;
 		this.sprite.scale.y = 0.25 + s;
+
 		this.sprite.alpha = 0.15;
 		this.container.addChild(this.sprite);
 		this.setState(new States.Default(this), false);

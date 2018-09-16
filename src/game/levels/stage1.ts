@@ -16,7 +16,7 @@ export class Stage1 extends AbstractLevel {
 		jss.setMyMaxHP(MAX_HP);
 		this.entities.add(new HealthBar(this, MAX_HP));
 		this.entities.add(new Boss1(this, 384, 192 + 320));
-		this.entities.add(new ChargeEffect(this, 320, 160 + 320));
+		this.entities.add(new ChargeEffect(this, 384 - 8, 224 + 320));
 		// this.entities.add(new Laser1(this, 420, 192 + 320));
 
 		// 主人公の行動を監視する

@@ -56,7 +56,7 @@ namespace Boss1States {
 			yield* this.sleep(14);
 		}
 		attack() {
-			this.parent.level.add(new Bullet1(this.parent.level, this.parent.x, this.parent.y + 16));
+			this.parent.level.add(new Bullet1(this.parent.level, this.parent.x + 16, this.parent.y + 32));
 		}
 		checkCollision(): void {
 			const { jss } = this.parent.api;

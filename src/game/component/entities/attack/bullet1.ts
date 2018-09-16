@@ -15,6 +15,8 @@ export class Bullet1 extends Entity {
 		this.vy = 0;
 		const { resource } = this.api;
 		const sprite_body = new PIXI.Sprite(resource.images["bullet_red"]);
+		sprite_body.anchor.x = 0.5;
+		sprite_body.anchor.y = 0.5;
 		sprite_body.filters = [
 			(this.filter = new PIXI.filters.ColorMatrixFilter()),
 			// new GlowFilter(2, 2, 0, 0xffffff),
@@ -50,8 +52,8 @@ namespace States {
 				const mx: number = jss.getMyXReal();
 				const my: number = jss.getMyYReal();
 
-				const dx = x + 16 - (mx + 16);
-				const dy = y + 16 - (my + 16);
+				const dx = x - (mx + 16);
+				const dy = y - (my + 16);
 
 				// 円形の当たり判定
 				if (dx * dx + dy * dy < 20 * 20) {
