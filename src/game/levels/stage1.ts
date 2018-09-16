@@ -6,7 +6,8 @@ import { Boss1 } from "../component/entities/enemy/boss1";
 import * as PIXI from "pixi.js";
 // import { Laser1 } from "../component/entities/attack/laser1";
 import { PlayerAttack } from "../component/entities/effect/playerattack";
-import { SpreadEffect } from "../component/entities/effect/spread";
+// import { SpreadEffect } from "../component/entities/effect/spread";
+import { ChargeEffect } from "../component/entities/effect/charge";
 
 export class Stage1 extends AbstractLevel {
 	constructor(api: GameAPI) {
@@ -15,7 +16,7 @@ export class Stage1 extends AbstractLevel {
 		jss.setMyMaxHP(MAX_HP);
 		this.entities.add(new HealthBar(this, MAX_HP));
 		this.entities.add(new Boss1(this, 384, 192 + 320));
-		this.entities.add(new SpreadEffect(this, 320, 160 + 320));
+		this.entities.add(new ChargeEffect(this, 320, 160 + 320));
 		// this.entities.add(new Laser1(this, 420, 192 + 320));
 
 		// 主人公の行動を監視する
