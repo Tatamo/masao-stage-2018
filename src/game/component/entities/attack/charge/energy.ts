@@ -23,12 +23,12 @@ export class Energy extends Entity {
 		this.sprite.anchor.x = 0.5;
 		this.sprite.anchor.y = 0.5;
 		this.sprite.filters = [(this.filter = new PIXI.filters.ColorMatrixFilter()), new PIXI.filters.AlphaFilter()];
-		// this.sprite.filters[1].blendMode = PIXI.BLEND_MODES.ADD;
+		this.sprite.filters[1].blendMode = PIXI.BLEND_MODES.ADD;
 		const s = 0.25 * Math.random();
 		this.sprite.scale.x = 0.25 + s;
 		this.sprite.scale.y = 0.25 + s;
 
-		this.sprite.alpha = 0.15;
+		this.sprite.alpha = 0.1;
 		this.container.addChild(this.sprite);
 		this.setState(new States.Default(this), false);
 	}
@@ -50,6 +50,7 @@ namespace States {
 			for (let i = 0; i < this.parent.timespan; i++) {
 				this.parent.x = this.parent.to_x - dx * (1 - easing(i / this.parent.timespan));
 				this.parent.y = this.parent.to_y - dy * (1 - easing(i / this.parent.timespan));
+				// this.parent.sprite.alpha = 0.05 + 0.1 * easing(i / this.parent.timespan);
 				yield;
 			}
 

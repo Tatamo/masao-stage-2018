@@ -7,23 +7,23 @@ import * as PIXI from "pixi.js";
 // import { Laser1 } from "../component/entities/attack/laser1";
 import { PlayerAttack } from "../component/entities/effect/playerattack";
 // import { SpreadEffect } from "../component/entities/effect/spread";
-import { ChargeEffect } from "../component/entities/effect/charge";
+// import { ChargeAttack } from "../component/entities/effect/charge";
 
 export class Stage1 extends AbstractLevel {
 	constructor(api: GameAPI) {
 		super(api);
 		const { jss } = api;
 		jss.setMyMaxHP(MAX_HP);
-		this.entities.add(new HealthBar(this, MAX_HP));
-		this.entities.add(new Boss1(this, 384, 192 + 320));
-		this.entities.add(new ChargeEffect(this, 384 - 8, 224 + 320));
-		// this.entities.add(new Laser1(this, 420, 192 + 320));
+		this.add(new HealthBar(this, MAX_HP));
+		this.add(new Boss1(this, 384, 192 + 320));
+		// this.add(new ChargeAttack(this, 384 - 8, 224 + 320));
+		// this.add(new Laser1(this, 420, 192 + 320));
 
 		// 主人公の行動を監視する
 		const ee: PIXI.utils.EventEmitter = jss.createPlayerEventEmitter();
 		ee.on("fumu", () => {
 			// 敵を踏んだ時にエフェクトを発生させる
-			this.entities.add(new PlayerAttack(this, jss.getMyXReal() + 16, jss.getMyYReal() + 32));
+			this.add(new PlayerAttack(this, jss.getMyXReal() + 16, jss.getMyYReal() + 32));
 		});
 		ee.on("miss", () => {
 			// もう使わないのでEventEmitterの登録を解除する

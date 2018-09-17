@@ -4,6 +4,7 @@ import { Resource } from "../../../resource";
 import { Enemy } from "./enemy";
 import { Level } from "../../../levels/level";
 import { Bullet1 } from "../attack/bullet1";
+import { ChargeAttack } from "../attack/charge";
 
 /**
  * ボス1
@@ -49,11 +50,15 @@ namespace Boss1States {
 			}
 		}
 		*move(): IterableIterator<void> {
+			this.parent.level.add(new ChargeAttack(this.parent.level, this.parent.x - 8, this.parent.y + 32));
+
+			/*
 			for (let i = 0; i < 3; i++) {
 				this.attack();
 				yield* this.sleep(14);
 			}
-			yield* this.sleep(14);
+			*/
+			yield* this.sleep(140);
 		}
 		attack() {
 			this.parent.level.add(new Bullet1(this.parent.level, this.parent.x + 16, this.parent.y + 32));

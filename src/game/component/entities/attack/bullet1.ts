@@ -9,12 +9,14 @@ export class Bullet1 extends Entity {
 	public vx: number;
 	public vy: number;
 	public filter: PIXI.filters.ColorMatrixFilter;
-	constructor(level: Level, x: number, y: number) {
+	public theta: number;
+	constructor(level: Level, x: number, y: number, theta?: number | null) {
 		super(level, x, y);
 		this.vx = -4;
 		this.vy = 0;
+		this.theta = theta === null || theta === undefined ? Math.random() * 2 * Math.PI : theta;
 		const { resource } = this.api;
-		const sprite_body = new PIXI.Sprite(resource.images["bullet_red"]);
+		const sprite_body = new PIXI.Sprite(resource.images["bullet_blue"]);
 		sprite_body.anchor.x = 0.5;
 		sprite_body.anchor.y = 0.5;
 		sprite_body.filters = [
@@ -32,8 +34,8 @@ namespace States {
 	export class Default<P extends Bullet1> extends AbstractState<P> {
 		private skip!: number;
 		init(): void {
-			// ランダムな位相差を設定
-			this.skip = Math.floor(Math.random() * 360);
+			// 位相差を設定
+			this.skip = this.parent.theta;
 			this.parent.filter.hue(this.skip);
 		}
 		*update(): IterableIterator<void> {
