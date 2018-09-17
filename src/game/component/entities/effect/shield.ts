@@ -42,6 +42,8 @@ namespace States {
 	}
 	export class Showing<P extends Shield> extends AbstractState<P> {
 		*update(): IterableIterator<void> {
+			this.parent._on = true;
+			this.parent.container.visible = true;
 			// マスクを設定
 			const createTexture = () => {
 				const c = document.createElement("canvas");
@@ -95,7 +97,6 @@ namespace States {
 			for (let i = 0; i < timespan; i++) {
 				if (i < 6) shockwave.alpha = 0;
 				else shockwave.alpha = 1;
-				if (i === 6) this.parent._on = true;
 				mask.y = 10 + 6 * timespan * easing(i / timespan);
 				shockwave.y = -64 - 8 + 6 * timespan * easing(i / timespan);
 				shockwave.scale.x = 0.8 * Math.sin(easing(i / timespan) * Math.PI);

@@ -51,6 +51,7 @@ namespace Boss1States {
 			}
 		}
 		*move(): IterableIterator<void> {
+			if (!this.parent.shield.on) this.parent.shield.show();
 			yield* this.sleep(24);
 			// this.parent.setState(new ChargeAttackState(this.parent));
 			this.parent.setState(new ShieldAttackState(this.parent));
@@ -127,6 +128,7 @@ namespace Boss1States {
 				yield;
 			}
 			if (this.parent.hp > 0) {
+				this.parent.shield.show();
 				this.parent.setState(new Default(this.parent));
 			} else {
 				this.parent.setState(new Die(this.parent));
