@@ -125,13 +125,13 @@ namespace Boss1States {
 			this.parent.sprite_damage.visible = true;
 		}
 		*update(): IterableIterator<void> {
-			for (let i = 0; i < 24; i++) {
-				yield;
-			}
+			yield* this.sleep(16);
 			if (this.parent.hp > 0) {
 				this.parent.shield.show();
+				yield* this.sleep(6, () => this.parent.shield.update());
 				this.parent.setState(new Default(this.parent));
 			} else {
+				yield* this.sleep(8);
 				this.parent.setState(new Die(this.parent));
 			}
 		}
