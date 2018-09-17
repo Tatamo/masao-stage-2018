@@ -3,7 +3,7 @@ import { EntityContainer } from "../../container";
 import { Level } from "../../../../levels/level";
 import { AbstractState } from "../../../../statemachine";
 import { SlitEffect } from "./slit";
-import { ShockWaveEffect } from "./shockwave";
+import { JaggyShockWaveEffect } from "./shockwave";
 
 /**
  * 主人公が敵を攻撃した際のエフェクト
@@ -36,7 +36,7 @@ namespace States {
 					const size_init = ((Math.random() * 2 + 1) * 32) / 3;
 					const size_end = ((Math.random() * 2 + 1) * 96) / 3;
 					this.parent.entities.add(
-						new ShockWaveEffect(
+						new JaggyShockWaveEffect(
 							this.parent.level,
 							0,
 							0,

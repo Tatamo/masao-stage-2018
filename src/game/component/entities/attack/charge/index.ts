@@ -6,6 +6,7 @@ import { Energy } from "./energy";
 import { Bullet } from "./bullet";
 import BezierEasing from "bezier-easing";
 import * as PIXI from "pixi.js";
+import { SmoothShockWaveEffect } from "./smoothshockwave";
 
 export class ChargeAttack extends Entity {
 	public readonly entities: EntityContainer;
@@ -42,9 +43,9 @@ namespace States {
 			this.parent.entities.destroy();
 			this.parent.sprite_body.alpha = 1;
 			this.parent.sprite_body.scale.x = this.parent.sprite_body.scale.y = 1.6;
-			// this.parent.charge_finished = true;
+			// 3連射
 			for (let i = 1.6; i > 1; i -= 0.3) {
-				this.parent.level.add(new Bullet(this.parent.level, this.parent.x, this.parent.y));
+				this.attack();
 				this.parent.sprite_body.scale.x = this.parent.sprite_body.scale.y = i;
 				for (let ii = 0; ii < 8; ii++) {
 					this.parent.sprite_body.scale.x = this.parent.sprite_body.scale.y = i - 0.3 * easing(ii / 8);
@@ -52,13 +53,20 @@ namespace States {
 				}
 				yield* this.sleep(2);
 			}
-			this.parent.level.add(new Bullet(this.parent.level, this.parent.x, this.parent.y));
+			this.attack();
+			// アニメーションさせながら消滅させる
 			this.parent.sprite_body.blendMode = PIXI.BLEND_MODES.ADD;
 			for (let ii = 0; ii < 8; ii++) {
 				this.parent.sprite_body.alpha = 1 - ii / 8;
 				this.parent.sprite_body.scale.x = this.parent.sprite_body.scale.y = 1 - easing(ii / 8);
 				yield;
 			}
+		}
+		attack() {
+			this.parent.level.add(new Bullet(this.parent.level, this.parent.x, this.parent.y));
+			this.parent.level.add(
+				new SmoothShockWaveEffect(this.parent.level, this.parent.x, this.parent.y, Math.PI, 16, 32, 48, 96)
+			);
 		}
 		*charge(): IterableIterator<void> {
 			for (let i = 0; i < 6; i++) {
