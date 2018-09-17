@@ -25,14 +25,22 @@ export class Shield extends Entity {
 		this.show();
 	}
 	show(): void {
-		this.setState(new States.Show(this));
+		this.setState(new States.Showing(this));
 	}
-	hide(): void {}
+	hide(): void {
+		this.setState(new States.Hide(this));
+	}
 }
 
 namespace States {
 	export class Default<P extends Shield> extends AbstractState<P> {}
-	export class Show<P extends Shield> extends AbstractState<P> {
+	export class Hide<P extends Shield> extends AbstractState<P> {
+		init() {
+			this.parent._on = false;
+			this.parent.container.visible = false;
+		}
+	}
+	export class Showing<P extends Shield> extends AbstractState<P> {
 		*update(): IterableIterator<void> {
 			// マスクを設定
 			const createTexture = () => {
@@ -87,6 +95,7 @@ namespace States {
 			for (let i = 0; i < timespan; i++) {
 				if (i < 6) shockwave.alpha = 0;
 				else shockwave.alpha = 1;
+				if (i === 6) this.parent._on = true;
 				mask.y = 10 + 6 * timespan * easing(i / timespan);
 				shockwave.y = -64 - 8 + 6 * timespan * easing(i / timespan);
 				shockwave.scale.x = 0.8 * Math.sin(easing(i / timespan) * Math.PI);
