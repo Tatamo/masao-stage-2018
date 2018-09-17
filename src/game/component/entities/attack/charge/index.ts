@@ -65,7 +65,7 @@ namespace States {
 		attack() {
 			this.parent.level.add(new Bullet(this.parent.level, this.parent.x, this.parent.y));
 			this.parent.level.add(
-				new SmoothShockWaveEffect(this.parent.level, this.parent.x, this.parent.y, Math.PI, 16, 32, 48, 96)
+				new SmoothShockWaveEffect(this.parent.level, this.parent.x - 8, this.parent.y, Math.PI, 16, 32, 48, 96)
 			);
 		}
 		*charge(): IterableIterator<void> {

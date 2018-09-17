@@ -15,7 +15,7 @@ export class JaggyShockWaveEffect extends ShockWaveEffect {
 	) {
 		super(
 			level,
-			new PIXI.Sprite(level.api.resource.images["shockwave"]),
+			new PIXI.Sprite(level.api.resource.images["shockwave_jaggy"]),
 			x,
 			y,
 			rad,

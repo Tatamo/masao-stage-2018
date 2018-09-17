@@ -108,6 +108,7 @@ namespace Boss1States {
 			const m_x = jss.getMyXReal() + 16;
 			const m_y = jss.getMyYReal() + 16;
 			const direction = Math.atan2(m_y - (this.parent.y + 32), m_x - (this.parent.x + 32));
+			// 複数同時に発射する
 			for (let speed = 8; speed < 32; speed += 4) {
 				this.parent.level.add(
 					new ShieldAttack(this.parent.level, this.parent.x + 32, this.parent.y + 32, direction, speed)

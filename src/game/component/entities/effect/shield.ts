@@ -65,24 +65,8 @@ namespace States {
 			this.parent.container.mask = mask;
 			mask.y = 10;
 
-			// 輪っかのスプライトを生成
-			const shockwave = new PIXI.Sprite(
-				this.parent.level.api.resource.registerIfNecessary("smooth_shockwave", () => {
-					const c = document.createElement("canvas");
-					c.width = c.height = 64;
-					const ctx = c.getContext("2d")!;
-					const grad = ctx.createRadialGradient(28, 16, 2, 16, 16, 16);
-					grad.addColorStop(0, "#ffffff00");
-					grad.addColorStop(0.5, "#ffffff00");
-					grad.addColorStop(0.9, "#ffffffff");
-					grad.addColorStop(1, "#ffffff00");
-					ctx.fillStyle = grad;
-					ctx.scale(1, 2);
-					ctx.arc(16, 16, 16, 0, 2 * Math.PI);
-					ctx.fill();
-					return PIXI.Texture.fromCanvas(c);
-				})
-			);
+			// 輪っかのスプライトを用意
+			const shockwave = new PIXI.Sprite(this.parent.level.api.resource.images["shockwave_asymmetry"]);
 			shockwave.anchor.set(0.5, 0.5);
 			shockwave.scale.set(0.8, 1.6);
 			shockwave.y = -64 - 8;
