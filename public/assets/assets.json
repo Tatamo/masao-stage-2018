@@ -40,6 +40,10 @@
     "path": "assets/images/shockwave.png"
   },
   {
+    "name": "shield_image",
+    "path": "assets/images/shield.png"
+  },
+  {
     "name": "bakuhatu_sound",
     "path": "assets/sounds/bakuhatu.mp3"
   },

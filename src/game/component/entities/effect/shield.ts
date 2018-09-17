@@ -16,25 +16,8 @@ export class Shield extends Entity {
 		super(level, x, y);
 		this._on = true;
 		const { resource } = this.api;
-		const createTexture = (): PIXI.Texture => {
-			const c = document.createElement("canvas");
-			c.width = c.height = 64;
-			const ctx = c.getContext("2d")!;
-			const grad = ctx.createRadialGradient(16, 16, 2, 16, 16, 16);
-			grad.addColorStop(0, "#ffffffff");
-			grad.addColorStop(0.9, "#ffffffff");
-			grad.addColorStop(1, "#ffffff00");
-			ctx.fillStyle = grad;
-			ctx.scale(2, 2);
-			ctx.arc(16, 16, 16, 0, 2 * Math.PI);
-			ctx.fill();
-			return PIXI.Texture.fromCanvas(c);
-		};
-		this.sprite = new PIXI.Sprite(resource.registerIfNecessary("shield_body", createTexture));
-		this.sprite.filters = [
-			new GlowFilter(10, 6, 2, 0x00ffff),
-			(this.alpha_filter = new PIXI.filters.AlphaFilter(0))
-		];
+		this.sprite = new PIXI.Sprite(resource.images["shield"]);
+		this.sprite.filters = [(this.alpha_filter = new PIXI.filters.AlphaFilter(0))];
 		this.sprite.anchor.x = this.sprite.anchor.y = 0.5;
 		this.sprite.scale.x = this.sprite.scale.y = 1.2;
 		this.container.addChild(this.sprite);
