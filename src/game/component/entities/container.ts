@@ -66,7 +66,7 @@ export class EntityContainer {
 	}
 	destroy() {
 		this.container.visible = false;
-		this.container.destroy({ children: true });
+		this.container.destroy();
 		this._alive = false;
 	}
 }

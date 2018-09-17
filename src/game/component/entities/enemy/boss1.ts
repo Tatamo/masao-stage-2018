@@ -7,6 +7,8 @@ import { Bullet1 } from "../attack/bullet1";
 import { ChargeAttack } from "../attack/charge";
 import { Shield } from "../effect/shield";
 import { ShieldAttack } from "../attack/shield";
+import { EntityContainer } from "../container";
+import { SmoothShockWaveEffect } from "../effect/smoothshockwave";
 
 /**
  * ボス1
@@ -104,6 +106,40 @@ namespace Boss1States {
 	}
 	export class ShieldAttackState<P extends Boss1> extends Default<P> {
 		*move(): IterableIterator<void> {
+			const shield = new PIXI.Sprite(this.parent.api.resource.images["shield"]);
+			shield.anchor.set(0.5);
+			shield.scale.set(1.2);
+			shield.position.set(32);
+			shield.alpha = 0;
+			this.parent.container.addChildAt(shield, 1);
+			const entities = new EntityContainer(this.parent.container);
+			let cnt = 0;
+			for (let i = 0; i < 3; i++) {
+				entities.add(
+					new SmoothShockWaveEffect(
+						this.parent.level,
+						32,
+						32,
+						0,
+						160 + i * 4,
+						160 + i * 4,
+						64,
+						64,
+						32 + i * 2
+					)
+				);
+				for (let ii = 0; ii < [12, 8, 12][i]; ii++) {
+					entities.update();
+					shield.alpha = Math.sin((cnt * 2 * Math.PI) / 180);
+					cnt++;
+					yield;
+				}
+			}
+			this.parent.container.removeChild(shield);
+			this.parent.container.removeChild(entities.container);
+			shield.destroy();
+			entities.destroy();
+
 			const { jss } = this.parent.api;
 			const m_x = jss.getMyXReal() + 16;
 			const m_y = jss.getMyYReal() + 16;
@@ -115,7 +151,7 @@ namespace Boss1States {
 				);
 			}
 			this.parent.shield.hide();
-			yield* this.sleep(80);
+			yield* this.sleep(80, () => entities.update());
 			this.parent.setState(new Default(this.parent));
 		}
 	}

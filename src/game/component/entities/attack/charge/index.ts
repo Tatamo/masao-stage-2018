@@ -6,7 +6,7 @@ import { Energy } from "./energy";
 import { Bullet } from "./bullet";
 import BezierEasing from "bezier-easing";
 import * as PIXI from "pixi.js";
-import { SmoothShockWaveEffect } from "./smoothshockwave";
+import { AsymmetryShockWaveEffect } from "./asymmetryshockwave";
 
 export class ChargeAttack extends Entity {
 	public readonly entities: EntityContainer;
@@ -65,7 +65,16 @@ namespace States {
 		attack() {
 			this.parent.level.add(new Bullet(this.parent.level, this.parent.x, this.parent.y));
 			this.parent.level.add(
-				new SmoothShockWaveEffect(this.parent.level, this.parent.x - 8, this.parent.y, Math.PI, 16, 32, 48, 96)
+				new AsymmetryShockWaveEffect(
+					this.parent.level,
+					this.parent.x - 8,
+					this.parent.y,
+					Math.PI,
+					16,
+					32,
+					48,
+					96
+				)
 			);
 		}
 		*charge(): IterableIterator<void> {

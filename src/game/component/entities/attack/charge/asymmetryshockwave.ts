@@ -1,8 +1,8 @@
-import * as PIXI from "pixi.js";
+import { ShockWaveEffect } from "../../effect/shockwave";
 import { Level } from "../../../../levels/level";
-import { ShockWaveEffect } from "../shockwave";
+import * as PIXI from "pixi.js";
 
-export class JaggyShockWaveEffect extends ShockWaveEffect {
+export class AsymmetryShockWaveEffect extends ShockWaveEffect {
 	constructor(
 		level: Level,
 		x: number,
@@ -16,7 +16,7 @@ export class JaggyShockWaveEffect extends ShockWaveEffect {
 	) {
 		super(
 			level,
-			new PIXI.Sprite(level.api.resource.images["shockwave_jaggy"]),
+			new PIXI.Sprite(level.api.resource.images["shockwave_asymmetry"]),
 			x,
 			y,
 			rad,

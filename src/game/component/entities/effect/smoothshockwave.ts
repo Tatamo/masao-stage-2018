@@ -1,5 +1,5 @@
-import { ShockWaveEffect } from "../../effect/shockwave";
-import { Level } from "../../../../levels/level";
+import { ShockWaveEffect } from "./shockwave";
+import { Level } from "../../../levels/level";
 import * as PIXI from "pixi.js";
 
 export class SmoothShockWaveEffect extends ShockWaveEffect {
@@ -11,18 +11,20 @@ export class SmoothShockWaveEffect extends ShockWaveEffect {
 		width: number = 32,
 		height: number = 32,
 		width_end: number = 64,
-		height_end: number = 64
+		height_end: number = 64,
+		timespan: number = 10
 	) {
 		super(
 			level,
-			new PIXI.Sprite(level.api.resource.images["shockwave_asymmetry"]),
+			new PIXI.Sprite(level.api.resource.images["shockwave"]),
 			x,
 			y,
 			rad,
 			width,
 			height,
 			width_end,
-			height_end
+			height_end,
+			timespan
 		);
 	}
 }
