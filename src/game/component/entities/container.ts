@@ -2,6 +2,10 @@ import * as PIXI from "pixi.js";
 import { Entity } from "./entity";
 
 export class EntityContainer {
+	get alive(): boolean {
+		return this._alive;
+	}
+	private _alive: boolean;
 	get container(): PIXI.Container {
 		return this._container;
 	}
@@ -17,6 +21,7 @@ export class EntityContainer {
 	 * @param as_a_child boolean default:true falseにすると第一引数で与えられたコンテナをそのまま使用するが、trueの場合は自身で新しくコンテナを作成して子として追加する
 	 */
 	constructor(container: PIXI.Container, as_a_child: boolean = true) {
+		this._alive = true;
 		if (as_a_child) {
 			this._container = new PIXI.Container();
 			container.addChild(this._container);
@@ -58,5 +63,10 @@ export class EntityContainer {
 				child.render();
 			}
 		}
+	}
+	destroy() {
+		this.container.visible = false;
+		this.container.destroy({ children: true });
+		this._alive = false;
 	}
 }
