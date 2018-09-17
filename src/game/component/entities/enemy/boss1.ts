@@ -5,6 +5,7 @@ import { Enemy } from "./enemy";
 import { Level } from "../../../levels/level";
 import { Bullet1 } from "../attack/bullet1";
 import { ChargeAttack } from "../attack/charge";
+import { Shield } from "../effect/shield";
 
 /**
  * ボス1
@@ -12,6 +13,7 @@ import { ChargeAttack } from "../attack/charge";
 export class Boss1 extends Enemy {
 	public readonly sprite_normal: PIXI.Sprite;
 	public readonly sprite_damage: PIXI.Sprite;
+	public readonly shield: Shield;
 	constructor(level: Level, x: number, y: number) {
 		super(level, x, y, 100);
 		const { resource } = this.api;
@@ -27,17 +29,14 @@ export class Boss1 extends Enemy {
 		);
 		this.sprite_damage.y = 32;
 		this.sprite_damage.visible = false;
-		this.container.addChild(this.sprite_normal, this.sprite_damage);
+		this.shield = new Shield(level, 32, 32);
+		this.container.addChild(this.shield.container, this.sprite_normal, this.sprite_damage);
 		this.setState(new Boss1States.Default(this));
 	}
 }
 
 namespace Boss1States {
-	abstract class Base<P extends Boss1> extends AbstractState<P> {
-		init(): void {}
-		render(): void {}
-	}
-	export class Default<P extends Boss1> extends Base<P> {
+	export class Default<P extends Boss1> extends AbstractState<P> {
 		init(): void {
 			this.parent.sprite_normal.visible = true;
 			this.parent.sprite_damage.visible = false;
@@ -46,19 +45,13 @@ namespace Boss1States {
 			// フレームごとにmove()の動きを行うとともに当たり判定を処理する
 			for (const _ of this.move()) {
 				this.checkCollision();
+				this.parent.shield.update();
 				yield;
 			}
 		}
 		*move(): IterableIterator<void> {
-			this.parent.level.add(new ChargeAttack(this.parent.level, this.parent.x - 8, this.parent.y + 32));
-
-			/*
-			for (let i = 0; i < 3; i++) {
-				this.attack();
-				yield* this.sleep(14);
-			}
-			*/
-			yield* this.sleep(140);
+			yield* this.sleep(24);
+			this.parent.setState(new ChargeAttackState(this.parent));
 		}
 		attack() {
 			this.parent.level.add(new Bullet1(this.parent.level, this.parent.x + 16, this.parent.y + 32));
@@ -71,27 +64,27 @@ namespace Boss1States {
 			if (
 				m_x <= this.parent.x + 64 &&
 				m_x + 32 >= this.parent.x &&
-				m_y <= this.parent.y + 64 &&
+				m_y < this.parent.y + 64 &&
 				m_y + 32 >= this.parent.y
 			) {
-				if (jss.getMyVY() > 10) {
-					//  降下中
+				if (!this.parent.shield.on && jss.getMyVY() > 10) {
+					// ボスにシールドがなく、主人公が降下中
 
-					//  主人公が踏む
+					// 主人公が踏む
 					jss.setMyPress(3);
 					jss.setMyYReal(this.parent.y + 8);
 
-					//  １０点加算
+					// １０点加算
 					jss.addScore(10);
 
-					//  ボスのHPを減らす
+					// ボスのHPを減らす
 					this.parent.damage(20);
 					this.parent.setState(new Damage(this.parent));
 				} else {
-					//  主人公にダメージ
+					// 主人公にダメージ
 					jss.setMyHPDamage(1);
 
-					//  主人公が死亡
+					// 主人公が死亡
 					if (jss.getMyHP() <= 0) {
 						jss.setMyMiss(2);
 					}
@@ -99,7 +92,14 @@ namespace Boss1States {
 			}
 		}
 	}
-	export class Damage<P extends Boss1> extends Base<P> {
+	export class ChargeAttackState<P extends Boss1> extends Default<P> {
+		*move(): IterableIterator<void> {
+			this.parent.level.add(new ChargeAttack(this.parent.level, this.parent.x - 8, this.parent.y + 32));
+			yield* this.sleep(80);
+			this.parent.setState(new Default(this.parent));
+		}
+	}
+	export class Damage<P extends Boss1> extends AbstractState<P> {
 		init(): void {
 			this.parent.sprite_normal.visible = false;
 			this.parent.sprite_damage.visible = true;
@@ -115,7 +115,7 @@ namespace Boss1States {
 			}
 		}
 	}
-	export class Die<P extends Boss1> extends Base<P> {
+	export class Die<P extends Boss1> extends AbstractState<P> {
 		init(): void {
 			this.parent.sprite_normal.visible = false;
 			this.parent.sprite_damage.visible = false;

@@ -16,7 +16,7 @@ export class SmoothShockWaveEffect extends ShockWaveEffect {
 		super(
 			level,
 			new PIXI.Sprite(
-				level.api.resource.registerIfNecessary("laser1_body", () => {
+				level.api.resource.registerIfNecessary("smooth_shockwave", () => {
 					const c = document.createElement("canvas");
 					c.width = c.height = 64;
 					const ctx = c.getContext("2d")!;

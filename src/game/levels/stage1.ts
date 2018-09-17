@@ -15,7 +15,7 @@ export class Stage1 extends AbstractLevel {
 		const { jss } = api;
 		jss.setMyMaxHP(MAX_HP);
 		this.add(new HealthBar(this, MAX_HP));
-		this.add(new Boss1(this, 384, 192 + 320));
+		this.add(new Boss1(this, 384 + 32, 192 + 320));
 		// this.add(new ChargeAttack(this, 384 - 8, 224 + 320));
 		// this.add(new Laser1(this, 420, 192 + 320));
 
