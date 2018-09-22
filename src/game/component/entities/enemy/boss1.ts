@@ -9,6 +9,7 @@ import { Shield } from "../effect/shield";
 import { ShieldAttack } from "../attack/shield";
 import { EntityContainer } from "../container";
 import { SmoothShockWaveEffect } from "../effect/smoothshockwave";
+import { Laser } from "../attack/laser";
 
 /**
  * ボス1
@@ -56,7 +57,7 @@ namespace Boss1States {
 			if (!this.parent.shield.on) this.parent.shield.show();
 			yield* this.sleep(24);
 			// this.parent.setState(new ChargeAttackState(this.parent));
-			// this.parent.setState(new ShieldAttackState(this.parent));
+			this.parent.setState(new LaserAttackState(this.parent));
 			yield* this.sleep(Infinity);
 		}
 		attack() {
@@ -148,6 +149,15 @@ namespace Boss1States {
 			}
 			this.parent.shield.hide();
 			yield* this.sleep(80, () => entities.update());
+			this.parent.setState(new Default(this.parent));
+		}
+	}
+	export class LaserAttackState<P extends Boss1> extends Default<P> {
+		*move(): IterableIterator<void> {
+			const laser = new Laser(this.parent.level, this.parent.x - 48, this.parent.y + 32);
+			this.parent.level.add(laser);
+			yield* this.sleep(80);
+			laser.end();
 			this.parent.setState(new Default(this.parent));
 		}
 	}
