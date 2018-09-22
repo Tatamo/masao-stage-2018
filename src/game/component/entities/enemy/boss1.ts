@@ -87,12 +87,7 @@ namespace Boss1States {
 					this.parent.setState(new Damage(this.parent));
 				} else {
 					// 主人公にダメージ
-					jss.setMyHPDamage(1);
-
-					// 主人公が死亡
-					if (jss.getMyHP() <= 0) {
-						jss.setMyMiss(2);
-					}
+					this.damage(jss, 1, 2);
 				}
 			}
 		}

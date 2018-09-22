@@ -60,12 +60,7 @@ namespace States {
 				// 円形の当たり判定
 				if (dx * dx + dy * dy < 20 * 20) {
 					//  主人公にダメージ
-					jss.setMyHPDamage(3);
-
-					//  主人公が死亡
-					if (jss.getMyHP() <= 0) {
-						jss.setMyMiss(1);
-					}
+					this.damage(jss, 3, 1);
 				}
 
 				// 画面外に出た場合は消滅する

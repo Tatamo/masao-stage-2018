@@ -36,6 +36,23 @@ export abstract class AbstractState<P extends StateMachine> implements State<P> 
 			yield;
 		}
 	}
+
+	// noinspection JSMethodCanBeStatic
+	/**
+	 * 主人公にダメージを与える
+	 * @param jss:any MasaoJSS
+	 * @param damage:number ダメージ量
+	 * @param type:number このダメージで主人公が死亡した場合のミスの種類
+	 */
+	protected damage(jss: any, damage: number, type: number) {
+		// 主人公にダメージ
+		jss.setMyHPDamage(damage);
+
+		// 主人公が死亡
+		if (jss.getMyHP() <= 0) {
+			jss.setMyMiss(type);
+		}
+	}
 }
 
 export class StateMachine {
