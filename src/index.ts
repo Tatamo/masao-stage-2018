@@ -2,6 +2,8 @@ import { format } from "masao";
 import json from "../public/assets/game.json";
 import assets from "../public/assets/assets.json";
 import { launch } from "./launch";
+import * as PIXI from "pixi.js";
+import { GlowFilter } from "@pixi/filter-glow";
 
 // masao-json-formatからパラメータオブジェクトを取得
 const { params: p, "advanced-map": am } = format.load(json);
@@ -56,19 +58,29 @@ launch(params, am!, assets);
 /*
 // canvasを試しに作ってみる
 const make = () => {
+	const renderer = PIXI.autoDetectRenderer({
+		// forceCanvas: true,
+		width: 64,
+		height: 64,
+		transparent: true
+	});
 	const c = document.createElement("canvas");
 	c.width = c.height = 64;
 	const ctx = c.getContext("2d")!;
-	const grad = ctx.createRadialGradient(28, 16, 2, 16, 16, 16);
-	grad.addColorStop(0, "#ffffff00");
-	grad.addColorStop(0.5, "#ffffff00");
-	grad.addColorStop(0.9, "#ffffffff");
-	grad.addColorStop(1, "#ffffff00");
+	const grad = ctx.createRadialGradient(16, 16, 10, 16, 16, 14);
+	// const grad = ctx.createRadialGradient(20, 20, 10, 20, 20, 16);
 	ctx.fillStyle = grad;
-	ctx.scale(1, 2);
+	grad.addColorStop(0, "#ffffff00");
+	grad.addColorStop(0.4, "#ffffffff");
+	grad.addColorStop(0.6, "#ffffffff");
+	grad.addColorStop(1, "#ffffff00");
+	ctx.scale(2, 2);
 	ctx.arc(16, 16, 16, 0, 2 * Math.PI);
 	ctx.fill();
-	return c;
+	const sprite = PIXI.Sprite.from(c);
+	sprite.filters = [new GlowFilter(4, 2, 0, 0xff0000)];
+	renderer.render(sprite);
+	return renderer.view;
 };
 
 document.body.appendChild(make());

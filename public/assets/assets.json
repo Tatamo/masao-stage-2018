@@ -52,6 +52,10 @@
     "path": "assets/images/shield.png"
   },
   {
+    "name": "ring_image",
+    "path": "assets/images/ring.png"
+  },
+  {
     "name": "bakuhatu_sound",
     "path": "assets/sounds/bakuhatu.mp3"
   },
