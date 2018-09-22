@@ -66,9 +66,17 @@ export class Resource {
 		}
 		return this.textures.get(name)!;
 	}
-	static createResizeTexture(texture: PIXI.Texture, width: number, height: number): PIXI.Texture {
+	static createResizeTexture(
+		texture: PIXI.Texture,
+		width: number,
+		height: number,
+		offset_x: number = 0,
+		offset_y: number = 0
+	): PIXI.Texture {
 		const _t = texture.clone();
 		const rect = _t.frame.clone();
+		rect.x += offset_x;
+		rect.y += offset_y;
 		rect.width = width;
 		rect.height = height;
 		_t.frame = rect;

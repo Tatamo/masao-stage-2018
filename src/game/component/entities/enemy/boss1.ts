@@ -56,7 +56,8 @@ namespace Boss1States {
 			if (!this.parent.shield.on) this.parent.shield.show();
 			yield* this.sleep(24);
 			// this.parent.setState(new ChargeAttackState(this.parent));
-			this.parent.setState(new ShieldAttackState(this.parent));
+			// this.parent.setState(new ShieldAttackState(this.parent));
+			yield* this.sleep(Infinity);
 		}
 		attack() {
 			this.parent.level.add(new Bullet1(this.parent.level, this.parent.x + 16, this.parent.y + 32));
