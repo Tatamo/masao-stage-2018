@@ -61,28 +61,34 @@ export class StateMachine {
 	}
 	private state: State<this> | null;
 	private flg_loop: boolean;
+	// update()の実行中にsetStateが呼ばれたことを知るためのフラグ
+	private flg_state_changed_in_update: boolean;
 	private _done: boolean;
 	private generator: IterableIterator<void> | null;
 	constructor() {
 		this.state = null;
 		this.flg_loop = true;
+		this.flg_state_changed_in_update = false;
 		this._done = false;
 		this.generator = null;
 	}
 	setState(state: State<this>, loop: boolean = true): void {
 		this.state = state;
 		this.flg_loop = loop;
+		this.flg_state_changed_in_update = true;
 		this._done = false;
 		this.generator = state.update();
 		// 初期化
 		this.state.init();
 	}
 	update(): void {
+		this.flg_state_changed_in_update = false;
 		// 状態が設定されていない場合は何もしない
 		if (this.state === null) return;
 		// ジェネレータを回して処理
 		if (this.generator !== null) {
-			if (this.generator.next().done) {
+			// update()途中でstateが変わった場合はgeneratorも置き換わっているので何もしなくてよい
+			if (this.generator.next().done && this.flg_state_changed_in_update === false) {
 				if (this.flg_loop) {
 					// 終了後、loopフラグがONなら再度同じ処理を行う
 					this.generator = this.state.update();
