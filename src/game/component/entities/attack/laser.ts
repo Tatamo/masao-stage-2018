@@ -24,6 +24,9 @@ export class Laser extends Entity {
 		this.container.addChild(this.body);
 		this.setState(new States.Expand(this));
 	}
+	end() {
+		this.setState(new States.End(this), false);
+	}
 }
 
 namespace States {
@@ -57,8 +60,8 @@ namespace States {
 	}
 	export class Default<P extends Laser> extends Base<P> {
 		*move(): IterableIterator<void> {
-			yield* this.sleep(20);
-			this.parent.setState(new End(this.parent), false);
+			// yield* this.sleep(20);
+			// this.parent.setState(new End(this.parent), false);
 		}
 	}
 	export class Expand<P extends Laser> extends Base<P> {
@@ -72,7 +75,7 @@ namespace States {
 				this.parent.points[1].x -= 32;
 				yield;
 			}
-			this.parent.setState(new Default(this.parent), false);
+			this.parent.setState(new Default(this.parent));
 		}
 	}
 	export class End<P extends Laser> extends AbstractState<P> {
