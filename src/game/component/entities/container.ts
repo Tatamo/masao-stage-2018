@@ -51,6 +51,7 @@ export class EntityContainer {
 				// 非表示化
 				this.children[i]!.container.visible = false;
 				// 破棄
+				this._container.removeChild(this.children[i]!.container);
 				this.children[i]!.container.destroy({ children: true });
 				this.children[i] = null;
 				this.unused_stack.push(i);

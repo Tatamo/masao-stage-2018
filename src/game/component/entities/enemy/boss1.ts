@@ -10,6 +10,7 @@ import { ShieldAttack } from "../attack/shield";
 import { EntityContainer } from "../container";
 import { SmoothShockWaveEffect } from "../effect/smoothshockwave";
 import { Laser } from "../attack/laser";
+import { Ring } from "../attack/ring";
 
 /**
  * ボス1
@@ -57,7 +58,7 @@ namespace Boss1States {
 			if (!this.parent.shield.on) this.parent.shield.show();
 			yield* this.sleep(24);
 			// this.parent.setState(new ChargeAttackState(this.parent));
-			// this.parent.setState(new LaserAttackState(this.parent));
+			this.parent.setState(new LaserAttackState(this.parent));
 			yield* this.sleep(Infinity);
 		}
 		attack() {
@@ -154,10 +155,34 @@ namespace Boss1States {
 	}
 	export class LaserAttackState<P extends Boss1> extends Default<P> {
 		*move(): IterableIterator<void> {
+			const rings = [
+				new Ring(this.parent.level, this.parent.x + 32, this.parent.y + 32, (1 / 8) * Math.PI, 1),
+				new Ring(this.parent.level, this.parent.x + 32, this.parent.y + 32, (3 / 8) * Math.PI, 1),
+				new Ring(this.parent.level, this.parent.x + 32, this.parent.y + 32, (1 / 4) * Math.PI, -1),
+				new Ring(this.parent.level, this.parent.x + 32, this.parent.y + 32, (3 / 4) * Math.PI, -1)
+			];
+			for (const ring of rings) {
+				this.parent.level.add(ring);
+			}
+			let flg_shrink = false;
+			rings[0].ee.once("shrink", () => {
+				flg_shrink = true;
+			});
+			// リングの収縮まで待つ
+			while (!flg_shrink) {
+				yield;
+			}
+			// リングが最も小さくなったタイミングで発射
 			const laser = new Laser(this.parent.level, this.parent.x - 48, this.parent.y + 32);
 			this.parent.level.add(laser);
 			yield* this.sleep(80);
+			// 攻撃終了
+			for (const ring of rings) {
+				ring.hide();
+			}
+			yield* this.sleep(10);
 			laser.end();
+			yield* this.sleep(24);
 			this.parent.setState(new Default(this.parent));
 		}
 	}

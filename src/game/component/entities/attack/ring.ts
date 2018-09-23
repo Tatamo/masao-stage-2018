@@ -1,14 +1,16 @@
-import { Entity } from "../../entity";
+import { Entity } from "../entity";
 import * as PIXI from "pixi.js";
-import { Level } from "../../../../levels/level";
-import { AbstractState } from "../../../../statemachine";
-import { easeInOutCubic } from "../../../../../utils/easing";
+import { Level } from "../../../levels/level";
+import { AbstractState } from "../../../statemachine";
+import { easeInOutCubic } from "../../../../utils/easing";
 
 export class Ring extends Entity {
 	get degree(): number {
 		return this._degree;
 	}
 	set degree(value: number) {
+		value = value % 360;
+		if (value < 0) value += 360;
 		this._degree = value;
 		this.sprite.rotation = (this._degree / 180) * Math.PI;
 	}
@@ -32,6 +34,9 @@ export class Ring extends Entity {
 
 		this.setState(new States.Showing(this));
 	}
+	hide() {
+		this.setState(new States.Hide(this), false);
+	}
 }
 
 namespace States {
@@ -50,7 +55,7 @@ namespace States {
 			// yield* this.sleep(20);
 			// this.parent.setState(new End(this.parent), false);
 			for (let i = 0; i < 360; i++) {
-				this.parent.degree = (this.parent.degree + this.parent.rotate_direction) % 360;
+				this.parent.degree = this.parent.degree + this.parent.rotate_direction;
 				yield;
 			}
 		}
@@ -105,6 +110,21 @@ namespace States {
 			// this.parent.degree = degree_org;
 
 			this.parent.setState(new Default(this.parent));
+		}
+	}
+	export class Hide<P extends Ring> extends AbstractState<P> {
+		*update(): IterableIterator<void> {
+			const easing = easeInOutCubic;
+			const timespan = 20;
+			// 消失
+			for (let i = 0; i < timespan; i++) {
+				this.parent.degree += this.parent.rotate_direction;
+				this.parent.sprite.scale.set((1 - easing(i / timespan)) * 3, 1 - easing(i / timespan));
+				this.parent.sprite.alpha = 1 - easing(i / timespan);
+				yield;
+			}
+			this.parent.sprite.scale.set(0, 0);
+			this.parent.kill();
 		}
 	}
 }
