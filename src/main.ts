@@ -66,6 +66,7 @@ export class Main {
 	}
 
 	public userGameStartJS(): void {
+		this.api.jss.removeAllPlayerEventEmitter();
 		this.level = new Stage1(this.api);
 	}
 

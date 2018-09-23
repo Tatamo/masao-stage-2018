@@ -6,7 +6,7 @@ type PlayerParams = {
 	j_jump_type: number;
 	j_muteki_c: number;
 	j_hp: number;
-	co_j: { c: number; pt: number; vx: number; vy: number };
+	co_j: { c: number; pt: number; x: number; y: number; vx: number; vy: number };
 };
 
 /**
@@ -47,8 +47,8 @@ export class PlayerEventWatcherExtension implements Extension {
 		const prv = this.player_prev;
 		const crr = this.player;
 
-		if (prv.j_muteki_c === 0 && crr.j_muteki_c > 0) {
-			this.emit("damage", prv.j_hp - crr.j_hp);
+		if ((prv.j_muteki_c === 0 && crr.j_muteki_c > 0) || (prv.j_hp !== crr.j_hp && crr.j_hp <= 0)) {
+			this.emit("damage", prv.j_hp - crr.j_hp, prv.co_j.x, prv.co_j.y);
 		}
 		if (prv.j_muteki_c > 0 && crr.j_muteki_c === 0) {
 			// 自分が死亡していない場合のみ発火
@@ -126,8 +126,8 @@ export class PlayerEventWatcherExtension implements Extension {
 		this.event_emmiters.length = 0;
 	}
 	static getPlayerParams(mc: any): PlayerParams {
-		const { c, pt, vx, vy } = mc.mp.co_j;
+		const { c, pt, x, y, vx, vy } = mc.mp.co_j;
 		const { j_jump_level, j_jump_type, j_muteki_c, j_hp } = mc.mp;
-		return { j_jump_level, j_jump_type, j_muteki_c, j_hp, co_j: { c, pt, vx, vy } };
+		return { j_jump_level, j_jump_type, j_muteki_c, j_hp, co_j: { c, pt, x, y, vx, vy } };
 	}
 }
