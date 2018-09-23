@@ -100,7 +100,12 @@ namespace Boss1States {
 					this.parent.setState(new Damage(this.parent));
 				} else {
 					// 主人公にダメージ
-					this.damage(jss, 1, 2);
+					if (this.parent.shield.showing) {
+						// シールド展開途中は受けるダメージが小さい
+						this.damage(jss, 5, 2);
+					} else {
+						this.damage(jss, 10, 2);
+					}
 				}
 			}
 		}

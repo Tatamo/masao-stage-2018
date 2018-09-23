@@ -43,7 +43,7 @@ namespace States {
 			// 円形の当たり判定
 			if (dx * dx + dy * dy < (32 + 16) * (32 + 16)) {
 				//  主人公にダメージ
-				this.damage(jss, 3, 1);
+				this.damage(jss, 25, 1);
 			}
 
 			// 画面外に出た場合は消滅する

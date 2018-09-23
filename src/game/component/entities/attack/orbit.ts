@@ -60,7 +60,7 @@ namespace States {
 				m_y + 24 >= y - height / 2
 			) {
 				// 主人公にダメージ
-				this.damage(jss, 1, 1);
+				this.damage(jss, 10, 1);
 			}
 			// 画面外に出た場合は消滅する
 			const view_x: number = jss.getViewXReal();

@@ -10,11 +10,13 @@ export class Shield extends Entity {
 		return this._on;
 	}
 	public _on: boolean;
+	public showing: boolean;
 	public readonly sprite: PIXI.Sprite;
 	public readonly alpha_filter: PIXI.filters.AlphaFilter;
 	constructor(level: Level, x: number, y: number) {
 		super(level, x, y);
 		this._on = true;
+		this.showing = false;
 		const { resource } = this.api;
 		this.sprite = new PIXI.Sprite(resource.images["shield"]);
 		this.sprite.filters = [(this.alpha_filter = new PIXI.filters.AlphaFilter(0))];
@@ -33,16 +35,22 @@ export class Shield extends Entity {
 }
 
 namespace States {
-	export class Default<P extends Shield> extends AbstractState<P> {}
+	export class Default<P extends Shield> extends AbstractState<P> {
+		init() {
+			this.parent.showing = false;
+		}
+	}
 	export class Hide<P extends Shield> extends AbstractState<P> {
 		init() {
 			this.parent._on = false;
+			this.parent.showing = false;
 			this.parent.container.visible = false;
 		}
 	}
 	export class Showing<P extends Shield> extends AbstractState<P> {
 		*update(): IterableIterator<void> {
 			this.parent._on = true;
+			this.parent.showing = true;
 			this.parent.container.visible = true;
 			// マスクを設定
 			const createTexture = () => {
@@ -78,6 +86,8 @@ namespace States {
 			const easing = easeInOutCubic;
 			const timespan = 20;
 			for (let i = 0; i < timespan; i++) {
+				// ある程度展開したところで展開中フラグを解除
+				if (i === 14) this.parent.showing = false;
 				if (i < 6) shockwave.alpha = 0;
 				else shockwave.alpha = 1;
 				mask.y = 10 + 6 * timespan * easing(i / timespan);

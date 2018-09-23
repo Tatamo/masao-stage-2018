@@ -5,7 +5,7 @@ import { Stage1 } from "./game/levels/stage1";
 import { GameAPI } from "./game/api";
 import { Resource } from "./game/resource";
 
-export const MAX_HP = 10;
+export const MAX_HP = 100;
 export const VIEW_WIDTH = 512;
 export const VIEW_HEIGHT = 320;
 

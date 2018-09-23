@@ -54,7 +54,7 @@ namespace States {
 			// 主人公との当たり判定
 			if (m_x <= x + width && m_x + 32 >= x && m_y < y + height && m_y + 32 >= y) {
 				// 主人公にダメージ
-				this.damage(jss, 1, 1);
+				this.damage(jss, 20, 1);
 			}
 		}
 	}

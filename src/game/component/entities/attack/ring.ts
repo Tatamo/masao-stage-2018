@@ -78,7 +78,7 @@ namespace States {
 			const dx2 = m_x - x2;
 			const dy2 = m_y - y2;
 			if (dx1 * dx1 + dy1 * dy1 < 20 * 20 || dx2 * dx2 + dy2 * dy2 < 20 * 20) {
-				this.damage(jss, 1, 1);
+				this.damage(jss, 10, 1);
 			}
 		}
 	}
