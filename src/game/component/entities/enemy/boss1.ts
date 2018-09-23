@@ -57,7 +57,7 @@ namespace Boss1States {
 			if (!this.parent.shield.on) this.parent.shield.show();
 			yield* this.sleep(24);
 			// this.parent.setState(new ChargeAttackState(this.parent));
-			this.parent.setState(new LaserAttackState(this.parent));
+			// this.parent.setState(new LaserAttackState(this.parent));
 			yield* this.sleep(Infinity);
 		}
 		attack() {
