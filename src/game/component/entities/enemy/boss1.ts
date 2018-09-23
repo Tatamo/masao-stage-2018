@@ -13,6 +13,7 @@ import { Laser } from "../attack/laser";
 import { Ring } from "../attack/ring";
 import { Orbit } from "../attack/orbit";
 import { EnemyHealthBar } from "../information/enemyhealthbar";
+import { DamageEffect } from "../effect/damage";
 
 /**
  * ボス1
@@ -93,6 +94,9 @@ namespace Boss1States {
 
 					// ボスのHPを減らす
 					this.parent.damage(20);
+					this.parent.level.add(
+						new DamageEffect(this.parent.level, this.parent.x + 32, this.parent.y + 32, 20, 1)
+					);
 					this.parent.setState(new Damage(this.parent));
 				} else {
 					// 主人公にダメージ

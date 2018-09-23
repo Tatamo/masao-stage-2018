@@ -5,6 +5,7 @@ import { GameAPI } from "../api";
 import { Boss1 } from "../component/entities/enemy/boss1";
 import * as PIXI from "pixi.js";
 import { PlayerAttack } from "../component/entities/effect/playerattack";
+import { DamageEffect } from "../component/entities/effect/damage";
 
 export class Stage1 extends AbstractLevel {
 	constructor(api: GameAPI) {
@@ -19,6 +20,11 @@ export class Stage1 extends AbstractLevel {
 		ee.on("fumu", () => {
 			// 敵を踏んだ時にエフェクトを発生させる
 			this.add(new PlayerAttack(this, jss.getMyXReal() + 16, jss.getMyYReal() + 32));
+		});
+		ee.on("damage", (damage: number, prev_x: number, prev_y: number) => {
+			const x = jss.getMyXReal() === -1 ? prev_x : jss.getMyXReal();
+			const y = jss.getMyYReal() === -1 ? prev_y : jss.getMyYReal();
+			this.add(new DamageEffect(this, x + 16, y, damage));
 		});
 		ee.on("miss", () => {
 			// もう使わないのでEventEmitterの登録を解除する
