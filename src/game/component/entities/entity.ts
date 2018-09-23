@@ -31,6 +31,10 @@ export class Entity extends StateMachine {
 		return this._level;
 	}
 	private readonly _level: Level;
+	get ee(): PIXI.utils.EventEmitter {
+		return this._ee;
+	}
+	private readonly _ee: PIXI.utils.EventEmitter;
 	constructor(level: Level, x: number, y: number) {
 		super();
 		this._level = level;
@@ -38,6 +42,7 @@ export class Entity extends StateMachine {
 		this._container = new PIXI.Container();
 		this._container.x = x;
 		this._container.y = y;
+		this._ee = new PIXI.utils.EventEmitter();
 	}
 	kill() {
 		this._alive = false;
