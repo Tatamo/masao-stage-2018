@@ -63,10 +63,16 @@ namespace Boss1States {
 		*move(): IterableIterator<void> {
 			if (!this.parent.shield.on) this.parent.shield.show();
 			yield* this.sleep(24);
-			// this.parent.setState(new ChargeAttackState(this.parent));
-			this.parent.setState(new ShieldAttackState(this.parent));
-			// this.parent.setState(new LaserAttackState(this.parent));
-			yield* this.sleep(Infinity);
+			this.parent.pushState(new ChargeAttackState(this.parent));
+			yield* this.sleep(24);
+			this.parent.pushState(new ShieldAttackState(this.parent));
+			yield;
+			if (!this.parent.shield.on && !this.parent.shield.showing) {
+				this.parent.shield.show();
+			}
+			yield* this.sleep(24);
+			this.parent.pushState(new LaserAttackState(this.parent));
+			yield* this.sleep(24);
 		}
 		attack() {
 			this.parent.level.add(new Bullet1(this.parent.level, this.parent.x + 16, this.parent.y + 32));
@@ -97,7 +103,7 @@ namespace Boss1States {
 					this.parent.level.add(
 						new DamageEffect(this.parent.level, this.parent.x + 32, this.parent.y + 32, 20, 1)
 					);
-					this.parent.setState(new Damage(this.parent));
+					this.parent.pushState(new Damage(this.parent));
 				} else {
 					// 主人公にダメージ
 					if (this.parent.shield.showing) {
@@ -114,7 +120,7 @@ namespace Boss1States {
 		*move(): IterableIterator<void> {
 			this.parent.level.add(new ChargeAttack(this.parent.level, this.parent.x - 8, this.parent.y + 32));
 			yield* this.sleep(80);
-			this.parent.setState(new Default(this.parent));
+			this.parent.popState();
 		}
 	}
 	export class ShieldAttackState<P extends Boss1> extends Default<P> {
@@ -164,8 +170,16 @@ namespace Boss1States {
 				);
 			}
 			this.parent.shield.hide();
-			yield* this.sleep(80, () => entities.update());
-			this.parent.setState(new Default(this.parent));
+			// 待機
+			for (let i = 0; i < 80; i++) {
+				entities.update();
+				// 踏まれてダメージ状態に移行して戻ってきた場合、シールドが貼り直されると待機を終了する
+				if (this.parent.shield.on && !this.parent.shield.showing) {
+					break;
+				}
+				yield;
+			}
+			this.parent.popState();
 		}
 	}
 	export class LaserAttackState<P extends Boss1> extends Default<P> {
@@ -223,7 +237,7 @@ namespace Boss1States {
 				yield;
 			}
 			this.parent.x = x_org;
-			this.parent.setState(new Default(this.parent));
+			this.parent.popState();
 		}
 	}
 	export class Damage<P extends Boss1> extends AbstractState<P> {
@@ -236,7 +250,9 @@ namespace Boss1States {
 			if (this.parent.hp > 0) {
 				this.parent.shield.show();
 				yield* this.sleep(6, () => this.parent.shield.update());
-				this.parent.setState(new Default(this.parent));
+				this.parent.sprite_normal.visible = true;
+				this.parent.sprite_damage.visible = false;
+				this.parent.popState();
 			} else {
 				yield* this.sleep(8);
 				this.parent.setState(new Die(this.parent));
