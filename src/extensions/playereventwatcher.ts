@@ -32,6 +32,7 @@ export class PlayerEventWatcherExtension implements Extension {
 			if (mc.masaoJSSAppletEmulator !== null) {
 				mc.masaoJSSAppletEmulator.createPlayerEventEmitter = () => self.create();
 				mc.masaoJSSAppletEmulator.removePlayerEventEmitter = (ee: EventEmitter) => self.remove(ee);
+				mc.masaoJSSAppletEmulator.removeAllPlayerEventEmitter = () => self.removeAll();
 			}
 		};
 		const _usersub = mc.userSub;
@@ -116,6 +117,13 @@ export class PlayerEventWatcherExtension implements Extension {
 				break;
 			}
 		}
+	}
+
+	/**
+	 * 既に登録されているすべてのEventEmitterを削除します
+	 */
+	removeAll() {
+		this.event_emmiters.length = 0;
 	}
 	static getPlayerParams(mc: any): PlayerParams {
 		const { c, pt, vx, vy } = mc.mp.co_j;
