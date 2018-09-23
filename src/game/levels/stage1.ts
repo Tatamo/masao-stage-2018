@@ -5,7 +5,7 @@ import { GameAPI } from "../api";
 import { Boss1 } from "../component/entities/enemy/boss1";
 import * as PIXI from "pixi.js";
 import { PlayerAttack } from "../component/entities/effect/playerattack";
-import { Ring } from "../component/entities/attack/ring";
+import { Ring } from "../component/entities/attack/ring/ring";
 
 export class Stage1 extends AbstractLevel {
 	constructor(api: GameAPI) {
@@ -16,10 +16,10 @@ export class Stage1 extends AbstractLevel {
 		this.add(new Boss1(this, 384 + 32, 192 + 320));
 		// this.add(new Ring(this, 384 + 32 + 32, 192 + 32 + 320, 0, 1));
 		// this.add(new Ring(this, 384 + 32 + 32, 192 + 32 + 320, 0, -1));
-		this.add(new Ring(this, 384 + 32 + 32, 192 + 32 + 320, (0 / 4) * Math.PI, 1));
-		this.add(new Ring(this, 384 + 32 + 32, 192 + 32 + 320, (1 / 4) * Math.PI, 1));
-		this.add(new Ring(this, 384 + 32 + 32, 192 + 32 + 320, (1 / 4) * Math.PI, -1));
-		this.add(new Ring(this, 384 + 32 + 32, 192 + 32 + 320, (3 / 4) * Math.PI, -1));
+		this.add(new Ring(this, 384 + 32 + 32, 192 + 32 + 320, (1 / 8 + 1 / 4) * Math.PI, 1));
+		this.add(new Ring(this, 384 + 32 + 32, 192 + 32 + 320, (-1 / 8 + 1 / 4) * Math.PI, 1));
+		this.add(new Ring(this, 384 + 32 + 32, 192 + 32 + 320, (0 / 4 + 1 / 4) * Math.PI, -1));
+		this.add(new Ring(this, 384 + 32 + 32, 192 + 32 + 320, (2 / 4 + 1 / 4) * Math.PI, -1));
 		/*
 		this.add(new Ring(this, 384 + 32 + 32, 192 + 32 + 320, (0 / 6) * Math.PI, 1));
 		this.add(new Ring(this, 384 + 32 + 32, 192 + 32 + 320, (2 / 6) * Math.PI, 1));
