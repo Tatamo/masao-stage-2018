@@ -2,7 +2,7 @@ import { Entity } from "../../entity";
 import * as PIXI from "pixi.js";
 import { Level } from "../../../../levels/level";
 import { AbstractState } from "../../../../statemachine";
-import BezierEasing from "bezier-easing";
+import { easeOutCubic } from "../../../../../utils/easing";
 
 export class Energy extends Entity {
 	public filter: PIXI.filters.ColorMatrixFilter;
@@ -45,8 +45,7 @@ namespace States {
 		*update(): IterableIterator<void> {
 			const dx = this.parent.to_x - this.parent.x;
 			const dy = this.parent.to_y - this.parent.y;
-			// easeOutCubic curve
-			const easing = BezierEasing(0.215, 0.61, 0.355, 1);
+			const easing = easeOutCubic;
 			for (let i = 0; i < this.parent.timespan; i++) {
 				this.parent.x = this.parent.to_x - dx * (1 - easing(i / this.parent.timespan));
 				this.parent.y = this.parent.to_y - dy * (1 - easing(i / this.parent.timespan));

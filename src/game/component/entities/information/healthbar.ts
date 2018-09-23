@@ -1,9 +1,10 @@
 import { AbstractState } from "../../../statemachine";
-import BezierEasing, { EasingFunction } from "bezier-easing";
+import { EasingFunction } from "bezier-easing";
 import * as PIXI from "pixi.js";
 import { Entity } from "../entity";
 import { Level } from "../../../levels/level";
 import { Resource } from "../../../resource";
+import { easeOutExpo } from "../../../../utils/easing";
 
 /**
  * 主人公のHPを表示するバー
@@ -165,8 +166,7 @@ namespace HealthBarStates {
 
 		constructor(parent: P, private hp_from: number, private hp_to: number, private max_frame: number = 10) {
 			super(parent);
-			// easeOutExpo curve
-			this.easing = BezierEasing(0.19, 1, 0.22, 1);
+			this.easing = easeOutExpo;
 		}
 		*update(): IterableIterator<void> {
 			const diff = this.hp_from - this.hp_to;

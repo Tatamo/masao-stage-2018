@@ -3,7 +3,7 @@ import * as PIXI from "pixi.js";
 import { Level } from "../../../levels/level";
 import { AbstractState } from "../../../statemachine";
 import { GlowFilter } from "@pixi/filter-glow";
-import BezierEasing from "bezier-easing";
+import { easeInOutCubic } from "../../../../utils/easing";
 
 export class Shield extends Entity {
 	get on(): boolean {
@@ -75,8 +75,7 @@ namespace States {
 
 			this.parent.alpha_filter.alpha = 0.8;
 
-			// easeInOutCubic curve
-			const easing = BezierEasing(0.645, 0.045, 0.355, 1);
+			const easing = easeInOutCubic;
 			const timespan = 20;
 			for (let i = 0; i < timespan; i++) {
 				if (i < 6) shockwave.alpha = 0;

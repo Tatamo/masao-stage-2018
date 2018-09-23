@@ -1,8 +1,8 @@
 import { AbstractState } from "../../../../statemachine";
-import BezierEasing from "bezier-easing";
 import { Entity } from "../../entity";
 import * as PIXI from "pixi.js";
 import { Level } from "../../../../levels/level";
+import { easeOutCubic } from "../../../../../utils/easing";
 
 export class SlitEffect extends Entity {
 	public readonly sprite: PIXI.Sprite;
@@ -25,8 +25,7 @@ namespace States {
 		init(): void {}
 		*update(): IterableIterator<void> {
 			const timespan = 10;
-			// easeOutCubic curve
-			const easing = BezierEasing(0.215, 0.61, 0.355, 1);
+			const easing = easeOutCubic;
 			for (let i = 0; i <= timespan; i++) {
 				const speed = this.parent.speed * (1 - easing(i / timespan));
 				this.parent.x += Math.cos(this.parent.rad) * speed;

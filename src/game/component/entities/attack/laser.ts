@@ -2,7 +2,7 @@ import { Entity } from "../entity";
 import * as PIXI from "pixi.js";
 import { Level } from "../../../levels/level";
 import { AbstractState } from "../../../statemachine";
-import BezierEasing from "bezier-easing";
+import { easeOutExpo } from "../../../../utils/easing";
 
 export class Laser extends Entity {
 	public vx: number;
@@ -84,8 +84,7 @@ namespace States {
 			this.timespan = 14;
 		}
 		*update(): IterableIterator<void> {
-			// easeOutExpo curve
-			const easing = BezierEasing(0.19, 1, 0.22, 1);
+			const easing = easeOutExpo;
 			const scaley = this.parent.body.scale.y;
 			for (let i = 0; i < this.timespan; i++) {
 				// this.parent.points[2].x -= 32;

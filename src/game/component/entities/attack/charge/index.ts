@@ -4,9 +4,9 @@ import { Level } from "../../../../levels/level";
 import { AbstractState } from "../../../../statemachine";
 import { Energy } from "./energy";
 import { Bullet } from "./bullet";
-import BezierEasing from "bezier-easing";
 import * as PIXI from "pixi.js";
 import { AsymmetryShockWaveEffect } from "./asymmetryshockwave";
+import { easeOutExpo } from "../../../../../utils/easing";
 
 export class ChargeAttack extends Entity {
 	public readonly entities: EntityContainer;
@@ -30,8 +30,7 @@ namespace States {
 		init(): void {}
 		*update(): IterableIterator<void> {
 			const charge = this.charge();
-			// easeOutExpo curve
-			const easing = BezierEasing(0.19, 1, 0.22, 1);
+			const easing = easeOutExpo;
 			// 透明度が1になるまで更新
 			while (this.parent.sprite_body.alpha < 1) {
 				charge.next();

@@ -2,7 +2,7 @@ import { Entity } from "../entity";
 import * as PIXI from "pixi.js";
 import { Level } from "../../../levels/level";
 import { AbstractState } from "../../../statemachine";
-import BezierEasing from "bezier-easing";
+import { easeOutExpo } from "../../../../utils/easing";
 
 export abstract class ShockWaveEffect extends Entity {
 	public readonly sprite: PIXI.Sprite;
@@ -34,8 +34,7 @@ namespace States {
 	export class Default<P extends ShockWaveEffect> extends AbstractState<P> {
 		init(): void {}
 		*update(): IterableIterator<void> {
-			// easeOutExpo curve
-			const easing = BezierEasing(0.19, 1, 0.22, 1);
+			const easing = easeOutExpo;
 			for (let i = 0; i <= this.parent.timespan; i++) {
 				this.parent.sprite.scale.x =
 					this.parent.width / 64 +
