@@ -2,6 +2,7 @@ import { Entity } from "../entity";
 import * as PIXI from "pixi.js";
 import { Level } from "../../../levels/level";
 import { AbstractState } from "../../../statemachine";
+import { VIEW_HEIGHT, VIEW_WIDTH } from "../../../../main";
 
 export class Orbit extends Entity {
 	public filter: PIXI.filters.ColorMatrixFilter;
@@ -60,6 +61,17 @@ namespace States {
 			) {
 				// 主人公にダメージ
 				this.damage(jss, 1, 1);
+			}
+			// 画面外に出た場合は消滅する
+			const view_x: number = jss.getViewXReal();
+			const view_y: number = jss.getViewYReal();
+			if (
+				x + width + 32 < view_x ||
+				x - 32 > view_x + VIEW_WIDTH ||
+				y + height + 32 < view_y ||
+				y - 32 > view_y + VIEW_HEIGHT
+			) {
+				this.parent.kill();
 			}
 		}
 	}
