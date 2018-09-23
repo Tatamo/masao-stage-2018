@@ -11,6 +11,7 @@ import { EntityContainer } from "../container";
 import { SmoothShockWaveEffect } from "../effect/smoothshockwave";
 import { Laser } from "../attack/laser";
 import { Ring } from "../attack/ring";
+import { Orbit } from "../attack/orbit";
 
 /**
  * ボス1
@@ -156,10 +157,11 @@ namespace Boss1States {
 	export class LaserAttackState<P extends Boss1> extends Default<P> {
 		*move(): IterableIterator<void> {
 			const rings = [
-				new Ring(this.parent.level, this.parent.x + 32, this.parent.y + 32, (1 / 8) * Math.PI, 1),
-				new Ring(this.parent.level, this.parent.x + 32, this.parent.y + 32, (3 / 8) * Math.PI, 1),
-				new Ring(this.parent.level, this.parent.x + 32, this.parent.y + 32, (1 / 4) * Math.PI, -1),
-				new Ring(this.parent.level, this.parent.x + 32, this.parent.y + 32, (3 / 4) * Math.PI, -1)
+				new Ring(this.parent.level, this.parent.x + 32, this.parent.y + 32, 15, 1),
+				new Ring(this.parent.level, this.parent.x + 32, this.parent.y + 32, 45, 1),
+				new Ring(this.parent.level, this.parent.x + 32, this.parent.y + 32, 75, 1),
+				new Ring(this.parent.level, this.parent.x + 32, this.parent.y + 32, 45, -1),
+				new Ring(this.parent.level, this.parent.x + 32, this.parent.y + 32, 45 * 3, -1)
 			];
 			for (const ring of rings) {
 				this.parent.level.add(ring);
@@ -175,7 +177,15 @@ namespace Boss1States {
 			// リングが最も小さくなったタイミングで発射
 			const laser = new Laser(this.parent.level, this.parent.x - 48, this.parent.y + 32);
 			this.parent.level.add(laser);
-			yield* this.sleep(80);
+			for (let i = 0; i < 4; i++) {
+				this.parent.level.add(new Orbit(this.parent.level, this.parent.x + 32 - 8, this.parent.y + 32, 12));
+				this.parent.level.add(new Orbit(this.parent.level, this.parent.x + 32 + 8, this.parent.y + 32, -12));
+				yield* this.sleep(30);
+				this.parent.level.add(new Orbit(this.parent.level, this.parent.x + 32 - 8, this.parent.y + 32, 102));
+				this.parent.level.add(new Orbit(this.parent.level, this.parent.x + 32 + 8, this.parent.y + 32, 78));
+				yield* this.sleep(30);
+			}
+			yield* this.sleep(50);
 			// 攻撃終了
 			for (const ring of rings) {
 				ring.hide();

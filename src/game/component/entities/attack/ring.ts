@@ -19,7 +19,7 @@ export class Ring extends Entity {
 	public filter: PIXI.filters.ColorMatrixFilter;
 	public sprite: PIXI.Sprite;
 	private _degree!: number;
-	constructor(level: Level, x: number, y: number, rotate: number, public rotate_direction: number = 1) {
+	constructor(level: Level, x: number, y: number, degree: number, public rotate_direction: number = 1) {
 		super(level, x, y);
 		this.vx = -4;
 		this.vy = 0;
@@ -29,7 +29,7 @@ export class Ring extends Entity {
 		this.sprite.filters[1].blendMode = PIXI.BLEND_MODES.ADD;
 		this.sprite.anchor.set(0.5);
 		this.sprite.scale.set(0);
-		this.degree = (rotate * 180) / Math.PI;
+		this.degree = degree;
 		this.container.addChild(this.sprite);
 
 		this.setState(new States.Showing(this));
@@ -56,7 +56,9 @@ namespace States {
 			// this.parent.setState(new End(this.parent), false);
 			for (let i = 0; i < 360; i++) {
 				this.parent.degree = this.parent.degree + this.parent.rotate_direction;
-				yield;
+				if (i !== 360 - 1) {
+					yield;
+				}
 			}
 		}
 		checkCollision(): void {
@@ -107,8 +109,7 @@ namespace States {
 				yield;
 			}
 			this.parent.sprite.scale.set(3, 1);
-			// this.parent.degree = degree_org;
-
+			this.parent.degree = degree_org;
 			this.parent.setState(new Default(this.parent));
 		}
 	}
