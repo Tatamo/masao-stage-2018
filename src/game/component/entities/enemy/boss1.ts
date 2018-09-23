@@ -156,6 +156,15 @@ namespace Boss1States {
 	}
 	export class LaserAttackState<P extends Boss1> extends Default<P> {
 		*move(): IterableIterator<void> {
+			const x_org = this.parent.x;
+			const move_x_dist = 48;
+			const move_x_speed = 4;
+			// 後ろに移動
+			for (let i = 0; i * move_x_speed < move_x_dist; i++) {
+				this.parent.x += move_x_speed;
+				yield;
+			}
+			this.parent.x = x_org + move_x_dist;
 			const rings = [
 				new Ring(this.parent.level, this.parent.x + 32, this.parent.y + 32, 15, 1),
 				new Ring(this.parent.level, this.parent.x + 32, this.parent.y + 32, 45, 1),
@@ -178,11 +187,11 @@ namespace Boss1States {
 			const laser = new Laser(this.parent.level, this.parent.x - 48, this.parent.y + 32);
 			this.parent.level.add(laser);
 			for (let i = 0; i < 4; i++) {
-				this.parent.level.add(new Orbit(this.parent.level, this.parent.x + 32 - 8, this.parent.y + 32, 12));
-				this.parent.level.add(new Orbit(this.parent.level, this.parent.x + 32 + 8, this.parent.y + 32, -12));
-				yield* this.sleep(30);
 				this.parent.level.add(new Orbit(this.parent.level, this.parent.x + 32 - 8, this.parent.y + 32, 102));
 				this.parent.level.add(new Orbit(this.parent.level, this.parent.x + 32 + 8, this.parent.y + 32, 78));
+				yield* this.sleep(30);
+				this.parent.level.add(new Orbit(this.parent.level, this.parent.x + 32 - 8, this.parent.y + 32, 12));
+				this.parent.level.add(new Orbit(this.parent.level, this.parent.x + 32 + 8, this.parent.y + 32, -12));
 				yield* this.sleep(30);
 			}
 			yield* this.sleep(50);
@@ -193,6 +202,13 @@ namespace Boss1States {
 			yield* this.sleep(10);
 			laser.end();
 			yield* this.sleep(24);
+
+			// 元の位置に戻る
+			for (let i = 0; i * move_x_speed < move_x_dist; i++) {
+				this.parent.x -= move_x_speed;
+				yield;
+			}
+			this.parent.x = x_org;
 			this.parent.setState(new Default(this.parent));
 		}
 	}
