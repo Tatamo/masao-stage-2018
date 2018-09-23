@@ -12,6 +12,7 @@ import { SmoothShockWaveEffect } from "../effect/smoothshockwave";
 import { Laser } from "../attack/laser";
 import { Ring } from "../attack/ring";
 import { Orbit } from "../attack/orbit";
+import { EnemyHealthBar } from "../information/enemyhealthbar";
 
 /**
  * ボス1
@@ -20,6 +21,7 @@ export class Boss1 extends Enemy {
 	public readonly sprite_normal: PIXI.Sprite;
 	public readonly sprite_damage: PIXI.Sprite;
 	public readonly shield: Shield;
+	public readonly healthbar: EnemyHealthBar;
 	constructor(level: Level, x: number, y: number) {
 		super(level, x, y, 100);
 		const { resource } = this.api;
@@ -37,6 +39,8 @@ export class Boss1 extends Enemy {
 		this.sprite_damage.visible = false;
 		this.shield = new Shield(level, 32, 32);
 		this.container.addChild(this.shield.container, this.sprite_normal, this.sprite_damage);
+		this.healthbar = new EnemyHealthBar(level, this, this.hp);
+		level.add(this.healthbar);
 		this.setState(new Boss1States.Default(this));
 	}
 }
@@ -59,7 +63,8 @@ namespace Boss1States {
 			if (!this.parent.shield.on) this.parent.shield.show();
 			yield* this.sleep(24);
 			// this.parent.setState(new ChargeAttackState(this.parent));
-			this.parent.setState(new LaserAttackState(this.parent));
+			this.parent.setState(new ShieldAttackState(this.parent));
+			// this.parent.setState(new LaserAttackState(this.parent));
 			yield* this.sleep(Infinity);
 		}
 		attack() {
@@ -233,6 +238,8 @@ namespace Boss1States {
 		init(): void {
 			this.parent.sprite_normal.visible = false;
 			this.parent.sprite_damage.visible = false;
+			this.parent.healthbar.container.visible = false;
+			this.parent.healthbar.kill();
 			this.parent.kill();
 		}
 		*update(): IterableIterator<void> {}
