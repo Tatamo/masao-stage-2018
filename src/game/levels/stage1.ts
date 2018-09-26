@@ -8,6 +8,7 @@ import { PlayerAttack } from "../component/entities/effect/playerattack";
 import { DamageEffect } from "../component/entities/effect/damage";
 import { LockOnEffect } from "../component/entities/effect/target/lockon";
 import { RotateEffect } from "../component/entities/effect/target/rotate";
+import { TraceEffect } from "../component/entities/effect/target/trace";
 
 export class Stage1 extends AbstractLevel {
 	constructor(api: GameAPI) {
@@ -18,6 +19,7 @@ export class Stage1 extends AbstractLevel {
 		this.add(new Boss1(this, 384 + 32, 192 + 320));
 		this.add(new LockOnEffect(this, 384 + 32 + 32, 192 + 320 + 32));
 		this.add(new RotateEffect(this, 320 + 32, 160 + 320));
+		this.add(new TraceEffect(this, 384 + 32 + 32, 192 + 320 + 32, jss.getMyXReal(), jss.getMyYReal()));
 
 		// 主人公の行動を監視する
 		const ee: PIXI.utils.EventEmitter = jss.createPlayerEventEmitter();
