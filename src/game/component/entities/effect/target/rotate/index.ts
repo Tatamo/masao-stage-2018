@@ -1,7 +1,7 @@
-import { Entity } from "../../entity";
-import { EntityContainer } from "../../container";
-import { Level } from "../../../../levels/level";
-import { AbstractState } from "../../../../statemachine";
+import { Entity } from "../../../entity";
+import { EntityContainer } from "../../../container";
+import { Level } from "../../../../../levels/level";
+import { AbstractState } from "../../../../../statemachine";
 import { Orb } from "./orb";
 /**
  * 光が回転するエフェクト

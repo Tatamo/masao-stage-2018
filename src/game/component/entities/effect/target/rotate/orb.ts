@@ -1,8 +1,8 @@
-import { Entity } from "../../entity";
+import { Entity } from "../../../entity";
 import * as PIXI from "pixi.js";
-import { Level } from "../../../../levels/level";
-import { AbstractState } from "../../../../statemachine";
-import { easeInSine } from "../../../../../utils/easing";
+import { Level } from "../../../../../levels/level";
+import { AbstractState } from "../../../../../statemachine";
+import { easeInSine } from "../../../../../../utils/easing";
 
 export class Orb extends Entity {
 	public readonly sprite: PIXI.Sprite;
