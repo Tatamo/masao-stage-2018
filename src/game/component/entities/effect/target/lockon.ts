@@ -1,11 +1,11 @@
-import { Entity } from "../entity";
+import { Entity } from "../../entity";
 import * as PIXI from "pixi.js";
-import { Level } from "../../../levels/level";
-import { AbstractState } from "../../../statemachine";
-import { easeOutCubic } from "../../../../utils/easing";
-import { VIEW_HEIGHT } from "../../../../main";
+import { Level } from "../../../../levels/level";
+import { AbstractState } from "../../../../statemachine";
+import { easeOutCubic } from "../../../../../utils/easing";
+import { VIEW_HEIGHT } from "../../../../../main";
 
-export class TargetEffect extends Entity {
+export class LockOnEffect extends Entity {
 	public readonly sprite: PIXI.Sprite;
 	public readonly sprite2: PIXI.Sprite;
 	public readonly textures: Array<PIXI.Texture>;
@@ -57,7 +57,7 @@ export class TargetEffect extends Entity {
 	}
 }
 namespace States {
-	export class Default<P extends TargetEffect> extends AbstractState<P> {
+	export class Default<P extends LockOnEffect> extends AbstractState<P> {
 		init(): void {}
 		*update(): IterableIterator<void> {
 			const { jss } = this.parent.api;
