@@ -222,12 +222,12 @@ namespace Boss1States {
 				this.parent.level.add(new Orbit(this.parent.level, this.parent.x + 32 + 8, this.parent.y + 32, -12));
 				yield* this.sleep(30);
 			}
-			yield* this.sleep(50);
+			yield* this.sleep(40);
 			// 攻撃終了
 			for (const ring of rings) {
 				ring.hide();
 			}
-			yield* this.sleep(10);
+			yield* this.sleep(20);
 			laser.end();
 			yield* this.sleep(24);
 
