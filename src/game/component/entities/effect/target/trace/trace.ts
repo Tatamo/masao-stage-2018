@@ -56,7 +56,7 @@ namespace States {
 			}
 			this.parent.x = this.parent.tx;
 			this.parent.y = this.parent.ty;
-			yield* this.sleep(Infinity);
+			yield* this.sleep(10);
 		}
 	}
 }

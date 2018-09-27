@@ -17,6 +17,7 @@ import { DamageEffect } from "../effect/damage";
 import { LockOnEffect } from "../effect/target/lockon";
 import { RotateEffect } from "../effect/target/rotate";
 import { TraceEffect } from "../effect/target/trace";
+import { ChargeEffect } from "../effect/target/charge";
 
 /**
  * ボス1
@@ -124,7 +125,7 @@ namespace Boss1States {
 	export class ChargeAttackState<P extends Boss1> extends Default<P> {
 		*move(): IterableIterator<void> {
 			this.parent.level.add(new ChargeAttack(this.parent.level, this.parent.x - 8, this.parent.y + 32));
-			yield* this.sleep(80);
+			yield* this.sleep(120);
 			this.parent.popState();
 		}
 	}
@@ -254,6 +255,7 @@ namespace Boss1States {
 			});
 			this.parent.level.add(loe);
 			while (!flg_l) yield;
+			// ロックオンした
 			const tx = loe.x;
 			const ty = loe.y;
 			yield* this.sleep(10);
@@ -264,6 +266,8 @@ namespace Boss1States {
 					new TraceEffect(this.parent.level, this.parent.x - 32, this.parent.y + 32, tx, ty, i * 80)
 				);
 			}
+			yield* this.sleep(35);
+			this.parent.level.add(new ChargeEffect(this.parent.level, tx, ty));
 			yield* this.sleep(80);
 			this.parent.popState();
 		}
