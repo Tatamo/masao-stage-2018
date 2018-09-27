@@ -68,8 +68,8 @@ namespace States {
 			for (let i = 0; i < 40; i++) {
 				const tx = jss.getMyXReal() + 16;
 				const ty = jss.getMyYReal() + 16;
-				const dx = tx - this.parent.x;
-				const dy = ty - this.parent.y;
+				const dx = jss.getMyXReal() !== -1 ? tx - this.parent.x : 0;
+				const dy = jss.getMyYReal() !== -1 ? ty - this.parent.y : 0;
 				const d2 = dx * dx + dy * dy;
 				const max_speed = 12 + Math.floor(i / 5);
 				if (d2 > max_speed * max_speed) {
