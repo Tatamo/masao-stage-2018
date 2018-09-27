@@ -18,6 +18,7 @@ import { LockOnEffect } from "../effect/target/lockon";
 import { RotateEffect } from "../effect/target/rotate";
 import { TraceEffect } from "../effect/target/trace";
 import { ChargeEffect } from "../effect/target/charge";
+import { Explode } from "../effect/target/explode";
 
 /**
  * ボス1
@@ -268,7 +269,30 @@ namespace Boss1States {
 			}
 			yield* this.sleep(35);
 			this.parent.level.add(new ChargeEffect(this.parent.level, tx, ty));
-			yield* this.sleep(80);
+			yield* this.sleep(74);
+
+			const entities = new EntityContainer(this.parent.container);
+			for (let i = 0; i < 3; i++) {
+				entities.add(
+					new SmoothShockWaveEffect(
+						this.parent.level,
+						tx - this.parent.x,
+						ty - this.parent.y,
+						0,
+						400,
+						400,
+						0,
+						0,
+						24 - i
+					)
+				);
+				entities.update();
+				yield;
+			}
+			yield* this.sleep(6, () => entities.update());
+			this.parent.level.add(new Explode(this.parent.level, tx, ty));
+			yield* this.sleep(12, () => entities.update());
+			this.parent.container.removeChild(entities.container);
 			this.parent.popState();
 		}
 	}

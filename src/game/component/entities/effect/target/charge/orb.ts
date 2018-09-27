@@ -62,9 +62,10 @@ namespace States {
 				this.parent.y = this.parent.cy + this.parent.r * Math.sin(rad);
 				this.parent.degree = (this.parent.degree + this.parent.vd) % 360;
 				this.parent.r = r_org * (1 - e);
-				this.parent.sprite.scale.set(scale_org * (1 - e));
+				this.parent.sprite.scale.set(scale_org * (0.05 + 0.95 * (1 - e)));
 				yield;
 			}
+			yield* this.sleep(10);
 		}
 	}
 }

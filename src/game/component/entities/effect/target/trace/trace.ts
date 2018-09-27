@@ -33,7 +33,7 @@ export class Trace extends Entity {
 		this.sprite.scale.set(0.5 + 0.25 * Math.random());
 		this.sprite.anchor.set(0.5);
 		this.sprite.alpha = 0.1;
-		this.sprite.blendMode = PIXI.BLEND_MODES.ADD;
+		this.sprite.blendMode = PIXI.BLEND_MODES.SCREEN;
 		this.container.addChild(this.sprite);
 		this.setState(new States.Default(this), false);
 	}
