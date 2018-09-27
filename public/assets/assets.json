@@ -24,6 +24,10 @@
     "path": "assets/images/bullet_blue.png"
   },
   {
+    "name": "bullet_blue_large_image",
+    "path": "assets/images/bullet_blue_large.png"
+  },
+  {
     "name": "bullet_red_image",
     "path": "assets/images/bullet_red.png"
   },
