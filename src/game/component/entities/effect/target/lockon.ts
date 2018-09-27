@@ -60,6 +60,7 @@ namespace States {
 	export class Default<P extends LockOnEffect> extends AbstractState<P> {
 		init(): void {}
 		*update(): IterableIterator<void> {
+			const start_x = this.parent.x;
 			const { jss } = this.parent.api;
 			const easing = easeOutCubic;
 			const ds = 2 - Math.sqrt(2);
@@ -81,6 +82,7 @@ namespace States {
 				}
 				this.parent.y = Math.max(this.parent.y, jss.getViewYReal() + 80);
 				this.parent.y = Math.min(this.parent.y, jss.getViewYReal() + VIEW_HEIGHT - 48 - 2);
+				this.parent.x = Math.min(this.parent.x, start_x);
 				this.parent.sprite2.scale.set(2 - ds * easing(i / 40));
 				this.parent.sprite2.rotation = ((i / 40) * Math.PI) / 4;
 				yield;
@@ -92,7 +94,7 @@ namespace States {
 			this.parent.container.x += 1;
 			this.parent.container.y -= 1;
 			this.parent.ee.emit("locked");
-			yield* this.sleep(30);
+			yield* this.sleep(65);
 		}
 		render(): void {}
 	}

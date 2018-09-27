@@ -7,7 +7,14 @@ import { VIEW_HEIGHT, VIEW_WIDTH } from "../../../../../../main";
 
 export class TraceEffect extends Entity {
 	public readonly entities: EntityContainer;
-	constructor(level: Level, x: number, y: number, public readonly tx: number, public readonly ty: number) {
+	constructor(
+		level: Level,
+		x: number,
+		y: number,
+		public readonly tx: number,
+		public readonly ty: number,
+		public readonly my: number = -1
+	) {
 		super(level, x, y);
 		this.entities = new EntityContainer(this.container);
 		this.setState(new States.Default(this), false);
@@ -21,9 +28,12 @@ namespace States {
 		init(): void {}
 		*update(): IterableIterator<void> {
 			const mx = this.parent.api.jss.getViewXReal() + VIEW_WIDTH;
-			const my = this.parent.api.jss.getViewYReal() + VIEW_HEIGHT * Math.random();
+			const my =
+				this.parent.my >= 0
+					? this.parent.api.jss.getViewYReal() + this.parent.my
+					: this.parent.api.jss.getViewYReal() + VIEW_HEIGHT * Math.random();
 			for (let i = 0; i < this.timespan; i++) {
-				for (let ii = 0; ii < 8; ii++) {
+				for (let ii = 0; ii < 5; ii++) {
 					this.parent.entities.add(
 						new Trace(
 							this.parent.level,
@@ -38,7 +48,6 @@ namespace States {
 					);
 				}
 				this.parent.entities.update();
-				console.log(this.parent.entities.size);
 				yield;
 			}
 			// 子供が全員死ぬまでは死なない

@@ -14,6 +14,9 @@ import { Ring } from "../attack/ring";
 import { Orbit } from "../attack/orbit";
 import { EnemyHealthBar } from "../information/enemyhealthbar";
 import { DamageEffect } from "../effect/damage";
+import { LockOnEffect } from "../effect/target/lockon";
+import { RotateEffect } from "../effect/target/rotate";
+import { TraceEffect } from "../effect/target/trace";
 
 /**
  * ボス1
@@ -62,6 +65,8 @@ namespace Boss1States {
 		}
 		*move(): IterableIterator<void> {
 			if (!this.parent.shield.on) this.parent.shield.show();
+			yield* this.sleep(24);
+			this.parent.pushState(new LockOnAttackState(this.parent));
 			yield* this.sleep(24);
 			this.parent.pushState(new ChargeAttackState(this.parent));
 			yield* this.sleep(24);
@@ -237,6 +242,29 @@ namespace Boss1States {
 				yield;
 			}
 			this.parent.x = x_org;
+			this.parent.popState();
+		}
+	}
+	export class LockOnAttackState<P extends Boss1> extends Default<P> {
+		*move(): IterableIterator<void> {
+			const loe = new LockOnEffect(this.parent.level, this.parent.x + 32, this.parent.y + 32);
+			let flg_l = false;
+			loe.ee.once("locked", () => {
+				flg_l = true;
+			});
+			this.parent.level.add(loe);
+			while (!flg_l) yield;
+			const tx = loe.x;
+			const ty = loe.y;
+			yield* this.sleep(10);
+			this.parent.level.add(new RotateEffect(this.parent.level, this.parent.x - 32, this.parent.y + 32));
+			yield* this.sleep(20);
+			for (let i = 0; i < 5; i++) {
+				this.parent.level.add(
+					new TraceEffect(this.parent.level, this.parent.x - 32, this.parent.y + 32, tx, ty, i * 80)
+				);
+			}
+			yield* this.sleep(80);
 			this.parent.popState();
 		}
 	}
