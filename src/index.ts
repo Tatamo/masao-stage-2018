@@ -1,4 +1,3 @@
-import { format } from "masao";
 import json from "../public/assets/game.json";
 import assets from "../public/assets/assets.json";
 import launch from "./launch";
@@ -6,7 +5,7 @@ import launch from "./launch";
 import { GlowFilter } from "@pixi/filter-glow";
 
 // masao-json-formatからパラメータオブジェクトを取得
-const { params: p, "advanced-map": am } = format.load(json);
+const { params: p, "advanced-map": am } = json;
 
 // パラメータを上書き
 const params = {
@@ -53,7 +52,7 @@ const params = {
 	filename_se_chizugamen: "assets/sounds/get.mp3"
 };
 
-launch(params, am!, assets);
+launch(params, am, assets);
 
 /*
 // canvasを試しに作ってみる
