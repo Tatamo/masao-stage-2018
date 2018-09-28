@@ -1,5 +1,5 @@
 import * as PIXI from "pixi.js";
-export class Resource {
+export default class Resource {
 	/**
 	 * パターン画像のテクスチャ
 	 * パターンコードで添え字アクセスして取得する

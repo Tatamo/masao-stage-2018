@@ -1,6 +1,6 @@
 import * as PIXI from "pixi.js";
 import { AbstractState } from "../../../statemachine";
-import { Resource } from "../../../resource";
+import Resource from "../../../resource";
 import { Enemy } from "./enemy";
 import { Level } from "../../../levels/level";
 import { Bullet1 } from "../attack/bullet1";

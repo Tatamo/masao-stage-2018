@@ -1,11 +1,11 @@
 import { LoadCompleteWaiterExtension } from "./extensions/loadcompletewaiter";
-import { Main, VIEW_HEIGHT, VIEW_WIDTH } from "./main";
+import Main, { VIEW_HEIGHT, VIEW_WIDTH } from "./main";
 import { Graphics } from "./definitions/graphics";
 import * as PIXI from "pixi.js";
 import { InitCallbackExtension } from "./extensions/initcallback";
 import { LoadingScreenSuppressorExtension } from "./extensions/loading_screen_suppressor";
 import { PlayerEventWatcherExtension } from "./extensions/playereventwatcher";
-import { Resource } from "./game/resource";
+import Resource from "./game/resource";
 
 // JSMasaoオブジェクトの型情報を宣言しておく
 interface JSMasaoOptions {
@@ -25,7 +25,7 @@ declare class JSMasao {
  * @param advancemap
  * @param resources
  */
-export function launch(params: object, advancemap: object, resources: Array<{ name: string; path: string }>) {
+export default function launch(params: object, advancemap: object, resources: Array<{ name: string; path: string }>) {
 	// ローディング周りの非同期処理が非常に煩雑なので汚いコードはここにまとめる
 	const load_complete_waiter = new LoadCompleteWaiterExtension();
 	let main: Main | null = null;

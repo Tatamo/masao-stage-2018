@@ -3,7 +3,7 @@ import { EasingFunction } from "bezier-easing";
 import * as PIXI from "pixi.js";
 import { Entity } from "../entity";
 import { Level } from "../../../levels/level";
-import { Resource } from "../../../resource";
+import Resource from "../../../resource";
 import { easeOutExpo } from "../../../../utils/easing";
 
 /**

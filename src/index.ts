@@ -1,8 +1,8 @@
 import { format } from "masao";
 import json from "../public/assets/game.json";
 import assets from "../public/assets/assets.json";
-import { launch } from "./launch";
-import * as PIXI from "pixi.js";
+import launch from "./launch";
+// import * as PIXI from "pixi.js";
 import { GlowFilter } from "@pixi/filter-glow";
 
 // masao-json-formatからパラメータオブジェクトを取得

@@ -3,13 +3,13 @@ import { Graphics } from "./definitions/graphics";
 import { Level } from "./game/levels/level";
 import { Stage1 } from "./game/levels/stage1";
 import { GameAPI } from "./game/api";
-import { Resource } from "./game/resource";
+import Resource from "./game/resource";
 
 export const MAX_HP = 100;
 export const VIEW_WIDTH = 512;
 export const VIEW_HEIGHT = 320;
 
-export class Main {
+export default class Main {
 	private flg_initialized: boolean;
 	private readonly renderer: PIXI.WebGLRenderer | PIXI.CanvasRenderer;
 	private readonly base_sprite: PIXI.Sprite;
