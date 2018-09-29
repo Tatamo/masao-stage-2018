@@ -293,6 +293,7 @@ namespace Boss1States {
 			this.parent.level.add(new Explode(this.parent.level, tx, ty));
 			yield* this.sleep(12, () => entities.update());
 			this.parent.container.removeChild(entities.container);
+			entities.destroy();
 			this.parent.popState();
 		}
 	}
