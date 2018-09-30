@@ -56,6 +56,23 @@ export default class Resource {
 	}
 
 	/**
+	 * 音を鳴らす
+	 * @param name 再生するオーディオの名前
+	 * @param force default=true falseなら同じ音声が鳴っている場合はなにもしない
+	 */
+	play(name: string, force: boolean = true) {
+		if (force) {
+			this.sounds[name].pause();
+			this.sounds[name].currentTime = 0;
+		}
+		this.sounds[name]
+			.play()
+			.then(() => null)
+			.catch(e => {
+				throw e;
+			});
+	}
+	/**
 	 * 指定した名前のテクスチャが存在しなければ作成して登録し、存在すればそれをそのまま返します
 	 * @param name テクスチャ名
 	 * @param texture_callback テクスチャを返す関数 指定した名前のテクスチャが存在しない場合のみ呼び出される

@@ -185,6 +185,7 @@ namespace Boss1States {
 				);
 			}
 			this.parent.shield.hide();
+			this.parent.api.resource.play("tobasu");
 			// 待機
 			for (let i = 0; i < 80; i++) {
 				entities.update();
@@ -229,12 +230,15 @@ namespace Boss1States {
 			// リングが最も小さくなったタイミングで発射
 			const laser = new Laser(this.parent.level, this.parent.x - 48, this.parent.y + 32);
 			this.parent.level.add(laser);
+			this.parent.api.resource.play("mgan");
 			for (let i = 0; i < 4; i++) {
 				this.parent.level.add(new Orbit(this.parent.level, this.parent.x + 32 - 8, this.parent.y + 32, 102));
 				this.parent.level.add(new Orbit(this.parent.level, this.parent.x + 32 + 8, this.parent.y + 32, 78));
+				if (i !== 0) this.parent.api.resource.play("happa");
 				yield* this.sleep(30);
 				this.parent.level.add(new Orbit(this.parent.level, this.parent.x + 32 - 8, this.parent.y + 32, 12));
 				this.parent.level.add(new Orbit(this.parent.level, this.parent.x + 32 + 8, this.parent.y + 32, -12));
+				this.parent.api.resource.play("happa");
 				yield* this.sleep(30);
 			}
 			yield* this.sleep(40);
@@ -263,7 +267,9 @@ namespace Boss1States {
 				flg_l = true;
 			});
 			this.parent.level.add(loe);
+			this.parent.api.resource.play("shot");
 			while (!flg_l) yield;
+			this.parent.api.resource.play("item");
 			// ロックオンした
 			const tx = loe.x;
 			const ty = loe.y;
@@ -280,6 +286,7 @@ namespace Boss1States {
 			yield* this.sleep(74);
 
 			const entities = new EntityContainer(this.parent.container);
+			this.parent.api.resource.play("kiki");
 			for (let i = 0; i < 3; i++) {
 				entities.add(
 					new SmoothShockWaveEffect(
@@ -298,6 +305,7 @@ namespace Boss1States {
 				yield;
 			}
 			yield* this.sleep(6, () => entities.update());
+			this.parent.api.resource.play("tobasu");
 			this.parent.level.add(new Explode(this.parent.level, tx, ty));
 			yield* this.sleep(12, () => entities.update());
 			this.parent.container.removeChild(entities.container);
@@ -341,6 +349,7 @@ namespace Boss1States {
 			yield;
 			// 右から左に移動
 			const target1 = AirRaidAttackState.shuffle(16, 8);
+			this.parent.api.resource.play("mgan");
 			while (this.parent.x >= view_x - 96) {
 				const tile = Math.floor((this.parent.x + 32 - view_x) / 32);
 				if (tile >= 0 && tile < target1.length && target1[tile]) {
@@ -356,6 +365,7 @@ namespace Boss1States {
 			// 左から右に移動
 			this.parent.y = view_y - 64;
 			const target2 = AirRaidAttackState.shuffle(16, 8);
+			this.parent.api.resource.play("mgan");
 			while (this.parent.x <= view_x + VIEW_WIDTH + 32) {
 				const tile = Math.floor((this.parent.x + 32 - view_x) / 32);
 				if (tile >= 0 && tile < target2.length && target2[tile]) {

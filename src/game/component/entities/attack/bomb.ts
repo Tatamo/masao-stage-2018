@@ -80,6 +80,7 @@ namespace States {
 	}
 	export class Explode<P extends Bomb> extends Base<P> {
 		*update(): IterableIterator<void> {
+			this.parent.api.resource.play("shot");
 			const pattern = this.parent.pattern;
 			this.parent.sprite.scale.x = 1;
 			this.parent.sprite.filters![0].enabled = false;
