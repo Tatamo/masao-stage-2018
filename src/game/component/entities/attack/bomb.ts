@@ -52,9 +52,10 @@ namespace States {
 			this.parent.vy += 8;
 			if (this.parent.vy > 200) this.parent.vy = 200;
 			this.parent.y += Math.trunc(this.parent.vy / 10);
+			// ブロックとの当たり判定
 			if (
 				this.parent.api.jss.getMapchip(
-					Math.round((this.parent.x - 32) / 32),
+					Math.round((this.parent.x - 64) / 32),
 					Math.round((this.parent.y - 320) / 32)
 				) >= 20
 			) {

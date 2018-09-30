@@ -19,6 +19,8 @@ import { RotateEffect } from "../effect/target/rotate";
 import { TraceEffect } from "../effect/target/trace";
 import { ChargeEffect } from "../effect/target/charge";
 import { Explode } from "../effect/target/explode";
+import { VIEW_WIDTH } from "../../../../main";
+import { Bomb } from "../attack/bomb";
 
 /**
  * ボス1
@@ -303,10 +305,76 @@ namespace Boss1States {
 		}
 	}
 	export class AirRaidAttackState<P extends Boss1> extends Default<P> {
+		/**
+		 * trueとfalseを無作為に配置した配列を生成
+		 * @param len 配列の長さ
+		 * @param num trueの個数
+		 */
+		static shuffle(len: number, num: number): Array<boolean> {
+			if (len < 0) len = 0;
+			if (num < 0) num = 0;
+			if (num > len) num = len;
+			const result: Array<boolean> = [];
+			for (let i = 0; i < len; i++) {
+				result.push(i < num);
+			}
+			for (let i = len - 1; i >= 0; i--) {
+				const ii = Math.floor(Math.random() * i);
+				const tmp = result[i];
+				result[i] = result[ii];
+				result[ii] = tmp;
+			}
+			return result;
+		}
 		*move(): IterableIterator<void> {
-			this.parent.level.add(new ChargeAttack(this.parent.level, this.parent.x - 8, this.parent.y + 32));
-			this.parent.api.jss.setEnemy(8, 2, 23);
-			yield* this.sleep(120);
+			const { jss } = this.parent.api;
+			const x_org = this.parent.x;
+			const y_org = this.parent.y;
+			const view_x: number = jss.getViewXReal();
+			const view_y: number = jss.getViewYReal();
+			while (this.parent.x <= view_x + VIEW_WIDTH + 32) {
+				this.parent.x += 6;
+				yield;
+			}
+			this.parent.x = view_x + VIEW_WIDTH + 64;
+			this.parent.y = view_y - 32;
+			yield;
+			// 右から左に移動
+			const target1 = AirRaidAttackState.shuffle(16, 8);
+			while (this.parent.x >= view_x - 96) {
+				const tile = Math.floor((this.parent.x + 32 - view_x) / 32);
+				if (tile >= 0 && tile < target1.length && target1[tile]) {
+					this.parent.level.add(
+						new Bomb(this.parent.level, this.parent.x + 32 + 48, this.parent.y + 32 + 16, -1)
+					);
+				}
+				this.parent.x -= 32;
+				yield;
+			}
+
+			yield* this.sleep(18);
+			// 左から右に移動
+			this.parent.y = view_y - 64;
+			const target2 = AirRaidAttackState.shuffle(16, 8);
+			while (this.parent.x <= view_x + VIEW_WIDTH + 32) {
+				const tile = Math.floor((this.parent.x + 32 - view_x) / 32);
+				if (tile >= 0 && tile < target2.length && target2[tile]) {
+					this.parent.level.add(
+						new Bomb(this.parent.level, this.parent.x + 32 - 16, this.parent.y + 32 + 16, 1)
+					);
+				}
+				this.parent.x += 32;
+				yield;
+			}
+			yield* this.sleep(12);
+			// 元の位置に戻る
+			this.parent.x = view_x + VIEW_WIDTH + 32 - ((view_x + VIEW_WIDTH + 32 - x_org) % 6);
+			this.parent.y = y_org;
+			while (this.parent.x > x_org) {
+				this.parent.x -= 6;
+				yield;
+			}
+			this.parent.x = x_org;
 			this.parent.popState();
 		}
 	}
