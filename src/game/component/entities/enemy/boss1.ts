@@ -68,6 +68,8 @@ namespace Boss1States {
 		*move(): IterableIterator<void> {
 			if (!this.parent.shield.on) this.parent.shield.show();
 			yield* this.sleep(24);
+			this.parent.pushState(new AirRaidAttackState(this.parent));
+			yield* this.sleep(24);
 			this.parent.pushState(new LockOnAttackState(this.parent));
 			yield* this.sleep(24);
 			this.parent.pushState(new ChargeAttackState(this.parent));
@@ -297,6 +299,14 @@ namespace Boss1States {
 			this.parent.level.add(new Explode(this.parent.level, tx, ty));
 			yield* this.sleep(12, () => entities.update());
 			this.parent.container.removeChild(entities.container);
+			this.parent.popState();
+		}
+	}
+	export class AirRaidAttackState<P extends Boss1> extends Default<P> {
+		*move(): IterableIterator<void> {
+			this.parent.level.add(new ChargeAttack(this.parent.level, this.parent.x - 8, this.parent.y + 32));
+			this.parent.api.jss.setEnemy(8, 2, 23);
+			yield* this.sleep(120);
 			this.parent.popState();
 		}
 	}

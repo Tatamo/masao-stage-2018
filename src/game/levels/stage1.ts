@@ -6,6 +6,7 @@ import { Boss1 } from "../component/entities/enemy/boss1";
 import * as PIXI from "pixi.js";
 import { PlayerAttack } from "../component/entities/effect/playerattack";
 import { DamageEffect } from "../component/entities/effect/damage";
+import { Bomb } from "../component/entities/attack/bomb";
 
 export class Stage1 extends AbstractLevel {
 	constructor(api: GameAPI) {
@@ -14,6 +15,7 @@ export class Stage1 extends AbstractLevel {
 		jss.setMyMaxHP(MAX_HP);
 		this.add(new HealthBar(this, MAX_HP));
 		this.add(new Boss1(this, 384 + 32, 192 + 320));
+		this.add(new Bomb(this, 160 + 16 + 32, 32 + 320));
 
 		// 主人公の行動を監視する
 		const ee: PIXI.utils.EventEmitter = jss.createPlayerEventEmitter();
