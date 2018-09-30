@@ -88,16 +88,15 @@ namespace Boss1States {
 			const { jss } = this.parent.api;
 			const m_x = jss.getMyXReal();
 			const m_y = jss.getMyYReal();
-			// 主人公との当たり判定
-			if (
-				m_x <= this.parent.x + 64 &&
-				m_x + 32 >= this.parent.x &&
-				m_y < this.parent.y + 64 &&
-				m_y + 32 >= this.parent.y
-			) {
-				if (!this.parent.shield.on && jss.getMyVY() > 10) {
-					// ボスにシールドがなく、主人公が降下中
-
+			// ボスにシールドがなく、主人公が降下中
+			if (!this.parent.shield.on && jss.getMyVY() > 10) {
+				// 主人公との当たり判定 (矩形)
+				if (
+					m_x <= this.parent.x + 64 &&
+					m_x + 32 >= this.parent.x &&
+					m_y < this.parent.y + 64 &&
+					m_y + 32 >= this.parent.y
+				) {
 					// 主人公が踏む
 					jss.setMyPress(3);
 					jss.setMyYReal(this.parent.y + 8);
@@ -111,7 +110,12 @@ namespace Boss1States {
 						new DamageEffect(this.parent.level, this.parent.x + 32, this.parent.y + 32, 20, 1)
 					);
 					this.parent.pushState(new Damage(this.parent));
-				} else {
+				}
+			} else {
+				const dx = m_x + 16 - (this.parent.x + 32);
+				const dy = m_y + 16 - (this.parent.y + 32);
+				// 円形の当たり判定
+				if (dx * dx + dy * dy < (16 + 32) * (16 + 32)) {
 					// 主人公にダメージ
 					if (this.parent.shield.showing) {
 						// シールド展開途中は受けるダメージが小さい
