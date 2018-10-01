@@ -11,8 +11,7 @@ import { easeOutExpo } from "../../../../../utils/easing";
 export class ChargeAttack extends Entity {
 	public readonly entities: EntityContainer;
 	public readonly sprite_body: PIXI.Sprite;
-	// public charge_finished: boolean;
-	constructor(level: Level, x: number, y: number) {
+	constructor(level: Level, x: number, y: number, public readonly strong: boolean = false) {
 		super(level, x, y);
 		// this.charge_finished = false;
 		this.entities = new EntityContainer(this.container);
@@ -43,16 +42,27 @@ namespace States {
 			this.parent.sprite_body.alpha = 1;
 			this.parent.sprite_body.scale.x = this.parent.sprite_body.scale.y = 1.6;
 			// 3連射
-			for (let i = 1.6; i > 1; i -= 0.3) {
-				this.attack();
+			for (let i = 1.6; i >= 1; i -= 0.3) {
+				for (let ii = 0; ii < 3; ii++) {
+					const rad = Math.atan2(
+						this.parent.api.jss.getMyYReal() + 16 - this.parent.y,
+						this.parent.api.jss.getMyXReal() + 16 - this.parent.x
+					);
+					this.attack(rad);
+					if (ii === 2 && this.parent.strong) {
+						this.attack(rad - Math.PI / 12);
+						this.attack(rad + Math.PI / 12);
+					}
+					yield;
+				}
 				this.parent.sprite_body.scale.x = this.parent.sprite_body.scale.y = i;
+				if (i === 1) break;
 				for (let ii = 0; ii < 8; ii++) {
 					this.parent.sprite_body.scale.x = this.parent.sprite_body.scale.y = i - 0.3 * easing(ii / 8);
 					yield;
 				}
 				yield* this.sleep(2);
 			}
-			this.attack();
 			// アニメーションさせながら消滅させる
 			this.parent.sprite_body.blendMode = PIXI.BLEND_MODES.ADD;
 			for (let ii = 0; ii < 8; ii++) {
@@ -61,8 +71,8 @@ namespace States {
 				yield;
 			}
 		}
-		attack() {
-			this.parent.level.add(new Bullet(this.parent.level, this.parent.x, this.parent.y));
+		attack(rad: number = Math.PI) {
+			this.parent.level.add(new Bullet(this.parent.level, this.parent.x, this.parent.y, rad));
 			this.parent.level.add(
 				new AsymmetryShockWaveEffect(
 					this.parent.level,

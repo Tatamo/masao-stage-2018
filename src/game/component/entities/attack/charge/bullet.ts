@@ -8,10 +8,10 @@ export class Bullet extends Entity {
 	public vx: number;
 	public vy: number;
 	public filter: PIXI.filters.ColorMatrixFilter;
-	constructor(level: Level, x: number, y: number) {
+	constructor(level: Level, x: number, y: number, public readonly rad = Math.PI, public readonly speed = 16) {
 		super(level, x, y);
-		this.vx = -8;
-		this.vy = 0;
+		this.vx = speed * Math.cos(rad);
+		this.vy = speed * Math.sin(rad);
 		const { resource } = this.api;
 		const sprite_body = new PIXI.Sprite(resource.images["bullet_blue"]);
 		sprite_body.anchor.x = 0.5;
