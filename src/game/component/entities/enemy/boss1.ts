@@ -48,12 +48,12 @@ export class Boss1 extends Enemy {
 		this.container.addChild(this.shield.container, this.sprite_normal, this.sprite_damage);
 		this.healthbar = new EnemyHealthBar(level, this, this.hp);
 		level.add(this.healthbar);
-		this.setState(new Boss1States.Default(this));
+		this.setState(new Boss1States.Normal1(this));
 	}
 }
 
 namespace Boss1States {
-	export class Default<P extends Boss1> extends AbstractState<P> {
+	abstract class Default<P extends Boss1> extends AbstractState<P> {
 		init(): void {
 			this.parent.sprite_normal.visible = true;
 			this.parent.sprite_damage.visible = false;
@@ -66,24 +66,7 @@ namespace Boss1States {
 				yield;
 			}
 		}
-		*move(): IterableIterator<void> {
-			if (!this.parent.shield.on) this.parent.shield.show();
-			yield* this.sleep(24);
-			this.parent.pushState(new AirRaidAttackState(this.parent));
-			yield* this.sleep(24);
-			this.parent.pushState(new LockOnAttackState(this.parent));
-			yield* this.sleep(24);
-			this.parent.pushState(new ChargeAttackState(this.parent));
-			yield* this.sleep(24);
-			this.parent.pushState(new ShieldAttackState(this.parent));
-			yield;
-			if (!this.parent.shield.on && !this.parent.shield.showing) {
-				this.parent.shield.show();
-			}
-			yield* this.sleep(24);
-			this.parent.pushState(new LaserAttackState(this.parent));
-			yield* this.sleep(24);
-		}
+		abstract move(): IterableIterator<void>;
 		checkCollision(): void {
 			const { jss } = this.parent.api;
 			const m_x = jss.getMyXReal();
@@ -127,9 +110,74 @@ namespace Boss1States {
 			}
 		}
 	}
-	export class ChargeAttackState<P extends Boss1> extends Default<P> {
+	export class Normal1<P extends Boss1> extends Default<P> {
 		*move(): IterableIterator<void> {
-			this.parent.level.add(new ChargeAttack(this.parent.level, this.parent.x - 8, this.parent.y + 32));
+			if (!this.parent.shield.on && !this.parent.shield.showing) {
+				this.parent.shield.show();
+			}
+			yield* this.sleep(24);
+			this.parent.pushState(new ChargeAttackState(this.parent));
+			yield* this.sleep(24);
+			this.parent.pushState(new AirRaidAttackState(this.parent));
+			yield* this.sleep(24);
+			this.parent.pushState(new ChargeAttackState(this.parent));
+			yield* this.sleep(24);
+			this.parent.pushState(new ShieldAttackState(this.parent));
+			yield;
+			if (!this.parent.shield.on && !this.parent.shield.showing) {
+				this.parent.shield.show();
+			}
+		}
+	}
+	export class Normal2<P extends Boss1> extends Default<P> {
+		*move(): IterableIterator<void> {
+			if (!this.parent.shield.on && !this.parent.shield.showing) {
+				this.parent.shield.show();
+			}
+			yield* this.sleep(24);
+			this.parent.pushState(new LockOnAttackState(this.parent));
+			yield* this.sleep(24);
+			this.parent.pushState(new AirRaidAttackState(this.parent));
+			yield* this.sleep(24);
+			this.parent.pushState(new ShieldAttackState(this.parent));
+			yield;
+			if (!this.parent.shield.on && !this.parent.shield.showing) {
+				this.parent.shield.show();
+			}
+		}
+	}
+	export class Normal3<P extends Boss1> extends Default<P> {
+		*move(): IterableIterator<void> {
+			if (!this.parent.shield.on && !this.parent.shield.showing) {
+				this.parent.shield.show();
+			}
+			yield* this.sleep(24);
+			this.parent.pushState(new ChargeAttackState(this.parent, true));
+			yield* this.sleep(24);
+			this.parent.pushState(new LaserAttackState(this.parent));
+			yield* this.sleep(24);
+			this.parent.pushState(new ChargeAttackState(this.parent, true));
+			yield* this.sleep(24);
+			if (this.parent.hp <= 20) {
+				this.parent.pushState(new LockOnAndAirRaidAttack(this.parent));
+				yield* this.sleep(24);
+			}
+			this.parent.pushState(new ShieldAttackState(this.parent));
+			yield;
+			if (!this.parent.shield.on && !this.parent.shield.showing) {
+				this.parent.shield.show();
+			}
+			yield* this.sleep(24);
+		}
+	}
+	export class ChargeAttackState<P extends Boss1> extends Default<P> {
+		constructor(p: P, private readonly strong: boolean = false) {
+			super(p);
+		}
+		*move(): IterableIterator<void> {
+			this.parent.level.add(
+				new ChargeAttack(this.parent.level, this.parent.x - 8, this.parent.y + 32, this.strong)
+			);
 			yield* this.sleep(70);
 			this.parent.popState();
 		}
@@ -256,6 +304,9 @@ namespace Boss1States {
 		}
 	}
 	export class LockOnAttackState<P extends Boss1> extends Default<P> {
+		constructor(p: P, private readonly do_not_pop: boolean = false) {
+			super(p);
+		}
 		*move(): IterableIterator<void> {
 			const loe = new LockOnEffect(this.parent.level, this.parent.x + 32, this.parent.y + 32);
 			let flg_l = false;
@@ -281,31 +332,16 @@ namespace Boss1States {
 			this.parent.level.add(new ChargeEffect(this.parent.level, tx, ty));
 			yield* this.sleep(74);
 
-			const entities = new EntityContainer(this.parent.container);
 			this.parent.api.resource.play("kiki");
 			for (let i = 0; i < 3; i++) {
-				entities.add(
-					new SmoothShockWaveEffect(
-						this.parent.level,
-						tx - this.parent.x,
-						ty - this.parent.y,
-						0,
-						400,
-						400,
-						0,
-						0,
-						24 - i
-					)
-				);
-				entities.update();
+				this.parent.level.add(new SmoothShockWaveEffect(this.parent.level, tx, ty, 0, 400, 400, 0, 0, 24 - i));
 				yield;
 			}
-			yield* this.sleep(6, () => entities.update());
+			yield* this.sleep(6);
 			this.parent.api.resource.play("tobasu");
 			this.parent.level.add(new Explode(this.parent.level, tx, ty));
-			yield* this.sleep(12, () => entities.update());
-			this.parent.container.removeChild(entities.container);
-			this.parent.popState();
+			yield* this.sleep(12);
+			if (!this.do_not_pop) this.parent.popState();
 		}
 	}
 	export class AirRaidAttackState<P extends Boss1> extends Default<P> {
@@ -329,6 +365,9 @@ namespace Boss1States {
 				result[ii] = tmp;
 			}
 			return result;
+		}
+		constructor(p: P, private readonly do_not_pop: boolean = false) {
+			super(p);
 		}
 		*move(): IterableIterator<void> {
 			const { jss } = this.parent.api;
@@ -381,6 +420,30 @@ namespace Boss1States {
 				yield;
 			}
 			this.parent.x = x_org;
+			if (!this.do_not_pop) this.parent.popState();
+		}
+	}
+	export class LockOnAndAirRaidAttack<P extends Boss1> extends Default<P> {
+		private airraid!: IterableIterator<void>;
+		private lockon!: IterableIterator<void>;
+		init(): void {
+			this.lockon = new LockOnAttackState(this.parent, true).move();
+			this.airraid = new AirRaidAttackState(this.parent, true).move();
+		}
+		*move() {
+			let cnt = 0;
+			let ldone = false;
+			let adone = false;
+			while (cnt < 110) {
+				ldone = this.lockon.next().done;
+				yield;
+				cnt++;
+			}
+			while (!ldone || !adone) {
+				ldone = this.lockon.next().done;
+				adone = this.airraid.next().done;
+				yield;
+			}
 			this.parent.popState();
 		}
 	}
@@ -396,7 +459,13 @@ namespace Boss1States {
 				yield* this.sleep(6, () => this.parent.shield.update());
 				this.parent.sprite_normal.visible = true;
 				this.parent.sprite_damage.visible = false;
-				this.parent.popState();
+				if (this.parent.hp === 60) {
+					this.parent.setState(new Normal2(this.parent));
+				} else if (this.parent.hp === 40) {
+					this.parent.setState(new Normal3(this.parent));
+				} else {
+					this.parent.popState();
+				}
 			} else {
 				yield* this.sleep(8);
 				this.parent.setState(new Die(this.parent));
