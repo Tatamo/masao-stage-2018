@@ -43,7 +43,7 @@ export default function launch(params: object, advancemap: object, resources: Ar
 		graphics._ctx.fillStyle = "#ffffff";
 		graphics._ctx.font = "16px sans-serif";
 
-		graphics._ctx.fillText("ただいまファイルを読み込み中。しばらくお待ち下さい。", 32, 160);
+		graphics._ctx.fillText(`ただいまファイルを読み込み中。しばらくお待ち下さい。`, 32, 160);
 	};
 	const userjs = (graphics: Graphics, mode: number) => {
 		main!.userJS(mode);

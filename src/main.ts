@@ -25,6 +25,13 @@ export default class Main {
 			width: VIEW_WIDTH,
 			height: VIEW_HEIGHT
 		});
+		if (this.renderer.type !== PIXI.RENDERER_TYPE.WEBGL) {
+			const message = document.getElementById("webgl_message");
+			if (message !== null) {
+				// WebGLが有効化されていないため、警告メッセージを表示
+				message.style.display = "block";
+			}
+		}
 		const root = new PIXI.Container();
 		this.base_sprite = PIXI.Sprite.from(graphics._ctx.canvas);
 		this.base_ctx = graphics._ctx;
