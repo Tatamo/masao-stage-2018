@@ -40,7 +40,7 @@ namespace States {
 			const dy = m_y + 16 - this.parent.y;
 			// 円形の当たり判定
 			if (dx * dx + dy * dy < 24 * 24) {
-				this.damage(jss, 8, 1);
+				this.damage(jss, 12, 1);
 			}
 		}
 	}

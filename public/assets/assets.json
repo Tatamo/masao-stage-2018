@@ -130,5 +130,25 @@
   {
     "name": "tobasu_sound",
     "path": "assets/sounds/tobasu.mp3"
+  },
+  {
+    "name": "charge1_sound",
+    "path": "assets/sounds/attack2.mp3"
+  },
+  {
+    "name": "charge2_sound",
+    "path": "assets/sounds/powerup02.mp3"
+  },
+  {
+    "name": "shield_sound",
+    "path": "assets/sounds/strange_wave.mp3"
+  },
+  {
+    "name": "trace_sound",
+    "path": "assets/sounds/magic_elevator.mp3"
+  },
+  {
+    "name": "laser_sound",
+    "path": "assets/sounds/beam2.mp3"
   }
 ]

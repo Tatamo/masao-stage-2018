@@ -193,6 +193,7 @@ namespace Boss1States {
 			const entities = new EntityContainer(this.parent.container);
 			let cnt = 0;
 			for (let i = 0; i < 3; i++) {
+				this.parent.api.resource.play("charge2");
 				entities.add(
 					new SmoothShockWaveEffect(
 						this.parent.level,
@@ -267,6 +268,8 @@ namespace Boss1States {
 			rings[0].ee.once("shrink", () => {
 				flg_shrink = true;
 			});
+			yield* this.sleep(22);
+			this.parent.api.resource.play("charge1");
 			// リングの収縮まで待つ
 			while (!flg_shrink) {
 				yield;
@@ -274,7 +277,7 @@ namespace Boss1States {
 			// リングが最も小さくなったタイミングで発射
 			const laser = new Laser(this.parent.level, this.parent.x - 48, this.parent.y + 32);
 			this.parent.level.add(laser);
-			this.parent.api.resource.play("mgan");
+			this.parent.api.resource.play("laser");
 			for (let i = 0; i < 4; i++) {
 				this.parent.level.add(new Orbit(this.parent.level, this.parent.x + 32 - 8, this.parent.y + 32, 102));
 				this.parent.level.add(new Orbit(this.parent.level, this.parent.x + 32 + 8, this.parent.y + 32, 78));
@@ -332,10 +335,11 @@ namespace Boss1States {
 				);
 			}
 			yield* this.sleep(35);
+			this.parent.api.resource.play("trace");
 			this.parent.level.add(new ChargeEffect(this.parent.level, tx, ty));
 			yield* this.sleep(74);
 
-			this.parent.api.resource.play("kiki");
+			this.parent.api.resource.play("charge1");
 			for (let i = 0; i < 3; i++) {
 				this.parent.level.add(new SmoothShockWaveEffect(this.parent.level, tx, ty, 0, 400, 400, 0, 0, 24 - i));
 				yield;

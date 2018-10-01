@@ -43,6 +43,7 @@ namespace States {
 			this.parent.sprite_body.scale.x = this.parent.sprite_body.scale.y = 1.6;
 			// 3連射
 			for (let i = 1.6; i >= 1; i -= 0.3) {
+				this.parent.api.resource.play("mgan");
 				for (let ii = 0; ii < 3; ii++) {
 					const rad = Math.atan2(
 						this.parent.api.jss.getMyYReal() + 16 - this.parent.y,

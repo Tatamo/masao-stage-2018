@@ -49,7 +49,7 @@ namespace States {
 	}
 	export class Showing<P extends Shield> extends AbstractState<P> {
 		*update(): IterableIterator<void> {
-			this.parent.api.resource.play("happa");
+			this.parent.api.resource.play("shield");
 			this.parent._on = true;
 			this.parent.showing = true;
 			this.parent.container.visible = true;
