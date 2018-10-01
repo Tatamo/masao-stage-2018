@@ -11,10 +11,9 @@ export class EntityContainer {
 	}
 	private readonly _container: PIXI.Container;
 	get size(): number {
-		return this.children.length - this.unused_stack.length;
+		return this.children.length;
 	}
-	private readonly children: Array<Entity | null>;
-	private readonly unused_stack: Array<number>;
+	private children: Array<Entity | null>;
 
 	/**
 	 * @param container
@@ -29,18 +28,16 @@ export class EntityContainer {
 			this._container = container;
 		}
 		this.children = [];
-		this.unused_stack = [];
 	}
 	add(child: Entity) {
 		this._container.addChild(child.container);
-		if (this.unused_stack.length > 0) {
-			this.children[this.unused_stack.pop()!] = child;
-		} else {
-			this.children.push(child);
-		}
+		this.children.push(child);
 	}
 	update() {
-		for (const child of this.children) {
+		// ループ開始前の子要素の数を使ってループ
+		const len = this.children.length;
+		for (let i = 0; i < len; i++) {
+			const child = this.children[i];
 			if (child !== null) {
 				child.update();
 			}
@@ -54,8 +51,13 @@ export class EntityContainer {
 				this._container.removeChild(this.children[i]!.container);
 				this.children[i]!.container.destroy({ children: true });
 				this.children[i] = null;
-				this.unused_stack.push(i);
 			}
+		}
+		// nullの要素を取り除く O(n)
+		const tmp = this.children;
+		this.children = [];
+		for (const child of tmp) {
+			if (child !== null) this.children.push(child);
 		}
 	}
 	render() {
