@@ -485,8 +485,11 @@ namespace Boss1States {
 			this.parent.sprite_damage.visible = false;
 			this.parent.healthbar.container.visible = false;
 			this.parent.healthbar.kill();
+		}
+		*update(): IterableIterator<void> {
+			yield* this.sleep(14);
+			this.parent.api.jss.setStageClear();
 			this.parent.kill();
 		}
-		*update(): IterableIterator<void> {}
 	}
 }
