@@ -50,4 +50,4 @@ const params = {
 	filename_se_chizugamen: "assets/sounds/get.mp3"
 };
 
-launch(params, am!, assets);
+launch(params, am, assets);

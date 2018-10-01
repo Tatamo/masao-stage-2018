@@ -42,18 +42,6 @@
 					},
 					{ "type": "mapchip", "map": [] }
 				]
-			},
-			{
-				"size": { "x": 180, "y": 30 },
-				"layers": [{ "type": "main", "map": [] }, { "type": "mapchip", "map": [] }]
-			},
-			{
-				"size": { "x": 180, "y": 30 },
-				"layers": [{ "type": "main", "map": [] }, { "type": "mapchip", "map": [] }]
-			},
-			{
-				"size": { "x": 180, "y": 30 },
-				"layers": [{ "type": "main", "map": [] }, { "type": "mapchip", "map": [] }]
 			}
 		]
 	},

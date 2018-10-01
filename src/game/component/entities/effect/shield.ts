@@ -27,7 +27,7 @@ export class Shield extends Entity {
 		this.show();
 	}
 	show(): void {
-		this.setState(new States.Showing(this));
+		if (!this.on || !this.showing) this.setState(new States.Showing(this));
 	}
 	hide(): void {
 		this.setState(new States.Hide(this));
