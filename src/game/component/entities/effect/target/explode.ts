@@ -6,21 +6,27 @@ import { easeOutExpo } from "../../../../../utils/easing";
 
 export class Explode extends Entity {
 	public readonly sprite: PIXI.Sprite;
-	constructor(level: Level, x: number, y: number) {
+	constructor(level: Level, x: number, y: number, public lock: boolean = false) {
 		super(level, x, y);
 		const { resource } = this.api;
 		this.sprite = new PIXI.Sprite(resource.images["bullet_blue_large"]);
 		this.sprite.scale.set(0);
 		this.sprite.anchor.set(0.5);
 		this.sprite.blendMode = PIXI.BLEND_MODES.ADD;
+		if (lock) this.sprite.visible = false;
 		this.container.addChild(this.sprite);
 		this.setState(new States.Default(this), false);
+	}
+	unlock() {
+		this.lock = false;
 	}
 }
 
 namespace States {
 	export class Default<P extends Explode> extends AbstractState<P> {
 		*update(): IterableIterator<void> {
+			while (this.parent.lock) yield;
+			this.parent.sprite.visible = true;
 			const timespan = 20;
 			for (let i = 0; i < timespan; i++) {
 				this.parent.sprite.scale.set(8 * easeOutExpo(i / timespan));

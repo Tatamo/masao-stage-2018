@@ -320,6 +320,9 @@ namespace Boss1States {
 			// ロックオンした
 			const tx = loe.x;
 			const ty = loe.y;
+			// 爆撃が見えなくならないように、予め追加しておく
+			const explosion = new Explode(this.parent.level, tx, ty, true);
+			this.parent.level.add(explosion);
 			yield* this.sleep(10);
 			this.parent.level.add(new RotateEffect(this.parent.level, this.parent.x - 32, this.parent.y + 32));
 			yield* this.sleep(20);
@@ -339,7 +342,7 @@ namespace Boss1States {
 			}
 			yield* this.sleep(6);
 			this.parent.api.resource.play("tobasu");
-			this.parent.level.add(new Explode(this.parent.level, tx, ty));
+			explosion.unlock();
 			yield* this.sleep(12);
 			if (!this.do_not_pop) this.parent.popState();
 		}
