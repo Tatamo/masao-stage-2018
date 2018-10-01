@@ -134,7 +134,7 @@ namespace Boss1States {
 	export class ChargeAttackState<P extends Boss1> extends Default<P> {
 		*move(): IterableIterator<void> {
 			this.parent.level.add(new ChargeAttack(this.parent.level, this.parent.x - 8, this.parent.y + 32));
-			yield* this.sleep(120);
+			yield* this.sleep(70);
 			this.parent.popState();
 		}
 	}
@@ -234,7 +234,7 @@ namespace Boss1States {
 			for (let i = 0; i < 4; i++) {
 				this.parent.level.add(new Orbit(this.parent.level, this.parent.x + 32 - 8, this.parent.y + 32, 102));
 				this.parent.level.add(new Orbit(this.parent.level, this.parent.x + 32 + 8, this.parent.y + 32, 78));
-				if (i !== 0) this.parent.api.resource.play("happa");
+				this.parent.api.resource.play("happa");
 				yield* this.sleep(30);
 				this.parent.level.add(new Orbit(this.parent.level, this.parent.x + 32 - 8, this.parent.y + 32, 12));
 				this.parent.level.add(new Orbit(this.parent.level, this.parent.x + 32 + 8, this.parent.y + 32, -12));
