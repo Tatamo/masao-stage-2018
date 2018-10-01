@@ -35,7 +35,6 @@
   "dependencies": {
     "@pixi/filter-glow": "^2.5.0",
     "bezier-easing": "^2.1.0",
-    "masao": "^0.1.11",
     "pixi.js": "^4.8.2"
   }
 }
