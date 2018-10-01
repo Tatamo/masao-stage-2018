@@ -49,9 +49,14 @@ namespace States {
 						this.parent.api.jss.getMyXReal() + 16 - this.parent.x
 					);
 					this.attack(rad);
-					if (ii === 2 && this.parent.strong) {
-						this.attack(rad - Math.PI / 12);
-						this.attack(rad + Math.PI / 12);
+					if (this.parent.strong) {
+						if (ii === 0) {
+							this.attack(rad - Math.PI / 24);
+							this.attack(rad + Math.PI / 24);
+						} else if (ii === 2) {
+							this.attack(rad - Math.PI / 12);
+							this.attack(rad + Math.PI / 12);
+						}
 					}
 					yield;
 				}
@@ -62,6 +67,7 @@ namespace States {
 					yield;
 				}
 				yield* this.sleep(2);
+				if (this.parent.strong) yield* this.sleep(2);
 			}
 			// アニメーションさせながら消滅させる
 			this.parent.sprite_body.blendMode = PIXI.BLEND_MODES.ADD;

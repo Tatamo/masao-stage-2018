@@ -53,7 +53,7 @@ namespace States {
 			// 画面外に出た場合は消滅する
 			const view_x: number = jss.getViewXReal();
 			const view_y: number = jss.getViewYReal();
-			if (x + 32 < view_x || x > view_x + VIEW_WIDTH || y + 32 < view_y || y > view_y + VIEW_HEIGHT) {
+			if (x + 32 < view_x || x - 32 > view_x + VIEW_WIDTH || y + 32 < view_y || y - 32 > view_y + VIEW_HEIGHT) {
 				this.parent.kill();
 			}
 
