@@ -1,0 +1,154 @@
+[
+  {
+    "name": "pattern",
+    "path": "assets/images/pattern.json"
+  },
+  {
+    "name": "title_image",
+    "path": "assets/images/title.gif"
+  },
+  {
+    "name": "gameover_image",
+    "path": "assets/images/gameover.gif"
+  },
+  {
+    "name": "ending_image",
+    "path": "assets/images/ending.gif"
+  },
+  {
+    "name": "health_bar_image",
+    "path": "assets/images/health_bar.png"
+  },
+  {
+    "name": "bullet_blue_image",
+    "path": "assets/images/bullet_blue.png"
+  },
+  {
+    "name": "bullet_blue_large_image",
+    "path": "assets/images/bullet_blue_large.png"
+  },
+  {
+    "name": "bullet_red_image",
+    "path": "assets/images/bullet_red.png"
+  },
+  {
+    "name": "long_bullet_image",
+    "path": "assets/images/long_bullet.png"
+  },
+  {
+    "name": "slit_image",
+    "path": "assets/images/slit.png"
+  },
+  {
+    "name": "shockwave_image",
+    "path": "assets/images/shockwave.png"
+  },
+  {
+    "name": "shockwave_jaggy_image",
+    "path": "assets/images/shockwave_jaggy.png"
+  },
+  {
+    "name": "shockwave_asymmetry_image",
+    "path": "assets/images/shockwave_asymmetry.png"
+  },
+  {
+    "name": "shield_image",
+    "path": "assets/images/shield.png"
+  },
+  {
+    "name": "ring_image",
+    "path": "assets/images/ring.png"
+  },
+  {
+    "name": "bakuhatu_sound",
+    "path": "assets/sounds/bakuhatu.mp3"
+  },
+  {
+    "name": "clear_sound",
+    "path": "assets/sounds/clear.mp3"
+  },
+  {
+    "name": "coin_sound",
+    "path": "assets/sounds/coin.mp3"
+  },
+  {
+    "name": "dosun_sound",
+    "path": "assets/sounds/dosun.mp3"
+  },
+  {
+    "name": "fumu_sound",
+    "path": "assets/sounds/fumu.mp3"
+  },
+  {
+    "name": "gameover_sound",
+    "path": "assets/sounds/gameover.mp3"
+  },
+  {
+    "name": "get_sound",
+    "path": "assets/sounds/get.mp3"
+  },
+  {
+    "name": "happa_sound",
+    "path": "assets/sounds/happa.mp3"
+  },
+  {
+    "name": "item_sound",
+    "path": "assets/sounds/item.mp3"
+  },
+  {
+    "name": "jump_sound",
+    "path": "assets/sounds/jump.mp3"
+  },
+  {
+    "name": "kiki_sound",
+    "path": "assets/sounds/kiki.mp3"
+  },
+  {
+    "name": "mgan_sound",
+    "path": "assets/sounds/mgan.mp3"
+  },
+  {
+    "name": "mizu_sound",
+    "path": "assets/sounds/mizu.mp3"
+  },
+  {
+    "name": "shot_sound",
+    "path": "assets/sounds/shot.mp3"
+  },
+  {
+    "name": "sjump_sound",
+    "path": "assets/sounds/sjump.mp3"
+  },
+  {
+    "name": "stage1_sound",
+    "path": "assets/sounds/stage1.mp3"
+  },
+  {
+    "name": "title_sound",
+    "path": "assets/sounds/title.mp3"
+  },
+  {
+    "name": "tobasu_sound",
+    "path": "assets/sounds/tobasu.mp3"
+  },
+  {
+    "name": "charge1_sound",
+    "path": "assets/sounds/attack2.mp3"
+  },
+  {
+    "name": "charge2_sound",
+    "path": "assets/sounds/powerup02.mp3"
+  },
+  {
+    "name": "shield_sound",
+    "path": "assets/sounds/strange_wave.mp3"
+  },
+  {
+    "name": "trace_sound",
+    "path": "assets/sounds/magic_elevator.mp3"
+  },
+  {
+    "name": "laser_sound",
+    "path": "assets/sounds/beam2.mp3"
+  }
+]

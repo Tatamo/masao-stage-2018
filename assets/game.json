@@ -1,0 +1,51 @@
+{
+	"masao-json-format-version": "draft-4",
+	"params": {
+		"backcolor_blue": "96",
+		"backcolor_green": "48",
+		"audio_bgm_switch_ogg": "2",
+		"audio_se_switch_ogg": "2",
+		"audio_se_switch_wave": "2",
+		"filename_chizu": "chizu.gif",
+		"filename_ending": "ending.gif",
+		"filename_gameover": "gameover.gif",
+		"filename_haikei": "haikei.gif",
+		"filename_haikei2": "haikei.gif",
+		"filename_haikei3": "haikei.gif",
+		"filename_haikei4": "haikei.gif",
+		"filename_mapchip": "mapchip.gif",
+		"filename_pattern": "pattern.gif",
+		"filename_title": "title.gif",
+		"time_max": "0",
+		"map0-0": ".."
+	},
+	"version": "fx16",
+	"advanced-map": {
+		"stages": [
+			{
+				"size": { "x": 16, "y": 10 },
+				"layers": [
+					{
+						"type": "main",
+						"map": [
+							[],
+							[],
+							[],
+							[],
+							[],
+							[],
+							[],
+							[],
+							[0, 65],
+							[100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100]
+						]
+					},
+					{ "type": "mapchip", "map": [] }
+				]
+			}
+		]
+	},
+	"_meme_core": { "customParts": {} },
+	"metadata": { "editor": "uhyo-masao-editor" },
+	"_uhyo-masao-editor": { "version": 1, "fingerprint": "lp847nrntus", "media": {}, "id": "xtd5n5rh2w" }
+}
